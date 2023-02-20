@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/header"></head>
+
+<body>
+<link href="/css/register.css" rel="stylesheet" />
+<link href="/css/home.css" rel="stylesheet" />
+
+<div class="register-container">
+  <div class="register-container1">
+    <h1 class="register-text">Sign Up</h1>
+    <form class="register-form" th:action="@{/users/register}" th:method="POST" th:object="${registerUserDTO}">
+      <img
+              alt="image"
+              src="/images/profile.png"
+              class="register-image"
+      />
+      <div id="input" class="register-container2">
+        <input th:field="*{email}"
+               type="text"
+               id="email"
+               name="email"
+               placeholder="E-mail address"
+               class="register-input input"
+        />
+        <small th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="validation">Email error message</small>
+        <input th:field="*{displayName}"
+               type="text"
+               id="displayName"
+               name="displayName"
+               placeholder="Display Name"
+               class="register-textinput input"
+        />
+        <small th:if="${#fields.hasErrors('displayName')}" th:errors="*{displayName}" class="validation">Email error message</small>
+        <input th:field="*{password}"
+               type="password"
+               id="password"
+               name="password"
+               placeholder="Password"
+               class="register-textinput1 input"
+        />
+        <small th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="validation">Email error message</small>
+        <input th:field="*{confirmPassword}"
+               type="password"
+               id="confirmPassword"
+               name="confirmPassword"
+               placeholder="Repeat Password"
+               class="register-textinput2 input"
+        />
+        <small th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" class="validation">Email error message</small>
+      </div>
+      <div id="pet" class="checkbox-wrapper">
+        <label class="p-2 " for="pet">Pets:</label>
+        <span th:each="type : ${petTypes}">
+              <input th:field="*{types}"
+                     type="checkbox"
+                     id="types"
+                     name="type"
+                     class="checkbox"
+                     th:value="${type}"
+              />
+                <label class="checkbox-label" th:text="${type}"></label>
+                </span>
+        <small th:if="${#fields.hasErrors('types')}" th:errors="*{types}" class="validation">Email error message</small>
+      </div>
+      <div class="register-container4">
+        <button
+                id="login-btn"
+                name="login-btn"
+                class="register-button button button-primary"
+                type="submit"
+        >
+          Sign Up
+        </button>
+      </div>
+      <span class="register-text1">
+              <a href="/users/login">Already have an account? Sign in here.</a>
+              <br />
+            </span>
+    </form>
+  </div>
+  <footer th:replace="fragments/footer"></footer>
+</div>
+<!--    <script>-->
+<!--      window.onload = () => {-->
+<!--        const runAllScripts = () => {-->
+<!--          initializeAllAccordions()-->
+<!--        }-->
+
+<!--        const listenForUrlChanges = () => {-->
+<!--          let url = location.href-->
+<!--          document.body.addEventListener(-->
+<!--            'click',-->
+<!--            () => {-->
+<!--              requestAnimationFrame(() => {-->
+<!--                if (url !== location.href) {-->
+<!--                  runAllScripts()-->
+<!--                  url = location.href-->
+<!--                }-->
+<!--              })-->
+<!--            },-->
+<!--            true-->
+<!--          )-->
+<!--        }-->
+
+<!--        const initializeAllAccordions = () => {-->
+<!--          const allAccordions = document.querySelectorAll('[data-role="Accordion"]');-->
+
+<!--          allAccordions.forEach((accordion) => {-->
+<!--            const accordionHeader = accordion.querySelector('[data-type="accordion-header"]')-->
+<!--            const accordionContent = accordion.querySelector('[data-type="accordion-content"]')-->
+
+<!--            accordionHeader.addEventListener('click', () => {-->
+<!--              if (accordionContent.style.maxHeight) {-->
+<!--                accordionContent.style.maxHeight = ''-->
+<!--              } else {-->
+<!--                accordionContent.style.maxHeight = `${accordionContent.scrollHeight}px`-->
+<!--              }-->
+<!--            })-->
+<!--          })-->
+<!--        }-->
+
+<!--        listenForUrlChanges()-->
+<!--        runAllScripts()-->
+<!--      }-->
+<!--    </script>-->
+<!--    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>-->
+</body>
+</html>

@@ -1,0 +1,62 @@
+[
+  {
+    "code": "AA",
+    "description": "Essential amino acids are those that must be provided by a pet’s diet. They can be contained within animal or plant protein sources, meaning you won’t see them listed, or they can be added on their own, in which case you will see them listed."
+  },
+  {
+    "code": "AP",
+    "description": "All animal products added to pet foods are defined and described by AAFCO.1 Each can provide a valuable source of protein and amino acids, and in sufficient quantity, meet the protein requirement of dogs and cats.\\n\\nThe pet food industry utilizes many parts of animals that are not consumed by people but are still highly nutritious and commonly consumed by our canine and feline friends’ wild counterparts. This helps the overall production of meat to be a more sustainable practice."
+  },
+  {
+    "code": "FO",
+    "description": "Fats might not have a good reputation, but they are necessary and pose many benefits in pet food:\nServe as a good source of energy\nProvide 2.25 times more calories than protein or carbohydrates\nHelp with the absorption of fat-soluble vitamins A, E, D, and K\nSupply essential omega-3 and omega-6 fatty acids\nAdd palatability to the food"
+  },
+  {
+    "code": "G",
+    "description": "These are sources of soluble fiber that increase the bulk and water content of the feces and increase production of short-chain fatty acids (SCFAs). SCFAs are important sources of energy for the cells of the colon, and they help promote water and electrolyte absorption in the large intestine."
+  },
+  {
+    "code": "GR",
+    "description": "Grains are categorized as either “whole grain,” meaning all parts of the grain are present (germ, bran, and endosperm), or “refined,” meaning they are processed with the germ and bran removed.\nThe grain endosperm contains gluten and starch. These various parts of the grain can be used as ingredients in cat food and dog food, and each provides a different purpose and set of nutrients.\nThese are important when considering certain pet health issues. For example, in diabetes, minimizing starch (found in endosperm) to reduce blood sugar spikes is the goal. And when managing obesity, it is important to optimize dietary fiber sources to help the pet feel full without providing additional calories"
+  },
+  {
+    "code": "HP",
+    "description": "Hydrolyzed proteins are found in hypoallergenic pet foods. The use of hydrolyzed poultry feathers has an added benefit of providing a sustainable protein option."
+  },
+  {
+    "code": "PP",
+    "description": "Plant products can provide a source of protein and/or carbohydrates/fiber, depending on the type and how it is processed."
+  },
+  {
+    "code": "CL",
+    "description": "Often referred to as “powdered cellulose,” it’s derived from the pulp of fibrous plants and provides a good source of insoluble fiber. This adds bulk to the diet, which offers satiation (the feeling of being full after a meal).\n\nCellulose is also added to cat foods to minimize hairball formation. It draws water into the GI tract and helps hair, consumed while grooming, to move along and be excreted in the feces."
+  },
+  {
+    "code": "L",
+    "description": "Common legumes in pet foods include peas, lentils, soy, and beans, and they are often used as substitutes for grains in grain-free pet food diets."
+  },
+  {
+    "code": "RV",
+    "description": "These vegetables are starchy and high in sugar, which means you do want to limit the amount you give to your dog (especially if his commercial or raw dog food already contains root vegetables – many do)."
+  },
+  {
+    "code": "M",
+    "description": "The mineral requirements of dogs and cats may not be completely met by cat or dog food ingredients, so individual minerals are often added to supplement the diet."
+  },
+  {
+    "code": "NF",
+    "description": "Natural flavors are added to pet foods to enhance palatability and can include spices, broths, and yeast."
+  },
+  {
+    "code": "P",
+    "description": "Preservatives are added to pet foods to maintain quality, palatability, and shelf-life longevity. Available as artificial additives or natural, but natural tend to be less effective, meaning that the product will have a shorter shelf life if no artificial preservatives are used."
+  },
+  {
+    "code": "PR",
+    "description": "The goal of adding beneficial bacteria to pet food is to promote a healthy GI tract by preventing and treating gastroenteritis and inflammatory bowel disease, and mitigating food allergies."
+  },
+  {
+    "code": "V",
+    "description": "Depending on the ingredients of the pet food, vitamins may be added to ensure that the dog’s and/or cat’s nutrient requirements are met and/or to promote certain health aspects.\n\nMost of the names of added vitamins are straightforward on the pet food label, like vitamin B7 (biotin)."
+  }
+]

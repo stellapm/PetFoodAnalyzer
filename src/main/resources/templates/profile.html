@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/header"></head>
+
+<body>
+<header th:replace="fragments/navigation"></header>
+      <link href="./profile.css" rel="stylesheet" />
+      <div class="profile-container">
+        <div class="profile-container02">
+          <h3 class="profile-text15">Profile</h3>
+          <div class="profile-container03">
+            <div class="profile-container04">
+              <p class="profile-text16">User Settings</p>
+              <span class="profile-text17">Created: DD/MM/YYYY</span>
+            </div>
+            <div>
+              <form>
+                <div class="profile-container06">
+                  <div class="profile-container07">
+                    <img
+                      src="/images/profile.png"
+                      class="profile-image"
+                    />
+                    <button
+                      id="photoBtn"
+                      type="button"
+                      class="profile-button2 button button-primary"
+                    >
+                      Change Photo
+                    </button>
+                  </div>
+                  <br />
+                  <div>
+                    <div>
+                      <div class="profile-container10">
+                        <div class="profile-container11">
+                          <label for="email" class="profile-text18">
+                            <span class="profile-text19">Email Address</span>
+                          </label>
+                        </div>
+                        <input
+                          type="email"
+                          id="email"
+                          name="email"
+                          required=""
+                          placeholder="user@example.com"
+                          class="profile-textinput input"
+                        />
+                      </div>
+                      <div>
+                        <div class="profile-container13">
+                          <label for="displayName" class="profile-label">
+                            <span class="profile-text20">Display Name</span>
+                            <br />
+                          </label>
+                        </div>
+                        <input
+                          type="text"
+                          id="displayName"
+                          name="displayName"
+                          placeholder="Display Name"
+                          class="profile-textinput1 input"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="profile-container15">
+                      <label for="password" class="profile-text22">
+                        <span class="profile-text23">Password</span>
+                      </label>
+                    </div>
+                    <input
+                      type="password"
+                      id="password"
+                      placeholder="Password"
+                      class="profile-textinput2 input"
+                    />
+                    <div>
+                      <div class="profile-container17">
+                        <label for="confirmPassword" class="profile-text24">
+                          <span class="profile-text25">Confirm Password</span>
+                        </label>
+                      </div>
+                      <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        placeholder="Confirm Password"
+                        class="profile-textinput3 input"
+                      />
+                    </div>
+                  </div>
+                  <div class="profile-container18">
+                    <input
+                      type="checkbox"
+                      id="pets"
+                      checked="true"
+                      class="profile-checkbox"
+                    />
+                  </div>
+                  <div class="profile-container19">
+                    <button
+                      id="submitBtn"
+                      type="submit"
+                      class="profile-button3 button button-primary"
+                    >
+                      Save Settings
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <script>
+      window.onload = () => {
+        const runAllScripts = () => {
+          initializeAllAccordions()
+        }
+
+        const listenForUrlChanges = () => {
+          let url = location.href
+          document.body.addEventListener(
+            'click',
+            () => {
+              requestAnimationFrame(() => {
+                if (url !== location.href) {
+                  runAllScripts()
+                  url = location.href
+                }
+              })
+            },
+            true
+          )
+        }
+
+        const initializeAllAccordions = () => {
+          const allAccordions = document.querySelectorAll('[data-role="Accordion"]');
+
+          allAccordions.forEach((accordion) => {
+            const accordionHeader = accordion.querySelector('[data-type="accordion-header"]')
+            const accordionContent = accordion.querySelector('[data-type="accordion-content"]')
+
+            accordionHeader.addEventListener('click', () => {
+              if (accordionContent.style.maxHeight) {
+                accordionContent.style.maxHeight = ''
+              } else {
+                accordionContent.style.maxHeight = `${accordionContent.scrollHeight}px`
+              }
+            })
+          })
+        }
+
+        listenForUrlChanges()
+        runAllScripts()
+      }
+    </script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  </body>
+</html>

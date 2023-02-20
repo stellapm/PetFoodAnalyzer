@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/header"></head>
+
+  <body>
+    <div>
+      <link href="/css/login.css" rel="stylesheet" />
+      <link href="/css/home.css" rel="stylesheet" />
+
+      <div class="login-container">
+        <div class="login-container1">
+          <h1 class="login-text">Sign In</h1>
+          <form class="login-form" th:action="@{/users/login}" th:method="POST" th:object="${loginUserDTO}">
+            <img
+              alt="image"
+              src="/images/profile.png"
+              class="login-image"
+            />
+            <div class="login-container2">
+              <input
+                      th:value="*{email}"
+                      th:field="*{email}"
+                type="text"
+                id="email"
+                name="email"
+                placeholder="E-mail address"
+                class="login-input input"
+              />
+              <input
+                      th:value="*{password}"
+                      th:field="*{password}"
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Password"
+                class="login-textinput input"
+              />
+            </div>
+            <div th:if="${invalidCreds}" class="validation">Incorrect username or password!</div>
+            <button
+              id="login-btn"
+              name="login-btn"
+              class="login-button button button-primary"
+            >
+              Sign In
+            </button>
+            <span class="login-text1">
+              <a href="/users/register">Don't have an account? Register here.</a>
+              <br />
+            </span>
+          </form>
+        </div>
+        <footer th:replace="fragments/footer"></footer>
+      </div>
+    </div>
+<!--    <script>-->
+<!--      window.onload = () => {-->
+<!--        const runAllScripts = () => {-->
+<!--          initializeAllAccordions()-->
+<!--        }-->
+
+<!--        const listenForUrlChanges = () => {-->
+<!--          let url = location.href-->
+<!--          document.body.addEventListener(-->
+<!--            'click',-->
+<!--            () => {-->
+<!--              requestAnimationFrame(() => {-->
+<!--                if (url !== location.href) {-->
+<!--                  runAllScripts()-->
+<!--                  url = location.href-->
+<!--                }-->
+<!--              })-->
+<!--            },-->
+<!--            true-->
+<!--          )-->
+<!--        }-->
+
+<!--        const initializeAllAccordions = () => {-->
+<!--          const allAccordions = document.querySelectorAll('[data-role="Accordion"]');-->
+
+<!--          allAccordions.forEach((accordion) => {-->
+<!--            const accordionHeader = accordion.querySelector('[data-type="accordion-header"]')-->
+<!--            const accordionContent = accordion.querySelector('[data-type="accordion-content"]')-->
+
+<!--            accordionHeader.addEventListener('click', () => {-->
+<!--              if (accordionContent.style.maxHeight) {-->
+<!--                accordionContent.style.maxHeight = ''-->
+<!--              } else {-->
+<!--                accordionContent.style.maxHeight = `${accordionContent.scrollHeight}px`-->
+<!--              }-->
+<!--            })-->
+<!--          })-->
+<!--        }-->
+
+<!--        listenForUrlChanges()-->
+<!--        runAllScripts()-->
+<!--      }-->
+<!--    </script>-->
+<!--    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>-->
+  </body>
+</html>

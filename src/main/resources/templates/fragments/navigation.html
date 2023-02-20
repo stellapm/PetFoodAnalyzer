@@ -1,0 +1,89 @@
+<nav class="home-navbar navbar-container">
+    <div class="max-width">
+        <div class="home-container1" href="/">
+            <a href="/" class="home-navlink">
+                <div class="home-logo">
+                  <span class="home-text">
+                    <span>RIY</span>
+                    <br />
+                  </span>
+                </div>
+            </a>
+            <a href="/" class="home-text03" >Rate It Yourself</a>
+        </div>
+        <div class="home-links">
+            <a class="home-text04" href="/">Home</a>
+            <a class="home-text05 navbarLink" href="/foods/analyze">Food Analyzer</a>
+            <a class="home-text06 navbarLink" href="/about">About Us</a>
+            <a class="home-text07" href="/foods/all">
+                <span>Find Foods</span>
+                <br />
+              </a>
+            <th:block th:unless="${@loggedUser.isLogged()}">
+            <button class="button-secondary button" onclick="window.location.href='/users/login';">Sign In</button>
+            <button class="home-button1 button button-primary" onclick="window.location.href='/users/register';">
+                Sign Up
+            </button>
+            </th:block>
+            <th:block th:if="${@loggedUser.isLogged()}">
+            <div data-thq="thq-dropdown" class="home-thq-dropdown list-item">
+                <div
+                        data-thq="thq-dropdown-toggle"
+                        class="home-dropdown-toggle"
+                >
+                    <span class="home-text10 navbarLink">Profile</span>
+                    <div
+                            data-thq="thq-dropdown-arrow"
+                            class="home-dropdown-arrow"
+                    >
+                        <svg viewBox="0 0 1024 1024" class="home-icon">
+                            <path d="M426 726v-428l214 214z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <ul data-thq="thq-dropdown-list" class="home-dropdown-list">
+                    <li data-thq="thq-dropdown" class="home-dropdown list-item">
+                        <div
+                                data-thq="thq-dropdown-toggle"
+                                class="home-dropdown-toggle1"
+                        >
+                            <a class="home-text11" href="/users/myProfile">My Profile</a>
+                        </div>
+                    </li>
+                    <li data-thq="thq-dropdown" class="home-dropdown1 list-item">
+                        <div
+                                data-thq="thq-dropdown-toggle"
+                                class="home-dropdown-toggle2"
+                        >
+                            <a class="home-text12" href="/foods/favorites">Favorites</a>
+                        </div>
+                    </li>
+                    <li data-thq="thq-dropdown" class="home-dropdown2 list-item" th:if="${@loggedUser.isAdmin()}">
+                        <div
+                                data-thq="thq-dropdown-toggle"
+                                class="home-dropdown-toggle3"
+                        >
+                            <a class="home-text13" href="/users/admin">Admin</a>
+                        </div>
+                    </li>
+                    <li data-thq="thq-dropdown" class="home-dropdown3 list-item">
+                        <div
+                                data-thq="thq-dropdown-toggle"
+                                class="home-dropdown-toggle4"
+                        >
+                            <a class="home-text14" href="/users/logout">Log Out</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            </th:block>
+        </div>
+        <div class="home-burger-menu navbar-burger-menu">
+            <svg viewBox="0 0 1024 1024" class="home-icon02">
+                <path
+                        d="M128 256h768v86h-768v-86zM128 554v-84h768v84h-768zM128 768v-86h768v86h-768z"
+                ></path>
+            </svg>
+        </div>
+    </div>
+</nav>
