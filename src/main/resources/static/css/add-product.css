@@ -1,0 +1,74 @@
+.add-product-container {
+    width: 100%;
+    display: flex;
+    overflow: auto;
+    min-height: 100vh;
+    align-items: center;
+    flex-direction: column;
+}
+.add-product-container1 {
+    display: flex;
+    box-shadow: 5px 5px 10px 0px #d4d4d4;
+    margin-top: var(--dl-space-space-sixunits);
+    align-items: center;
+    border-color: var(--dl-color-scheme-green100);
+    border-style: double;
+    border-width: 1px;
+    border-radius: var(--dl-radius-radius-radius16);
+    margin-bottom: var(--dl-space-space-sixunits);
+    flex-direction: column;
+    background-color: #ffffff;
+}
+.add-product-text {
+    margin-top: var(--dl-space-space-twounits);
+}
+.add-product-form {
+    width: 449px;
+    height: 520px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.add-product-container2 {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.add-product-input {
+    width: 316px;
+    margin-top: var(--dl-space-space-oneandhalfunits);
+    border-style: double;
+}
+.add-product-textinput {
+    width: 316px;
+    margin-top: var(--dl-space-space-halfunit);
+    margin-bottom: var(--dl-space-space-halfunit);
+}
+.add-product-input1 {
+    width: 316px;
+    border-style: double;
+}
+.add-product-select {
+    width: 316px;
+    height: 32px;
+    margin: var(--dl-space-space-halfunit);
+}
+.add-product-select1 {
+    width: 316px;
+    height: 32px;
+    margin: var(--dl-space-space-halfunit);
+}
+.add-product-textarea {
+    width: 316px;
+}
+.add-product-button {
+    width: 134px;
+    font-style: normal;
+    margin-top: var(--dl-space-space-unit);
+    text-align: center;
+    font-family: Lexend;
+    font-weight: 500;
+    margin-bottom: var(--dl-space-space-unit);
+}

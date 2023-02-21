@@ -14,7 +14,7 @@ import java.util.UUID;
 @Component
 @SessionScope
 public class LoggedUser {
-    private UUID id;
+    private Long id;
     private String email;
     private Set<UserRole> userRoles;
 
@@ -22,11 +22,11 @@ public class LoggedUser {
         this.userRoles = new HashSet<>();
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public LoggedUser setId(UUID id) {
+    public LoggedUser setId(Long id) {
         this.id = id;
         return this;
     }

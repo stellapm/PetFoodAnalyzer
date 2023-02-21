@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/header"></head>
+
+<body>
+<header th:replace="fragments/navigation"></header>
+<link href="/css/manage-roles.css" rel="stylesheet"/>
+<link href="/css/home.css" rel="stylesheet"/>
+<div>
+    <div class="manage-roles-container">
+        <h1 class="manage-roles-text"><a href="/admin">Admin Panel</a></h1>
+        <div class="manage-roles-container1">
+            <h1 class="manage-roles-text">Change User Role</h1>
+            <form class="manage-roles-form" th:method="POST" th:action="@{/admin/manageRoles}" th:object="${manageRoleDTO}">
+                <div class="manage-roles-container2">
+                    <input th:field="*{email}"
+                            type="text"
+                            id="email"
+                            name="email"
+                            placeholder="E-mail address"
+                            class="manage-roles-input input"
+                    />
+                    <small th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="validation">Email error message</small>
+                    <div class="checkbox-wrapper">
+                    <span th:each="role : ${roleNames}">
+                    <input th:field="*{roles}"
+                           type="checkbox"
+                           id="role"
+                           name="role"
+                           class="checkbox"
+                           th:value="${role}" />
+                <label class="checkbox-label" th:text="${role}"></label>
+                    </span>
+                    </div>
+                        <small th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}" class="validation">Email error message</small>
+                </div>
+                <button
+                        id="login-btn"
+                        name="login-btn"
+                        class="manage-roles-button button button-primary"
+                >
+                    Update
+                </button>
+            </form>
+        </div>
+    <footer th:replace="fragments/footer"></footer>
+    </div>
+</div>
+<script>
+    window.onload = () => {
+        const runAllScripts = () => {
+            initializeAllAccordions()
+        }
+
+        const listenForUrlChanges = () => {
+            let url = location.href
+            document.body.addEventListener(
+                'click',
+                () => {
+                    requestAnimationFrame(() => {
+                        if (url !== location.href) {
+                            runAllScripts()
+                            url = location.href
+                        }
+                    })
+                },
+                true
+            )
+        }
+
+        const initializeAllAccordions = () => {
+            const allAccordions = document.querySelectorAll('[data-role="Accordion"]');
+
+            allAccordions.forEach((accordion) => {
+                const accordionHeader = accordion.querySelector('[data-type="accordion-header"]')
+                const accordionContent = accordion.querySelector('[data-type="accordion-content"]')
+
+                accordionHeader.addEventListener('click', () => {
+                    if (accordionContent.style.maxHeight) {
+                        accordionContent.style.maxHeight = ''
+                    } else {
+                        accordionContent.style.maxHeight = `${accordionContent.scrollHeight}px`
+                    }
+                })
+            })
+        }
+
+        listenForUrlChanges()
+        runAllScripts()
+    }
+</script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</body>
+</html>

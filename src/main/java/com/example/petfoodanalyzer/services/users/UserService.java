@@ -1,7 +1,6 @@
 package com.example.petfoodanalyzer.services.users;
 
-import com.example.petfoodanalyzer.models.dtos.users.LoginUserDTO;
-import com.example.petfoodanalyzer.models.dtos.users.RegisterUserDTO;
+import com.example.petfoodanalyzer.models.dtos.users.*;
 import com.example.petfoodanalyzer.models.entities.users.Pet;
 import com.example.petfoodanalyzer.models.entities.users.User;
 import com.example.petfoodanalyzer.models.entities.users.UserRole;
@@ -13,7 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -38,16 +41,16 @@ public class UserService {
         return this.userRepository.findByEmail(email);
     }
 
-    private boolean isUsersInit(){
+    private boolean isUsersInit() {
         return this.userRepository.count() > 0;
     }
 
-    private void makeUserAdmin(User user){
+    private void makeUserAdmin(User user) {
         UserRole adminRole = this.userRoleService.getUserRole(UserRoleTypes.Admin);
         user.getUserRoles().add(adminRole);
     }
 
-    private void makeUserModerator(User user){
+    private void makeUserModerator(User user) {
         UserRole moderatorRole = this.userRoleService.getUserRole(UserRoleTypes.Moderator);
         user.getUserRoles().add(moderatorRole);
     }
@@ -55,12 +58,13 @@ public class UserService {
     public void register(RegisterUserDTO registerUserDTO) {
         User user = new User(registerUserDTO.getEmail(),
                 this.passwordEncoder.encode(registerUserDTO.getPassword()),
-                registerUserDTO.getDisplayName());
+                registerUserDTO.getDisplayName(),
+                LocalDate.now());
 
         Set<Pet> pets = this.petService.getAllMatchingPetTypes(registerUserDTO.getTypes());
         user.getPets().addAll(pets);
 
-        if(!isUsersInit()){
+        if (!isUsersInit()) {
             makeUserAdmin(user);
         }
 
@@ -70,14 +74,14 @@ public class UserService {
         this.userRepository.save(user);
     }
 
-    public boolean login(LoginUserDTO loginUserDTO){
+    public boolean login(LoginUserDTO loginUserDTO) {
         User user = this.findByEmail(loginUserDTO.getEmail());
 
-        if (user == null){
+        if (user == null) {
             return false;
         }
 
-        if (!this.passwordEncoder.matches(loginUserDTO.getPassword(), user.getPassword())){
+        if (!this.passwordEncoder.matches(loginUserDTO.getPassword(), user.getPassword())) {
             return false;
         }
 
@@ -89,4 +93,42 @@ public class UserService {
     public void logOut() {
         this.loggedUser.clearValues();
     }
+
+    public LoggedUserProfileDTO getProfileInfo(String email) {
+        User user = this.userRepository.findByEmail(email);
+
+        return this.modelMapper.map(user, LoggedUserProfileDTO.class);
+    }
+
+    public void updateUserRoles(ManageRoleDTO manageRoleDTO) {
+        User user = getByEmail(manageRoleDTO);
+
+        if (!manageRoleDTO.getRoles().contains("User")){
+            manageRoleDTO.getRoles().add("User");
+        }
+
+        Set<UserRole> newRoles = manageRoleDTO.getRoles()
+                .stream()
+                .map(r -> this.userRoleService.getUserRole(UserRoleTypes.valueOf(r)))
+                .collect(Collectors.toSet());
+
+        user.setUserRoles(newRoles);
+        this.userRepository.save(user);
+    }
+
+    private User getByEmail(ManageRoleDTO manageRoleDTO) {
+        return this.userRepository.findByEmail(manageRoleDTO.getEmail());
+    }
+
+//    public void updateLoggedUser(EditUserProfileDTO editUserProfileDTO) {
+//        User user = this.userRepository.findByEmail(this.loggedUser.getEmail());
+//
+//
+//
+//        Set<Pet> pets = this.petService.getAllMatchingPetTypes(editUserProfileDTO.getTypes());
+//        user.getPets().clear();
+//        user.getPets().addAll(pets);
+//
+//        System.out.println(user);
+//    }
 }

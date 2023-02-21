@@ -1,5 +1,7 @@
 package com.example.petfoodanalyzer.web.controllers;
 
+import com.example.petfoodanalyzer.models.dtos.users.EditUserProfileDTO;
+import com.example.petfoodanalyzer.models.dtos.users.LoggedUserProfileDTO;
 import com.example.petfoodanalyzer.models.dtos.users.LoginUserDTO;
 import com.example.petfoodanalyzer.models.dtos.users.RegisterUserDTO;
 import com.example.petfoodanalyzer.models.helpers.LoggedUser;
@@ -10,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -41,19 +40,13 @@ public class UsersController extends BaseController{
         return new RegisterUserDTO();
     }
 
-    @ModelAttribute(name = "loginUserDTO")
-    public LoginUserDTO loginUserDTO(){
-        return new LoginUserDTO();
-    }
-
     @GetMapping("/register")
     public ModelAndView getRegister(ModelAndView modelAndView){
         if (this.loggedUser.isLogged()){
             return super.redirect("/");
         }
 
-        List<String> petTypes = this.petService.getAllPetTypesAsString();
-        modelAndView.addObject("petTypes", petTypes);
+        listPets(modelAndView);
 
         return super.view("register", modelAndView);
     }
@@ -83,6 +76,11 @@ public class UsersController extends BaseController{
         return super.redirect("login");
     }
 
+    @ModelAttribute(name = "loginUserDTO")
+    public LoginUserDTO loginUserDTO(){
+        return new LoginUserDTO();
+    }
+
     @GetMapping("/login")
     public ModelAndView getLogin(){
         if (this.loggedUser.isLogged()){
@@ -105,13 +103,31 @@ public class UsersController extends BaseController{
         return super.redirect("/");
     }
 
+    @ModelAttribute(name = "editUserProfileDTO")
+    public EditUserProfileDTO editUserProfileDTO(){
+        return new EditUserProfileDTO();
+    }
+
     @GetMapping("/myProfile")
-    public ModelAndView getMyProfile(){
+    public ModelAndView getMyProfile(ModelAndView modelAndView){
         if (!loggedUser.isLogged()){
             return super.redirect("login");
         }
 
-        return super.view("profile");
+        listPets(modelAndView);
+        LoggedUserProfileDTO profileInfo = this.userService.getProfileInfo(this.loggedUser.getEmail());
+        modelAndView.addObject("profileInfo", profileInfo);
+
+        return super.view("profile", modelAndView);
+    }
+
+    @PatchMapping("/myProfile")
+    public ModelAndView postMyProfile(@Valid EditUserProfileDTO editUserProfileDTO){
+
+        //TODO: update on profile. Must support partial updates and validation
+//        this.userService.updateLoggedUser(editUserProfileDTO);
+
+        return super.redirect("myProfile");
     }
 
     @GetMapping("/logout")
@@ -122,5 +138,10 @@ public class UsersController extends BaseController{
 
         this.userService.logOut();
         return super.redirect("/");
+    }
+
+    private void listPets(ModelAndView modelAndView) {
+        List<String> petTypes = this.petService.getAllPetTypesAsString();
+        modelAndView.addObject("petTypes", petTypes);
     }
 }

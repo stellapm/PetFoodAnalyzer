@@ -15,7 +15,7 @@ public class Brand extends BaseEntity {
     private String name; // TODO: from 3 to 20 characters
 
     @Column(nullable = false, columnDefinition = "TEXT")
-    private String description; //TODO: from 5 to 50 characters
+    private String description;
 
     @Column(nullable = false, name = "pic_url")
     private String picUrl;

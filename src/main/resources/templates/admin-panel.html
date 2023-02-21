@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/header"></head>
+
+<body>
+<header th:replace="fragments/navigation"></header>
+<link href="/css/admin.css" rel="stylesheet"/>
+<link href="/css/home.css" rel="stylesheet"/>
+<div>
+    <div class="admin-container">
+        <div class="admin-features">
+            <a class="admin-text15" href="/users/admin">Admin Panel</a>
+            <div class="admin-container2">
+                <div
+                        class="add-ingredient-feature-card add-ingredient-root-class-name"
+                >
+                    <h2 class="add-ingredient-text"><a href="/admin/addIngredient">Add Ingredient</a></h2>
+                </div>
+                <div
+                        class="feature-card11-feature-card feature-card11-root-class-name"
+                >
+                    <h2 class="feature-card11-text"><a href="/admin/addProduct">Add Product</a></h2>
+                </div>
+                <div class="add-brand-feature-card add-brand-root-class-name">
+                    <h2 class="add-brand-text" ><a href="/admin/addBrand">Add Brand</a></h2>
+                </div>
+                <div class="add-pet-feature-card add-pet-root-class-name">
+                    <h2 class="add-pet-text"><a href="/admin/manageRoles">Manage Roles</a></h2>
+                </div>
+            </div>
+        </div>
+        <footer th:replace="fragments/footer"></footer>
+    </div>
+</div>
+<script>
+    window.onload = () => {
+        const runAllScripts = () => {
+            initializeAllAccordions()
+        }
+
+        const listenForUrlChanges = () => {
+            let url = location.href
+            document.body.addEventListener(
+                'click',
+                () => {
+                    requestAnimationFrame(() => {
+                        if (url !== location.href) {
+                            runAllScripts()
+                            url = location.href
+                        }
+                    })
+                },
+                true
+            )
+        }
+
+        const initializeAllAccordions = () => {
+            const allAccordions = document.querySelectorAll('[data-role="Accordion"]');
+
+            allAccordions.forEach((accordion) => {
+                const accordionHeader = accordion.querySelector('[data-type="accordion-header"]')
+                const accordionContent = accordion.querySelector('[data-type="accordion-content"]')
+
+                accordionHeader.addEventListener('click', () => {
+                    if (accordionContent.style.maxHeight) {
+                        accordionContent.style.maxHeight = ''
+                    } else {
+                        accordionContent.style.maxHeight = `${accordionContent.scrollHeight}px`
+                    }
+                })
+            })
+        }
+
+        listenForUrlChanges()
+        runAllScripts()
+    }
+</script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</body>
+</html>

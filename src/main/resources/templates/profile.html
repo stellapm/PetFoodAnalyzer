@@ -4,30 +4,39 @@
 
 <body>
 <header th:replace="fragments/navigation"></header>
-      <link href="./profile.css" rel="stylesheet" />
-      <div class="profile-container">
+      <link href="/css/profile.css" rel="stylesheet" />
+      <link href="/css/home.css" rel="stylesheet" />
+<div class="profile-container">
         <div class="profile-container02">
           <h3 class="profile-text15">Profile</h3>
           <div class="profile-container03">
             <div class="profile-container04">
               <p class="profile-text16">User Settings</p>
-              <span class="profile-text17">Created: DD/MM/YYYY</span>
+              <span class="profile-text17" th:text="|Created: ${profileInfo.created}|">Created: DD/MM/YYYY</span>
             </div>
             <div>
-              <form>
+              <form th:method="PATCH" th:action="@{/users/myProfile}" th:object="${editUserProfileDTO}">
                 <div class="profile-container06">
                   <div class="profile-container07">
                     <img
-                      src="/images/profile.png"
+                      th:src="${profileInfo.profilePicUrl}"
                       class="profile-image"
                     />
-                    <button
-                      id="photoBtn"
-                      type="button"
-                      class="profile-button2 button button-primary"
-                    >
-                      Change Photo
-                    </button>
+                    <div>
+                      <div class="profile-container17">
+                        <label for="confirmPassword" class="profile-text24">
+                          <span class="profile-text25">Image URL</span>
+                        </label>
+                      </div>
+                      <input th:field="*{profilePicUrl}"
+                              type="text"
+                              id="profilePicUrl"
+                              name="profilePicUrl"
+                              placeholder="Profile Pic URL"
+                              class="profile-textinput1 input"
+                      />
+                      <small th:if="${#fields.hasErrors('profilePicUrl')}" th:errors="*{profilePicUrl}" class="validation">Email error message</small>
+                    </div>
                   </div>
                   <br />
                   <div>
@@ -38,14 +47,14 @@
                             <span class="profile-text19">Email Address</span>
                           </label>
                         </div>
-                        <input
+                        <input th:field="*{email}"
                           type="email"
                           id="email"
                           name="email"
-                          required=""
-                          placeholder="user@example.com"
+                          th:placeholder="${profileInfo.email}"
                           class="profile-textinput input"
                         />
+                        <small th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="validation">Email error message</small>
                       </div>
                       <div>
                         <div class="profile-container13">
@@ -54,13 +63,14 @@
                             <br />
                           </label>
                         </div>
-                        <input
+                        <input th:field="*{displayName}"
                           type="text"
                           id="displayName"
                           name="displayName"
-                          placeholder="Display Name"
-                          class="profile-textinput1 input"
+                          th:placeholder="${profileInfo.displayName}"
+                          class="profile-textinput input"
                         />
+                        <small th:if="${#fields.hasErrors('displayName')}" th:errors="*{displayName}" class="validation">Email error message</small>
                       </div>
                     </div>
                   </div>
@@ -70,34 +80,43 @@
                         <span class="profile-text23">Password</span>
                       </label>
                     </div>
-                    <input
+                    <input th:field="*{password}"
                       type="password"
                       id="password"
-                      placeholder="Password"
-                      class="profile-textinput2 input"
+                      placeholder="New Password"
+                      class="profile-textinput input"
                     />
+                    <small th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="validation">Email error message</small>
                     <div>
                       <div class="profile-container17">
                         <label for="confirmPassword" class="profile-text24">
                           <span class="profile-text25">Confirm Password</span>
                         </label>
                       </div>
-                      <input
+                      <input th:field="*{confirmPassword}"
                         type="password"
                         id="confirmPassword"
                         name="confirmPassword"
                         placeholder="Confirm Password"
-                        class="profile-textinput3 input"
+                        class="profile-textinput input"
                       />
+                      <small th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" class="validation">Email error message</small>
                     </div>
                   </div>
-                  <div class="profile-container18">
-                    <input
-                      type="checkbox"
-                      id="pets"
-                      checked="true"
-                      class="profile-checkbox"
-                    />
+                  <div class="checkbox-wrapper">
+                    <label class="p-2 " for="pet">Pets:</label>
+                    <span th:each="type : ${petTypes}">
+              <input th:field="*{types}"
+                     type="checkbox"
+                     id="pet"
+                     name="type"
+                     class="checkbox"
+                     th:checked="${profileInfo.hasPet(type)}"
+                     th:value="${type}"
+              />
+                <label class="checkbox-label" th:text="${type}"></label>
+                </span>
+                    <small th:if="${#fields.hasErrors('types')}" th:errors="*{types}" class="validation">Email error message</small>
                   </div>
                   <div class="profile-container19">
                     <button
@@ -113,7 +132,7 @@
             </div>
           </div>
         </div>
-
+  <footer th:replace="fragments/footer"></footer>
       </div>
     </div>
     <script>

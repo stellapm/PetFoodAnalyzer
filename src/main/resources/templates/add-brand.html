@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/header"></head>
+
+<body>
+<header th:replace="fragments/navigation"></header>
+<link href="/css/add-brand.css" rel="stylesheet"/>
+<link href="/css/home.css" rel="stylesheet"/>
+<div>
+    <div class="add-brand-container">
+        <h1 class="add-brand-text"><a href="/admin">Admin Panel</a></h1>
+        <div class="add-brand-container1">
+            <h1 class="add-brand-text">Add New Brand</h1>
+            <form class="add-brand-form" th:method="POST" th:action="@{/admin/addBrand}" th:object="${addBrandDTO}">
+                <div class="add-brand-container2">
+                    <input th:value="*{name}" th:field="*{name}"
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Brand name"
+                            class="add-brand-input input"
+                    />
+                    <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="validation">Email error message</small>
+
+                    <textarea th:value="*{description}" th:field="*{description}"
+                            placeholder="Description"
+                            id="description"
+                            name="description"
+                            class="add-brand-textarea textarea"
+                    ></textarea>
+                    <small th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="validation">Email error message</small>
+
+                    <input th:value="*{picUrl}" th:field="*{picUrl}"
+                            type="text"
+                            id="picUrl"
+                            name="picUrl"
+                            placeholder="Image URL"
+                            class="add-brand-input1 input"
+                    />
+                </div>
+                <small th:if="${#fields.hasErrors('picUrl')}" th:errors="*{picUrl}" class="validation">Email error message</small>
+
+                <button
+                        id="login-btn"
+                        name="login-btn"
+                        class="add-brand-button button button-primary"
+                >
+                    Add
+                </button>
+            </form>
+        </div>
+        <footer th:replace="fragments/footer"></footer>
+    </div>
+</div>
+<script>
+    window.onload = () => {
+        const runAllScripts = () => {
+            initializeAllAccordions()
+        }
+
+        const listenForUrlChanges = () => {
+            let url = location.href
+            document.body.addEventListener(
+                'click',
+                () => {
+                    requestAnimationFrame(() => {
+                        if (url !== location.href) {
+                            runAllScripts()
+                            url = location.href
+                        }
+                    })
+                },
+                true
+            )
+        }
+
+        const initializeAllAccordions = () => {
+            const allAccordions = document.querySelectorAll('[data-role="Accordion"]');
+
+            allAccordions.forEach((accordion) => {
+                const accordionHeader = accordion.querySelector('[data-type="accordion-header"]')
+                const accordionContent = accordion.querySelector('[data-type="accordion-content"]')
+
+                accordionHeader.addEventListener('click', () => {
+                    if (accordionContent.style.maxHeight) {
+                        accordionContent.style.maxHeight = ''
+                    } else {
+                        accordionContent.style.maxHeight = `${accordionContent.scrollHeight}px`
+                    }
+                })
+            })
+        }
+
+        listenForUrlChanges()
+        runAllScripts()
+    }
+</script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</body>
+</html>

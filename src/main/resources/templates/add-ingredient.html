@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head th:replace="fragments/header"></head>
+
+<body>
+<header th:replace="fragments/navigation"></header>
+
+<link href="/css/add-ingredient.css" rel="stylesheet" />
+<link href="/css/home.css" rel="stylesheet" />
+
+<div class="add-ingredient-container">
+  <h1 class="add-ingredient-text"><a href="/admin">Admin Panel</a></h1>
+  <div class="add-ingredient-container1">
+    <h1 class="add-ingredient-text">Add New Ingredient</h1>
+    <form class="add-ingredient-form" th:method="POST" th:action="@{/admin/addIngredient}" th:object="${addIngredientDTO}">
+      <div id="input" class="add-ingredient-container2">
+        <select th:value="*{ingredientCategoryStr}" th:field="*{ingredientCategoryStr}" id="ingredientCategory" class="add-ingredient-select">
+          <option value="">Choose an ingredient category</option>
+          <option th:each="category : ${ingredientCategories}"
+                  th:text="${category}"
+                  th:value="${category}" >Option 2</option>
+
+        </select>
+        <small th:if="${#fields.hasErrors('ingredientCategoryStr')}" th:errors="*{ingredientCategoryStr}" class="validation">Email error message</small>
+        <input th:value="*{name}" th:field="*{name}"
+               type="text"
+                id="name"
+                name="name"
+                placeholder="Ingredient Name"
+                class="add-ingredient-input input"></input>
+        <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="validation">Email error message</small>
+        <textarea th:value="*{description}" th:field="*{description}"
+               type="text"
+                id="description"
+                name="description"
+                placeholder="Description"
+                class="add-ingredient-textinput input"></textarea>
+        <small th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="validation">Email error message</small>
+      </div>
+      <div id="pet" class="add-ingredient-container3"></div>
+      <div class="add-ingredient-container4">
+        <button
+                id="login-btn"
+                name="login-btn"
+                class="add-ingredient-button button button-primary"
+        >
+          Add Ingredient
+        </button>
+      </div>
+    </form>
+  </div>
+  <footer th:replace="fragments/footer"></footer>
+</div>
+    <script>
+      window.onload = () => {
+        const runAllScripts = () => {
+          initializeAllAccordions()
+        }
+
+        const listenForUrlChanges = () => {
+          let url = location.href
+          document.body.addEventListener(
+            'click',
+            () => {
+              requestAnimationFrame(() => {
+                if (url !== location.href) {
+                  runAllScripts()
+                  url = location.href
+                }
+              })
+            },
+            true
+          )
+        }
+
+        const initializeAllAccordions = () => {
+          const allAccordions = document.querySelectorAll('[data-role="Accordion"]');
+
+          allAccordions.forEach((accordion) => {
+            const accordionHeader = accordion.querySelector('[data-type="accordion-header"]')
+            const accordionContent = accordion.querySelector('[data-type="accordion-content"]')
+
+            accordionHeader.addEventListener('click', () => {
+              if (accordionContent.style.maxHeight) {
+                accordionContent.style.maxHeight = ''
+              } else {
+                accordionContent.style.maxHeight = `${accordionContent.scrollHeight}px`
+              }
+            })
+          })
+        }
+
+        listenForUrlChanges()
+        runAllScripts()
+      }
+    </script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</body>
+</html>

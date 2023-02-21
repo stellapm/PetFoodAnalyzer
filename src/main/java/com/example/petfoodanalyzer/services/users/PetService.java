@@ -55,4 +55,8 @@ public class PetService {
                 .map(p -> this.petRepository.findByPetsType(p))
                 .collect(Collectors.toSet());
     }
+
+    public Pet getPetByName(String petStr) {
+        return this.petRepository.findByPetsType(PetsTypes.valueOf(petStr));
+    }
 }

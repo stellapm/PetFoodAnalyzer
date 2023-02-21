@@ -4,6 +4,7 @@ import com.example.petfoodanalyzer.models.entities.BaseEntity;
 import com.example.petfoodanalyzer.models.entities.products.Product;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,24 +12,26 @@ import java.util.Set;
 @Table(name = "users")
 public class User extends BaseEntity {
     @Column(nullable = false, unique = true)
-    private String email; //TODO: Email
+    private String email;
 
     @Column(nullable = false)
-    private String password; //TODO: At least 8 characters. REGEX for upper, lowercase, digits and special characters
+    private String password;
 
     @Column(name = "display_name")
-    private String displayName; //TODO: If no display name, assign username
+    private String displayName;
 
     @Column(name = "profile_pic_url")
     private String profilePicUrl;
 
+    private LocalDate created;
+
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<UserRole> userRoles;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Pet> pets;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Product> favorites;
 
     public User() {
@@ -37,11 +40,12 @@ public class User extends BaseEntity {
         this.favorites = new HashSet<>();
     }
 
-    public User(String email, String password, String displayName) {
+    public User(String email, String password, String displayName, LocalDate created) {
         this();
         this.email = email;
         this.password = password;
         setDisplayName(displayName);
+        this.created = created;
         setProfilePicUrl(null);
     }
 
@@ -83,10 +87,19 @@ public class User extends BaseEntity {
 
     public User setProfilePicUrl(String profilePicUrl) {
         if (profilePicUrl == null || profilePicUrl.trim().isBlank()){
-            profilePicUrl = "/images/profile.png";
+            profilePicUrl = "/img/profile.png";
         }
 
         this.profilePicUrl = profilePicUrl;
+        return this;
+    }
+
+    public LocalDate getCreated() {
+        return created;
+    }
+
+    public User setCreated(LocalDate created) {
+        this.created = created;
         return this;
     }
 
@@ -115,5 +128,19 @@ public class User extends BaseEntity {
     public User setFavorites(Set<Product> favorites) {
         this.favorites = favorites;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", profilePicUrl='" + profilePicUrl + '\'' +
+                ", created=" + created +
+                ", userRoles=" + userRoles.size() +
+                ", pets=" + pets.size() +
+                ", favorites=" + favorites.size() +
+                '}';
     }
 }

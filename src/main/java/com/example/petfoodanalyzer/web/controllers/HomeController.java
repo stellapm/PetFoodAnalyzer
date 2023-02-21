@@ -6,6 +6,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class HomeController extends BaseController{
+    //most reviewed
+    //brands with most reviews
+
     @GetMapping("/")
     public ModelAndView guestHome(){
         return super.view("index");

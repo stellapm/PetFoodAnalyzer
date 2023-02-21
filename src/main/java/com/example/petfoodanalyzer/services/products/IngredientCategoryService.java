@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class IngredientCategoryService {
@@ -43,13 +44,29 @@ public class IngredientCategoryService {
                 IngredientCategoryInitDTO[].class);
 
         List<IngredientCategory> categoryNames = Arrays.stream(ingredientsCategoriesDTO)
-                .map(cn -> new IngredientCategory(getCategoryName(cn.getCode()), cn.getDescription()))
+                .map(cn -> new IngredientCategory(getCategoryNameByCode(cn.getCode()), cn.getDescription()))
                 .toList();
 
         this.ingredientCategoryRepository.saveAll(categoryNames);
     }
 
-    private IngredientCategoryNames getCategoryName(String code){
+    private IngredientCategoryNames getCategoryNameByCode(String code){
         return IngredientCategoryNames.valueOf(code);
+    }
+
+    public List<String> getAllIngredientCategoriesNames() {
+        return this.ingredientCategoryRepository.findAll()
+                .stream()
+                .map(ic -> ic.getName().getValue())
+                .collect(Collectors.toList());
+    }
+
+    public IngredientCategory getIngredientCategoryByName(String ingredientCategory) {
+        IngredientCategoryNames ingredientCategoryName = Arrays.stream(IngredientCategoryNames.values())
+                .filter(cn -> cn.getValue().equals(ingredientCategory))
+                .findFirst()
+                .get();
+
+        return this.ingredientCategoryRepository.findByName(ingredientCategoryName);
     }
 }

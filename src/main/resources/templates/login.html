@@ -3,6 +3,7 @@
 <head th:replace="fragments/header"></head>
 
   <body>
+  <header th:replace="fragments/navigation"></header>
     <div>
       <link href="/css/login.css" rel="stylesheet" />
       <link href="/css/home.css" rel="stylesheet" />
@@ -13,7 +14,7 @@
           <form class="login-form" th:action="@{/users/login}" th:method="POST" th:object="${loginUserDTO}">
             <img
               alt="image"
-              src="/images/profile.png"
+              src="/img/profile.png"
               class="login-image"
             />
             <div class="login-container2">

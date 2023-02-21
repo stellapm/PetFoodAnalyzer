@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/header"></head>
+
+<body>
+<header th:replace="fragments/navigation"></header>
+<link href="/css/add-product.css" rel="stylesheet"/>
+<link href="/css/home.css" rel="stylesheet"/>
+<div>
+    <div class="add-product-container">
+        <h1 class="add-product-text"><a href="/admin">Admin Panel</a></h1>
+        <div class="add-product-container1">
+            <h1 class="add-product-text">Add New Product</h1>
+            <form class="add-product-form" th:method="POST" th:action="@{/admin/addProduct}" th:object="${addProductDTO}">
+                <div class="add-product-container2">
+                    <input th:value="*{name}" th:field="*{name}"
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Product name"
+                            class="add-product-input input"
+                    />
+                    <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="validation">Email error message</small>
+
+                    <textarea th:value="*{description}" th:field="*{description}"
+                            type="text"
+                            id="description"
+                            name="description"
+                            placeholder="Product Description"
+                            class="add-product-textinput input"></textarea>
+                    <small th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="validation">Email error message</small>
+
+                    <input th:value="*{picUrl}" th:field="*{picUrl}"
+                            type="text"
+                            id="picUrl"
+                            name="picUrl"
+                            placeholder="Image URL"
+                            class="add-product-input1 input"
+                    />
+                    <small th:if="${#fields.hasErrors('picUrl')}" th:errors="*{picUrl}" class="validation">Email error message</small>
+
+                    <select th:value="*{brandStr}" th:field="*{brandStr}" id="brand" type="brand" class="add-product-select">
+                        <option value="">Select Brand</option>
+                        <option th:each="name : ${allBrands}" th:text="${name}" th:value="${name}"></option>
+                    </select>
+                    <small th:if="${#fields.hasErrors('brandStr')}" th:errors="*{brandStr}" class="validation">Email error message</small>
+
+                    <select th:value="*{petStr}" th:field="*{petStr}" id="pet" name="pet" type="brand" class="add-product-select1">
+                        <option value="">Select Pet</option>
+                        <option th:each="pet : ${allPets}" th:text="${pet}" th:value="${pet}"></option>
+                    </select>
+                    <small th:if="${#fields.hasErrors('petStr')}" th:errors="*{petStr}" class="validation">Email error message</small>
+
+                    <textarea th:value="*{ingredientsList}" th:field="*{ingredientsList}"
+                            type="text"
+                            id="ingredients"
+                            name="ingredients"
+                            placeholder="List of ingredients separated by comma"
+                            class="add-product-textarea textarea"></textarea>
+                    <small th:if="${#fields.hasErrors('ingredientsList')}" th:errors="*{ingredientsList}" class="validation">Email error message</small>
+                </div>
+                <button
+                        id="login-btn"
+                        name="login-btn"
+                        class="add-product-button button button-primary"
+                >
+                    Add
+                </button>
+            </form>
+        </div>
+        <footer th:replace="fragments/footer"></footer>
+    </div>
+</div>
+<script>
+    window.onload = () => {
+        const runAllScripts = () => {
+            initializeAllAccordions()
+        }
+
+        const listenForUrlChanges = () => {
+            let url = location.href
+            document.body.addEventListener(
+                'click',
+                () => {
+                    requestAnimationFrame(() => {
+                        if (url !== location.href) {
+                            runAllScripts()
+                            url = location.href
+                        }
+                    })
+                },
+                true
+            )
+        }
+
+        const initializeAllAccordions = () => {
+            const allAccordions = document.querySelectorAll('[data-role="Accordion"]');
+
+            allAccordions.forEach((accordion) => {
+                const accordionHeader = accordion.querySelector('[data-type="accordion-header"]')
+                const accordionContent = accordion.querySelector('[data-type="accordion-content"]')
+
+                accordionHeader.addEventListener('click', () => {
+                    if (accordionContent.style.maxHeight) {
+                        accordionContent.style.maxHeight = ''
+                    } else {
+                        accordionContent.style.maxHeight = `${accordionContent.scrollHeight}px`
+                    }
+                })
+            })
+        }
+
+        listenForUrlChanges()
+        runAllScripts()
+    }
+</script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</body>
+</html>

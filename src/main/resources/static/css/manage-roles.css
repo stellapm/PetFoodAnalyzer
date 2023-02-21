@@ -1,0 +1,52 @@
+.manage-roles-container {
+    width: 100%;
+    display: flex;
+    overflow: auto;
+    min-height: 100vh;
+    align-items: center;
+    flex-direction: column;
+}
+.manage-roles-container1 {
+    display: flex;
+    box-shadow: 5px 5px 10px 0px #d4d4d4;
+    margin-top: var(--dl-space-space-eightunits);
+    align-items: center;
+    border-color: var(--dl-color-scheme-green100);
+    border-style: double;
+    border-width: 1px;
+    border-radius: var(--dl-radius-radius-radius16);
+    margin-bottom: var(--dl-space-space-sixunits);
+    flex-direction: column;
+    background-color: #ffffff;
+}
+.manage-roles-text {
+    margin-top: var(--dl-space-space-twounits);
+}
+.manage-roles-form {
+    width: 440px;
+    height: 204px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.manage-roles-container2 {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.manage-roles-input {
+    width: 315px;
+    margin: var(--dl-space-space-halfunit);
+    border-style: double;
+}
+.manage-roles-button {
+    width: 134px;
+    font-style: normal;
+    margin-top: var(--dl-space-space-unit);
+    text-align: center;
+    font-family: Lexend;
+    font-weight: 500;
+    margin-bottom: var(--dl-space-space-unit);
+}

@@ -368,7 +368,7 @@
   font-weight: 700;
 }
 .profile-textinput1 {
-  width: 438px;
+  /*width: 438px;*/
   align-self: center;
   margin-top: var(--dl-space-space-halfunit);
   margin-left: var(--dl-space-space-halfunit);
@@ -390,12 +390,6 @@
 .profile-text23 {
   font-weight: 700;
 }
-.profile-textinput2 {
-  width: 436px;
-  margin-top: var(--dl-space-space-halfunit);
-  margin-left: var(--dl-space-space-halfunit);
-  margin-bottom: var(--dl-space-space-halfunit);
-}
 .profile-container17 {
   width: 450px;
 }
@@ -407,12 +401,6 @@
 }
 .profile-text25 {
   font-weight: 700;
-}
-.profile-textinput3 {
-  width: 432px;
-  margin-top: var(--dl-space-space-halfunit);
-  margin-left: var(--dl-space-space-halfunit);
-  margin-bottom: var(--dl-space-space-halfunit);
 }
 .profile-container18 {
   flex: 0 0 auto;

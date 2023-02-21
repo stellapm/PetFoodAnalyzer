@@ -1,0 +1,63 @@
+.add-brand-container {
+    width: 100%;
+    display: flex;
+    overflow: auto;
+    min-height: 100vh;
+    align-items: center;
+    flex-direction: column;
+}
+.add-brand-text {
+    margin-top: var(--dl-space-space-twounits);
+}
+.add-brand-container1 {
+    display: flex;
+    box-shadow: 5px 5px 10px 0px #d4d4d4;
+    margin-top: var(--dl-space-space-eightunits);
+    align-items: center;
+    border-color: var(--dl-color-scheme-green100);
+    border-style: double;
+    border-width: 1px;
+    border-radius: var(--dl-radius-radius-radius16);
+    margin-bottom: var(--dl-space-space-sixunits);
+    flex-direction: column;
+    background-color: #ffffff;
+}
+.add-brand-text1 {
+    margin-top: var(--dl-space-space-twounits);
+}
+.add-brand-form {
+    width: 440px;
+    height: 320px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.add-brand-container2 {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.add-brand-input {
+    width: 316px;
+    margin-top: var(--dl-space-space-oneandhalfunits);
+    border-style: double;
+}
+.add-brand-textarea {
+    width: 316px;
+    margin: var(--dl-space-space-halfunit);
+}
+.add-brand-input1 {
+    width: 316px;
+    border-style: double;
+}
+.add-brand-button {
+    width: 134px;
+    font-style: normal;
+    margin-top: var(--dl-space-space-unit);
+    text-align: center;
+    font-family: Lexend;
+    font-weight: 500;
+    margin-bottom: var(--dl-space-space-unit);
+}

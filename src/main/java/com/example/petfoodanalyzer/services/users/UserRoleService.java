@@ -1,5 +1,6 @@
 package com.example.petfoodanalyzer.services.users;
 
+import com.example.petfoodanalyzer.models.entities.users.Pet;
 import com.example.petfoodanalyzer.models.entities.users.UserRole;
 import com.example.petfoodanalyzer.models.enums.UserRoleTypes;
 import com.example.petfoodanalyzer.repositories.users.UserRoleRepository;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserRoleService {
@@ -36,5 +38,16 @@ public class UserRoleService {
 
     public UserRole getUserRole(UserRoleTypes roleType) {
                 return this.userRoleRepository.findByRoleType(roleType);
+    }
+
+    private List<UserRole> getAllUserRoles(){
+        return this.userRoleRepository.findAll();
+    }
+
+    public List<String> getAllUserRolesAsString() {
+        return getAllUserRoles()
+                .stream()
+                .map(r -> r.getRoleType().name())
+                .collect(Collectors.toList());
     }
 }

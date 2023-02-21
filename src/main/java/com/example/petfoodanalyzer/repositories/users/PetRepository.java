@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Repository
-public interface PetRepository extends JpaRepository<Pet, UUID> {
+public interface PetRepository extends JpaRepository<Pet, Long> {
     @Query("SELECT p " +
             "FROM Pet p " +
             "WHERE p.petsType = :petsType")
