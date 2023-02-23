@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header"></head>
 
 <body>
 <header th:replace="fragments/navigation"></header>
 <link href="/css/manage-roles.css" rel="stylesheet"/>
 <link href="/css/home.css" rel="stylesheet"/>
-<div>
+<main>
     <div class="manage-roles-container">
         <h1 class="manage-roles-text"><a href="/admin">Admin Panel</a></h1>
         <div class="manage-roles-container1">
@@ -43,9 +44,9 @@
                 </button>
             </form>
         </div>
-    <footer th:replace="fragments/footer"></footer>
     </div>
-</div>
+</main>
+    <footer th:replace="fragments/footer"></footer>
 <script>
     window.onload = () => {
         const runAllScripts = () => {

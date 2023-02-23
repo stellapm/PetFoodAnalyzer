@@ -1,7 +1,6 @@
 package com.example.petfoodanalyzer.models.dtos.users;
 
-import com.example.petfoodanalyzer.models.entities.users.Pet;
-import com.example.petfoodanalyzer.models.entities.users.UserRole;
+import com.example.petfoodanalyzer.models.entities.products.Pet;
 
 import java.time.LocalDate;
 import java.util.Set;

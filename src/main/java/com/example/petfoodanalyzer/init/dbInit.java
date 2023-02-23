@@ -1,7 +1,7 @@
 package com.example.petfoodanalyzer.init;
 
-import com.example.petfoodanalyzer.services.products.IngredientCategoryService;
-import com.example.petfoodanalyzer.services.users.PetService;
+import com.example.petfoodanalyzer.services.ingredients.IngredientCategoryService;
+import com.example.petfoodanalyzer.services.products.PetService;
 import com.example.petfoodanalyzer.services.users.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

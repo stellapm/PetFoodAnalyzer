@@ -1,4 +1,4 @@
-package com.example.petfoodanalyzer.models.entities.users;
+package com.example.petfoodanalyzer.models.entities.products;
 
 import com.example.petfoodanalyzer.models.entities.BaseEntity;
 import com.example.petfoodanalyzer.models.enums.PetsTypes;

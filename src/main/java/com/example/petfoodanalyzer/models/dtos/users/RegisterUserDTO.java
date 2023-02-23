@@ -1,6 +1,5 @@
 package com.example.petfoodanalyzer.models.dtos.users;
 
-import com.example.petfoodanalyzer.models.entities.users.Pet;
 import com.example.petfoodanalyzer.validators.annotations.UniqueEmail;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -17,7 +16,10 @@ public class RegisterUserDTO {
 
     @NotBlank(message = "Please enter password")
     @Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!.]).{6,15})",
-            message = "Password should contain at least one digit, one upper case letter, one lower case letter and one special symbol (“@#$%”).")
+            message = """
+                    Password should contain at least:
+                    one digit, one upper case letter, one lower case letter,
+                    one special symbol (“@#$%”).""")
     @Size(min = 6, max = 15, message = "Password should be between 6 and 15 characters.")
     private String password;
 

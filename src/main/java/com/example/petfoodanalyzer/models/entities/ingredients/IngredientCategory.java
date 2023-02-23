@@ -1,4 +1,4 @@
-package com.example.petfoodanalyzer.models.entities.products;
+package com.example.petfoodanalyzer.models.entities.ingredients;
 
 import com.example.petfoodanalyzer.models.entities.BaseEntity;
 import com.example.petfoodanalyzer.models.enums.IngredientCategoryNames;
@@ -38,5 +38,10 @@ public class IngredientCategory extends BaseEntity {
     public IngredientCategory setDescription(String description) {
         this.description = description;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("* %s - %s:\n", this.name.getValue(), this.getDescription());
     }
 }

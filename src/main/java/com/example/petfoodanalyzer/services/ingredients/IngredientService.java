@@ -1,17 +1,15 @@
-package com.example.petfoodanalyzer.services.products;
+package com.example.petfoodanalyzer.services.ingredients;
 
-import com.example.petfoodanalyzer.models.dtos.products.AddIngredientDTO;
-import com.example.petfoodanalyzer.models.entities.products.Ingredient;
-import com.example.petfoodanalyzer.models.entities.products.IngredientCategory;
-import com.example.petfoodanalyzer.repositories.products.IngredientRepository;
+import com.example.petfoodanalyzer.models.dtos.ingredients.AddIngredientDTO;
+import com.example.petfoodanalyzer.models.dtos.ingredients.IngredientsListDTO;
+import com.example.petfoodanalyzer.models.entities.ingredients.Ingredient;
+import com.example.petfoodanalyzer.models.entities.ingredients.IngredientCategory;
+import com.example.petfoodanalyzer.repositories.ingredients.IngredientRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,5 +48,27 @@ public class IngredientService {
                 .toList();
 
                 return invalidIngredients.size() == 0;
+    }
+
+    public Map<String, List<String>> analyzeIngredients(IngredientsListDTO ingredientsListDTO) {
+        List<String> rawIngredients = Arrays.stream(ingredientsListDTO.getIngredientsList().split(",\\s+")).toList();
+        Map<String, List<String >> analyzeResult = new LinkedHashMap<>();
+
+        List<Ingredient> allIngredients = rawIngredients.stream()
+                .map(this::findByName)
+                .sorted(Comparator.comparing(i -> i.getIngredientCategory().getName().getValue()))
+                .toList();
+
+        for (Ingredient ingredient : allIngredients) {
+            String categoryInfo = ingredient.getIngredientCategory().toString();
+
+            if (!analyzeResult.containsKey(categoryInfo)){
+                analyzeResult.put(categoryInfo, new ArrayList<String>());
+            }
+
+            analyzeResult.get(categoryInfo).add(ingredient.toString());
+        }
+
+        return analyzeResult;
     }
 }

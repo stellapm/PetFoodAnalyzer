@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header"></head>
 
   <body>
   <header th:replace="fragments/navigation"></header>
-    <div>
+    <main>
       <link href="/css/login.css" rel="stylesheet" />
       <link href="/css/home.css" rel="stylesheet" />
 
@@ -51,9 +52,9 @@
             </span>
           </form>
         </div>
-        <footer th:replace="fragments/footer"></footer>
       </div>
-    </div>
+    </main>
+        <footer th:replace="fragments/footer"></footer>
 <!--    <script>-->
 <!--      window.onload = () => {-->
 <!--        const runAllScripts = () => {-->

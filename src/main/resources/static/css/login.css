@@ -24,7 +24,8 @@
 }
 .login-form {
   width: 440px;
-  height: 352px;
+  min-height: 352px;
+  overflow: hidden;
   display: flex;
   align-items: center;
   flex-direction: column;

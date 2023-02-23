@@ -6,7 +6,7 @@
 <header th:replace="fragments/navigation"></header>
 <link href="/css/about.css" rel="stylesheet"/>
 <link href="/css/home.css" rel="stylesheet"/>
-
+<main>
 <div class="about-container">
     <div id="About" class="about-container2">
         <div>
@@ -34,8 +34,9 @@
             </div>
         </div>
     </div>
-    <footer th:replace="fragments/footer"></footer>
 </div>
+</main>
+    <footer th:replace="fragments/footer"></footer>
 <script>
     window.onload = () => {
         const runAllScripts = () => {

@@ -1,4 +1,4 @@
-package com.example.petfoodanalyzer.models.dtos.products;
+package com.example.petfoodanalyzer.models.dtos.ingredients;
 
 public class IngredientCategoryInitDTO {
     private String code;

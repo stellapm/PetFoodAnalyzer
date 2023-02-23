@@ -1,6 +1,5 @@
 package com.example.petfoodanalyzer.services.users;
 
-import com.example.petfoodanalyzer.models.entities.users.Pet;
 import com.example.petfoodanalyzer.models.entities.users.UserRole;
 import com.example.petfoodanalyzer.models.enums.UserRoleTypes;
 import com.example.petfoodanalyzer.repositories.users.UserRoleRepository;

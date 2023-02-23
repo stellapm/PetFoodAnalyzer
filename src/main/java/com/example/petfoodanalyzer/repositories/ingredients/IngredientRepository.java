@@ -1,10 +1,8 @@
-package com.example.petfoodanalyzer.repositories.products;
+package com.example.petfoodanalyzer.repositories.ingredients;
 
-import com.example.petfoodanalyzer.models.entities.products.Ingredient;
+import com.example.petfoodanalyzer.models.entities.ingredients.Ingredient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.UUID;
 
 @Repository
 public interface IngredientRepository extends JpaRepository<Ingredient, Long> {

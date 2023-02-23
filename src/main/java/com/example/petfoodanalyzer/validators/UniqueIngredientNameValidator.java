@@ -1,6 +1,6 @@
 package com.example.petfoodanalyzer.validators;
 
-import com.example.petfoodanalyzer.services.products.IngredientService;
+import com.example.petfoodanalyzer.services.ingredients.IngredientService;
 import com.example.petfoodanalyzer.validators.annotations.UniqueIngredientName;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

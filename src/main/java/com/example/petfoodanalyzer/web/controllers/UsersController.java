@@ -5,7 +5,7 @@ import com.example.petfoodanalyzer.models.dtos.users.LoggedUserProfileDTO;
 import com.example.petfoodanalyzer.models.dtos.users.LoginUserDTO;
 import com.example.petfoodanalyzer.models.dtos.users.RegisterUserDTO;
 import com.example.petfoodanalyzer.models.helpers.LoggedUser;
-import com.example.petfoodanalyzer.services.users.PetService;
+import com.example.petfoodanalyzer.services.products.PetService;
 import com.example.petfoodanalyzer.services.users.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

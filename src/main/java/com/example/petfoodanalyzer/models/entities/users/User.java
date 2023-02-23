@@ -1,6 +1,7 @@
 package com.example.petfoodanalyzer.models.entities.users;
 
 import com.example.petfoodanalyzer.models.entities.BaseEntity;
+import com.example.petfoodanalyzer.models.entities.products.Pet;
 import com.example.petfoodanalyzer.models.entities.products.Product;
 import jakarta.persistence.*;
 

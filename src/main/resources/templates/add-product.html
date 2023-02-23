@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header"></head>
 
 <body>
 <header th:replace="fragments/navigation"></header>
 <link href="/css/add-product.css" rel="stylesheet"/>
 <link href="/css/home.css" rel="stylesheet"/>
-<div>
+<main>
     <div class="add-product-container">
         <h1 class="add-product-text"><a href="/admin">Admin Panel</a></h1>
         <div class="add-product-container1">
@@ -68,9 +69,9 @@
                 </button>
             </form>
         </div>
-        <footer th:replace="fragments/footer"></footer>
     </div>
-</div>
+</main>
+        <footer th:replace="fragments/footer"></footer>
 <script>
     window.onload = () => {
         const runAllScripts = () => {

@@ -24,7 +24,8 @@
 }
 .manage-roles-form {
     width: 440px;
-    height: 204px;
+    min-height: 154px;
+    overflow: hidden;
     display: flex;
     align-items: center;
     flex-direction: column;

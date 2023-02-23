@@ -2,11 +2,11 @@ package com.example.petfoodanalyzer.services.products;
 
 import com.example.petfoodanalyzer.models.dtos.products.AddProductDTO;
 import com.example.petfoodanalyzer.models.entities.products.Brand;
-import com.example.petfoodanalyzer.models.entities.products.Ingredient;
+import com.example.petfoodanalyzer.models.entities.ingredients.Ingredient;
 import com.example.petfoodanalyzer.models.entities.products.Product;
-import com.example.petfoodanalyzer.models.entities.users.Pet;
+import com.example.petfoodanalyzer.models.entities.products.Pet;
 import com.example.petfoodanalyzer.repositories.products.ProductRepository;
-import com.example.petfoodanalyzer.services.users.PetService;
+import com.example.petfoodanalyzer.services.ingredients.IngredientService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

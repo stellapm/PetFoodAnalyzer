@@ -291,6 +291,7 @@
 }
 
 .validation{
+  align-items: center;
   color: #D63301;
   background-color: #FFCCBA;
   border-color: #D63301;

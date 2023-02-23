@@ -24,7 +24,8 @@
 }
 .add-ingredient-form {
   width: 440px;
-  height: 340px;
+  min-height: 290px;
+  overflow: hidden;
   display: flex;
   align-items: center;
   flex-direction: column;

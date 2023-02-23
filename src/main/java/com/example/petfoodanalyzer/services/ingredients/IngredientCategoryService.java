@@ -1,9 +1,9 @@
-package com.example.petfoodanalyzer.services.products;
+package com.example.petfoodanalyzer.services.ingredients;
 
-import com.example.petfoodanalyzer.models.dtos.products.IngredientCategoryInitDTO;
-import com.example.petfoodanalyzer.models.entities.products.IngredientCategory;
+import com.example.petfoodanalyzer.models.dtos.ingredients.IngredientCategoryInitDTO;
+import com.example.petfoodanalyzer.models.entities.ingredients.IngredientCategory;
 import com.example.petfoodanalyzer.models.enums.IngredientCategoryNames;
-import com.example.petfoodanalyzer.repositories.products.IngredientCategoryRepository;
+import com.example.petfoodanalyzer.repositories.ingredients.IngredientCategoryRepository;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

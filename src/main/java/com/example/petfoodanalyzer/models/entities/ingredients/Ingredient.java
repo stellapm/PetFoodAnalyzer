@@ -1,6 +1,7 @@
-package com.example.petfoodanalyzer.models.entities.products;
+package com.example.petfoodanalyzer.models.entities.ingredients;
 
 import com.example.petfoodanalyzer.models.entities.BaseEntity;
+import com.example.petfoodanalyzer.models.entities.products.Product;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -48,5 +49,19 @@ public class Ingredient extends BaseEntity {
     public Ingredient setDescription(String description) {
         this.description = description;
         return this;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public Ingredient setProducts(Set<Product> products) {
+        this.products = products;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("------ %s - %s\n", this.name, this.description);
     }
 }

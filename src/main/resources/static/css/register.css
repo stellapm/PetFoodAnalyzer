@@ -24,7 +24,8 @@
 }
 .register-form {
   width: 440px;
-  height: 516px;
+  min-height: 516px;
+  overflow: hidden;
   display: flex;
   align-items: center;
   flex-direction: column;

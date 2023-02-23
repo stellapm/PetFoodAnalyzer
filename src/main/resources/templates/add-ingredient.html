@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header"></head>
 
 <body>
@@ -7,7 +8,7 @@
 
 <link href="/css/add-ingredient.css" rel="stylesheet" />
 <link href="/css/home.css" rel="stylesheet" />
-
+<main>
 <div class="add-ingredient-container">
   <h1 class="add-ingredient-text"><a href="/admin">Admin Panel</a></h1>
   <div class="add-ingredient-container1">
@@ -49,8 +50,9 @@
       </div>
     </form>
   </div>
-  <footer th:replace="fragments/footer"></footer>
 </div>
+</main>
+  <footer th:replace="fragments/footer"></footer>
     <script>
       window.onload = () => {
         const runAllScripts = () => {

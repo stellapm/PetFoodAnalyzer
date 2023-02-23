@@ -1,105 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header"></head>
+
 <body>
 <header th:replace="fragments/navigation"></header>
-    <div>
-      <link href="/css/analyze.css" rel="stylesheet" />
-      <link href="/css/home.css" rel="stylesheet" />
-      <div class="analyze-container">
-        <div>
-          <div class="analyze-container3">
-            <h1>Pet Food Analyzer</h1>
-            <span class="analyze-text16">
-              <span>Can’t find a product on our database?&nbsp;</span>
-              <span>
-                Copy and paste ingredient lists into our analyzer tool below to
-                find out more about the ingredients in your pet food.
-                Ingredients should be separated by commas.
-              </span>
-              <br />
-              <br />
-              <span></span>
-            </span>
-          </div>
-          <div class="analyze-container4">
-            <div class="analyze-container5">
-              <textarea
-                rows="4"
-                placeholder="Message"
-                class="analyze-textarea textarea"
-              ></textarea>
-            </div>
-            <div class="analyze-container6">
-              <button class="analyze-button2 button button-primary">
-                Analyze
-              </button>
-            </div>
-          </div>
-          <div class="analyze-container7">
-            <h1 class="analyze-text22">Results:</h1>
-            <span class="analyze-text23">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel
-              congue arcu. Nam placerat, est vel scelerisque ultricies, lorem
-              risus pretium ipsum, vel luctus neque lectus non lacus. Ut a
-              luctus sapien. Aliquam id ligula vel nulla pretium placerat. Proin
-              varius rhoncus sapien, nec euismod augue dignissim in. Donec
-              blandit semper ante. Quisque semper justo elit, vitae condimentum
-              orci hendrerit id. Aliquam suscipit ultrices lobortis. Donec et
-              lacus dolor. Fusce eget elit eget metus tincidunt dictum sed
-              fermentum enim. Nunc non libero erat. Mauris placerat arcu nec
-              elementum scelerisque. Aliquam ac pellentesque ipsum. Donec
-              vehicula mi in consectetur hendrerit. Curabitur in dui ut magna
-              euismod rhoncus.
-            </span>
-          </div>
+<link href="/css/analyze.css" rel="stylesheet"/>
+<link href="/css/home.css" rel="stylesheet"/>
+<main>
+  <div class="analyze-container">
+    <form class="analyze-form" th:method="POST" th:action="@{/ingredients/analyze}" th:object="${ingredientsListDTO}">
+      <div class="analyze-container1">
+        <div class="analyze-container2"><h1>Pet Food Analyzer</h1></div>
+        <div class="analyze-container3">
+          <span>
+            Analyze pet food. Place ingredients separated by comma and get a
+            full description of each ingredient by category. Understand what is
+            in the food of your pet better!
+          </span>
         </div>
-        <footer th:replace="fragments/footer"></footer>
+        <div class="analyze-container4">
+          <textarea th:value="*{ingredientsList}" th:field="*{ingredientsList}"
+                  placeholder="List of ingredients"
+                  id="ingredients"
+                  name="ingredients"
+                  class="analyze-textarea textarea"
+          ></textarea>
+          <small th:if="${#fields.hasErrors('ingredientsList')}" th:errors="*{ingredientsList}" class="validation">Email error message</small>
+          <button class="analyze-button button button-primary">
+            <span>
+              <span>Analyze</span>
+              <br />
+            </span>
+          </button>
+        </div>
+        <table>
+          <tr th:each="category : ${ingredientBreakdown}">
+            <td th:text="${category.key}">keyvalue</td>
+            <table>
+              <tr th:each="ingredient : ${category.value}">
+                <td th:text="${ingredient}"></td>
+              </tr>
+            </table>
+          </tr>
+        </table>
       </div>
-    </div>
-    <script>
-      window.onload = () => {
-        const runAllScripts = () => {
-          initializeAllAccordions()
-        }
+    </form>
+  </div>
+</main>
+  <footer th:replace="fragments/footer"></footer>
+<script>
+  window.onload = () => {
+    const runAllScripts = () => {
+      initializeAllAccordions()
+    }
 
-        const listenForUrlChanges = () => {
-          let url = location.href
-          document.body.addEventListener(
-            'click',
-            () => {
-              requestAnimationFrame(() => {
-                if (url !== location.href) {
-                  runAllScripts()
-                  url = location.href
-                }
-              })
-            },
-            true
-          )
-        }
+    const listenForUrlChanges = () => {
+      let url = location.href
+      document.body.addEventListener(
+              'click',
+              () => {
+                requestAnimationFrame(() => {
+                  if (url !== location.href) {
+                    runAllScripts()
+                    url = location.href
+                  }
+                })
+              },
+              true
+      )
+    }
 
-        const initializeAllAccordions = () => {
-          const allAccordions = document.querySelectorAll('[data-role="Accordion"]');
+    const initializeAllAccordions = () => {
+      const allAccordions = document.querySelectorAll('[data-role="Accordion"]');
 
-          allAccordions.forEach((accordion) => {
-            const accordionHeader = accordion.querySelector('[data-type="accordion-header"]')
-            const accordionContent = accordion.querySelector('[data-type="accordion-content"]')
+      allAccordions.forEach((accordion) => {
+        const accordionHeader = accordion.querySelector('[data-type="accordion-header"]')
+        const accordionContent = accordion.querySelector('[data-type="accordion-content"]')
 
-            accordionHeader.addEventListener('click', () => {
-              if (accordionContent.style.maxHeight) {
-                accordionContent.style.maxHeight = ''
-              } else {
-                accordionContent.style.maxHeight = `${accordionContent.scrollHeight}px`
-              }
-            })
-          })
-        }
+        accordionHeader.addEventListener('click', () => {
+          if (accordionContent.style.maxHeight) {
+            accordionContent.style.maxHeight = ''
+          } else {
+            accordionContent.style.maxHeight = `${accordionContent.scrollHeight}px`
+          }
+        })
+      })
+    }
 
-        listenForUrlChanges()
-        runAllScripts()
-      }
-    </script>
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-  </body>
+    listenForUrlChanges()
+    runAllScripts()
+  }
+</script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</body>
 </html>

@@ -1,20 +1,19 @@
 package com.example.petfoodanalyzer.services.users;
 
 import com.example.petfoodanalyzer.models.dtos.users.*;
-import com.example.petfoodanalyzer.models.entities.users.Pet;
+import com.example.petfoodanalyzer.models.entities.products.Pet;
 import com.example.petfoodanalyzer.models.entities.users.User;
 import com.example.petfoodanalyzer.models.entities.users.UserRole;
 import com.example.petfoodanalyzer.models.enums.UserRoleTypes;
 import com.example.petfoodanalyzer.models.helpers.LoggedUser;
 import com.example.petfoodanalyzer.repositories.users.UserRepository;
+import com.example.petfoodanalyzer.services.products.PetService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Field;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 

@@ -1,8 +1,8 @@
-package com.example.petfoodanalyzer.services.users;
+package com.example.petfoodanalyzer.services.products;
 
-import com.example.petfoodanalyzer.models.entities.users.Pet;
+import com.example.petfoodanalyzer.models.entities.products.Pet;
 import com.example.petfoodanalyzer.models.enums.PetsTypes;
-import com.example.petfoodanalyzer.repositories.users.PetRepository;
+import com.example.petfoodanalyzer.repositories.products.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -27,7 +27,8 @@
 }
 .add-brand-form {
     width: 440px;
-    height: 320px;
+    min-height: 247px;
+    overflow: hidden;
     display: flex;
     align-items: center;
     flex-direction: column;

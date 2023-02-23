@@ -1,15 +1,15 @@
 package com.example.petfoodanalyzer.web.controllers;
 
 import com.example.petfoodanalyzer.models.dtos.products.AddBrandDTO;
-import com.example.petfoodanalyzer.models.dtos.products.AddIngredientDTO;
+import com.example.petfoodanalyzer.models.dtos.ingredients.AddIngredientDTO;
 import com.example.petfoodanalyzer.models.dtos.products.AddProductDTO;
 import com.example.petfoodanalyzer.models.dtos.users.ManageRoleDTO;
 import com.example.petfoodanalyzer.models.helpers.LoggedUser;
 import com.example.petfoodanalyzer.services.products.BrandService;
-import com.example.petfoodanalyzer.services.products.IngredientCategoryService;
-import com.example.petfoodanalyzer.services.products.IngredientService;
+import com.example.petfoodanalyzer.services.ingredients.IngredientCategoryService;
+import com.example.petfoodanalyzer.services.ingredients.IngredientService;
 import com.example.petfoodanalyzer.services.products.ProductService;
-import com.example.petfoodanalyzer.services.users.PetService;
+import com.example.petfoodanalyzer.services.products.PetService;
 import com.example.petfoodanalyzer.services.users.UserRoleService;
 import com.example.petfoodanalyzer.services.users.UserService;
 import jakarta.validation.Valid;

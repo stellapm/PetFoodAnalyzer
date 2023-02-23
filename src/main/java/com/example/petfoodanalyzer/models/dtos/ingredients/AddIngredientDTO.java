@@ -1,4 +1,4 @@
-package com.example.petfoodanalyzer.models.dtos.products;
+package com.example.petfoodanalyzer.models.dtos.ingredients;
 
 import com.example.petfoodanalyzer.validators.annotations.UniqueIngredientName;
 import jakarta.validation.constraints.NotBlank;
