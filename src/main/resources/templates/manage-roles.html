@@ -12,7 +12,7 @@
         <h1 class="manage-roles-text"><a href="/admin">Admin Panel</a></h1>
         <div class="manage-roles-container1">
             <h1 class="manage-roles-text">Change User Role</h1>
-            <form class="manage-roles-form" th:method="POST" th:action="@{/admin/manageRoles}" th:object="${manageRoleDTO}">
+            <form class="manage-roles-form" th:method="POST" th:action="@{/admin/manage-roles}" th:object="${manageRoleDTO}">
                 <div class="manage-roles-container2">
                     <input th:field="*{email}"
                             type="text"

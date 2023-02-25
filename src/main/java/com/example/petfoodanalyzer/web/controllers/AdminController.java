@@ -4,14 +4,13 @@ import com.example.petfoodanalyzer.models.dtos.products.AddBrandDTO;
 import com.example.petfoodanalyzer.models.dtos.ingredients.AddIngredientDTO;
 import com.example.petfoodanalyzer.models.dtos.products.AddProductDTO;
 import com.example.petfoodanalyzer.models.dtos.users.ManageRoleDTO;
-import com.example.petfoodanalyzer.models.helpers.LoggedUser;
 import com.example.petfoodanalyzer.services.products.BrandService;
 import com.example.petfoodanalyzer.services.ingredients.IngredientCategoryService;
 import com.example.petfoodanalyzer.services.ingredients.IngredientService;
 import com.example.petfoodanalyzer.services.products.ProductService;
 import com.example.petfoodanalyzer.services.products.PetService;
 import com.example.petfoodanalyzer.services.users.UserRoleService;
-import com.example.petfoodanalyzer.services.users.UserService;
+import com.example.petfoodanalyzer.services.users.UserEntityService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,33 +27,27 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin")
 public class AdminController extends BaseController {
-    private final LoggedUser loggedUser;
     private final IngredientCategoryService ingredientCategoryService;
     private final IngredientService ingredientService;
     private final UserRoleService userRoleService;
     private final BrandService brandService;
-    private final UserService userService;
+    private final UserEntityService userEntityService;
     private final PetService petService;
     private final ProductService productService;
 
     @Autowired
-    public AdminController(LoggedUser loggedUser, IngredientCategoryService ingredientCategoryService, IngredientService ingredientService, BrandService brandService, UserRoleService userRoleService, UserService userService, PetService petService, ProductService productService) {
-        this.loggedUser = loggedUser;
+    public AdminController(IngredientCategoryService ingredientCategoryService, IngredientService ingredientService, BrandService brandService, UserRoleService userRoleService, UserEntityService userEntityService, PetService petService, ProductService productService) {
         this.ingredientCategoryService = ingredientCategoryService;
         this.ingredientService = ingredientService;
         this.brandService = brandService;
         this.userRoleService = userRoleService;
-        this.userService = userService;
+        this.userEntityService = userEntityService;
         this.petService = petService;
         this.productService = productService;
     }
 
     @GetMapping
     public ModelAndView getAdmin(){
-        if (!loggedUser.isLogged() || !loggedUser.isAdmin()){
-            return super.redirect("/");
-        }
-
         return super.view("admin-panel");
     }
 
@@ -63,11 +56,8 @@ public class AdminController extends BaseController {
         return new AddIngredientDTO();
     }
 
-    @GetMapping("/addIngredient")
+    @GetMapping("/add-ingredient")
     public ModelAndView getAddIngredient(ModelAndView modelAndView){
-        if (!loggedUser.isLogged() || !loggedUser.isAdmin()){
-            return super.redirect("/");
-        }
 
         List<String> ingredientCategories = this.ingredientCategoryService.getAllIngredientCategoriesNames();
         modelAndView.addObject("ingredientCategories", ingredientCategories);
@@ -75,7 +65,7 @@ public class AdminController extends BaseController {
         return super.view("add-ingredient", modelAndView);
     }
 
-    @PostMapping("/addIngredient")
+    @PostMapping("/add-ingredient")
     public ModelAndView postAddIngredient(@Valid AddIngredientDTO addIngredientDTO,
                                           BindingResult bindingResult,
                                           RedirectAttributes redirectAttributes){
@@ -83,7 +73,7 @@ public class AdminController extends BaseController {
             redirectAttributes.addFlashAttribute("addIngredientDTO", addIngredientDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addIngredientDTO", bindingResult);
 
-            return super.redirect("addIngredient");
+            return super.redirect("add-ingredient");
         }
 
         this.ingredientService.addIngredient(addIngredientDTO);
@@ -96,11 +86,8 @@ public class AdminController extends BaseController {
         return new ManageRoleDTO();
     }
 
-    @GetMapping("/manageRoles")
+    @GetMapping("/manage-roles")
     public ModelAndView getManageRoles(ModelAndView modelAndView){
-        if (!loggedUser.isLogged() || !loggedUser.isAdmin()){
-            return super.redirect("/");
-        }
 
         List<String> roleNames = this.userRoleService.getAllUserRolesAsString();
         modelAndView.addObject("roleNames", roleNames);
@@ -108,7 +95,7 @@ public class AdminController extends BaseController {
         return super.view("manage-roles", modelAndView);
     }
 
-    @PostMapping("/manageRoles")
+    @PostMapping("/manage-roles")
     public ModelAndView postManageRoles(@Valid ManageRoleDTO manageRoleDTO,
                                      BindingResult bindingResult,
                                      RedirectAttributes redirectAttributes){
@@ -116,10 +103,10 @@ public class AdminController extends BaseController {
             redirectAttributes.addFlashAttribute("manageRoleDTO", manageRoleDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.manageRoleDTO", bindingResult);
 
-            return super.redirect("manageRoles");
+            return super.redirect("manage-roles");
         }
 
-        this.userService.updateUserRoles(manageRoleDTO);
+        this.userEntityService.updateUserRoles(manageRoleDTO);
 
         return super.redirect("/admin");
     }
@@ -129,16 +116,13 @@ public class AdminController extends BaseController {
         return new AddBrandDTO();
     }
 
-    @GetMapping("/addBrand")
+    @GetMapping("/add-brand")
     public ModelAndView getAddBrand(){
-        if (!loggedUser.isLogged() || !loggedUser.isAdmin()){
-            return super.redirect("/");
-        }
 
         return super.view("add-brand");
     }
 
-    @PostMapping("/addBrand")
+    @PostMapping("/add-brand")
     public ModelAndView postAddBrand(@Valid AddBrandDTO addBrandDTO,
                                           BindingResult bindingResult,
                                           RedirectAttributes redirectAttributes){
@@ -146,7 +130,7 @@ public class AdminController extends BaseController {
             redirectAttributes.addFlashAttribute("addBrandDTO", addBrandDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addBrandDTO", bindingResult);
 
-            return super.redirect("addBrand");
+            return super.redirect("add-brand");
         }
 
         this.brandService.addBrand(addBrandDTO);
@@ -159,12 +143,8 @@ public class AdminController extends BaseController {
         return new AddProductDTO();
     }
 
-    @GetMapping("/addProduct")
+    @GetMapping("/add-product")
     public ModelAndView getAddProduct(ModelAndView modelAndView){
-        if (!loggedUser.isLogged() || !loggedUser.isAdmin()){
-            return super.redirect("/");
-        }
-
         List<String> allBrands = this.brandService.getAllBrandsNamesAsString();
         modelAndView.addObject("allBrands", allBrands);
 
@@ -174,7 +154,7 @@ public class AdminController extends BaseController {
         return super.view("add-product", modelAndView);
     }
 
-    @PostMapping("/addProduct")
+    @PostMapping("/add-product")
     public ModelAndView postAddProduct(@Valid AddProductDTO addProductDTO,
                                      BindingResult bindingResult,
                                      RedirectAttributes redirectAttributes){
@@ -182,7 +162,7 @@ public class AdminController extends BaseController {
             redirectAttributes.addFlashAttribute("addProductDTO", addProductDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addProductDTO", bindingResult);
 
-            return super.redirect("addProduct");
+            return super.redirect("add-product");
         }
 
         this.productService.addProduct(addProductDTO);

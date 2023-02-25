@@ -4,11 +4,13 @@ import com.example.petfoodanalyzer.models.dtos.users.EditUserProfileDTO;
 import com.example.petfoodanalyzer.models.dtos.users.LoggedUserProfileDTO;
 import com.example.petfoodanalyzer.models.dtos.users.LoginUserDTO;
 import com.example.petfoodanalyzer.models.dtos.users.RegisterUserDTO;
-import com.example.petfoodanalyzer.models.helpers.LoggedUser;
 import com.example.petfoodanalyzer.services.products.PetService;
-import com.example.petfoodanalyzer.services.users.UserService;
+import com.example.petfoodanalyzer.services.users.UserEntityService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -21,17 +23,15 @@ import java.util.List;
 @Controller
 @RequestMapping("/users")
 public class UsersController extends BaseController{
-    private final LoggedUser loggedUser;
-    private final UserService userService;
+    private final UserEntityService userEntityService;
     private final PetService petService;
 
     //profile
     //admin
 
     @Autowired
-    public UsersController(LoggedUser loggedUser, UserService userService, PetService petService) {
-        this.loggedUser = loggedUser;
-        this.userService = userService;
+    public UsersController(UserEntityService userEntityService, PetService petService) {
+        this.userEntityService = userEntityService;
         this.petService = petService;
     }
 
@@ -42,10 +42,6 @@ public class UsersController extends BaseController{
 
     @GetMapping("/register")
     public ModelAndView getRegister(ModelAndView modelAndView){
-        if (this.loggedUser.isLogged()){
-            return super.redirect("/");
-        }
-
         listPets(modelAndView);
 
         return super.view("register", modelAndView);
@@ -71,7 +67,7 @@ public class UsersController extends BaseController{
             return super.redirect("register");
         }
 
-        this.userService.register(registerUserDTO);
+        this.userEntityService.register(registerUserDTO);
 
         return super.redirect("login");
     }
@@ -83,10 +79,6 @@ public class UsersController extends BaseController{
 
     @GetMapping("/login")
     public ModelAndView getLogin(){
-        if (this.loggedUser.isLogged()){
-            return super.redirect("/");
-        }
-
         return super.view("login");
     }
 
@@ -94,7 +86,7 @@ public class UsersController extends BaseController{
     public ModelAndView postLogin(@Valid LoginUserDTO loginUserDTO,
                                   RedirectAttributes redirectAttributes){
 
-        if (!this.userService.login(loginUserDTO)){
+        if (!this.userEntityService.login(loginUserDTO)){
             redirectAttributes.addFlashAttribute("loginUserDTO", loginUserDTO);
             redirectAttributes.addFlashAttribute("invalidCreds", true);
             return super.redirect("login");
@@ -108,35 +100,31 @@ public class UsersController extends BaseController{
         return new EditUserProfileDTO();
     }
 
-    @GetMapping("/myProfile")
+    @GetMapping("/my-profile")
     public ModelAndView getMyProfile(ModelAndView modelAndView){
-        if (!loggedUser.isLogged()){
-            return super.redirect("login");
-        }
 
         listPets(modelAndView);
-        LoggedUserProfileDTO profileInfo = this.userService.getProfileInfo(this.loggedUser.getEmail());
+
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        LoggedUserProfileDTO profileInfo = this.userEntityService.getProfileInfo(user.getUsername());
         modelAndView.addObject("profileInfo", profileInfo);
 
         return super.view("profile", modelAndView);
     }
 
-    @PatchMapping("/myProfile")
+    @PatchMapping("/my-profile")
     public ModelAndView postMyProfile(@Valid EditUserProfileDTO editUserProfileDTO){
 
         //TODO: update on profile. Must support partial updates and validation
 //        this.userService.updateLoggedUser(editUserProfileDTO);
 
-        return super.redirect("myProfile");
+        return super.redirect("my-profile");
     }
 
     @GetMapping("/logout")
-    public ModelAndView getLogout(){
-        if (!this.loggedUser.isLogged()){
-            return super.redirect("/");
-        }
-
-        this.userService.logOut();
+    public ModelAndView getLogout(HttpSession httpSession){
+        httpSession.invalidate();
         return super.redirect("/");
     }
 

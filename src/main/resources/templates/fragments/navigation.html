@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
 <nav class="home-navbar navbar-container">
     <div class="max-width">
         <div class="home-container1" href="/">
@@ -14,20 +19,17 @@
         <div class="home-links">
             <a class="home-text04" href="/">Home</a>
             <a class="home-text05 navbarLink" href="/ingredients/analyze">Food Analyzer</a>
-            <a class="home-text05 navbarLink" href="/ingredients/allIngredients">All Ingredients</a>
+            <a class="home-text05 navbarLink" href="/ingredients/all">All Ingredients</a>
             <a class="home-text06 navbarLink" href="/about">About Us</a>
-            <a class="home-text07" href="/foods/all">
+            <a class="home-text07" href="/products/all">
                 <span>Find Foods</span>
                 <br />
               </a>
-            <th:block th:unless="${@loggedUser.isLogged()}">
-            <button class="button-secondary button" onclick="window.location.href='/users/login';">Sign In</button>
-            <button class="home-button1 button button-primary" onclick="window.location.href='/users/register';">
+            <button class="button-secondary button" onclick="window.location.href='/users/login';" sec:authorize="isAnonymous()">Sign In</button>
+            <button class="home-button1 button button-primary" onclick="window.location.href='/users/register';" sec:authorize="isAnonymous()">
                 Sign Up
             </button>
-            </th:block>
-            <th:block th:if="${@loggedUser.isLogged()}">
-            <div data-thq="thq-dropdown" class="home-thq-dropdown list-item">
+            <div data-thq="thq-dropdown" class="home-thq-dropdown list-item" sec:authorize="isAuthenticated()">
                 <div
                         data-thq="thq-dropdown-toggle"
                         class="home-dropdown-toggle"
@@ -48,7 +50,7 @@
                                 data-thq="thq-dropdown-toggle"
                                 class="home-dropdown-toggle1"
                         >
-                            <a class="home-text11" href="/users/myProfile">My Profile</a>
+                            <a class="home-text11" href="/users/my-profile">My Profile</a>
                         </div>
                     </li>
                     <li data-thq="thq-dropdown" class="home-dropdown1 list-item">
@@ -59,7 +61,7 @@
                             <a class="home-text12" href="/products/favorites">Favorites</a>
                         </div>
                     </li>
-                    <li data-thq="thq-dropdown" class="home-dropdown2 list-item" th:if="${@loggedUser.isAdmin()}">
+                    <li sec:authorize="hasRole('ROLE_ADMIN')" data-thq="thq-dropdown" class="home-dropdown2 list-item">
                         <div
                                 data-thq="thq-dropdown-toggle"
                                 class="home-dropdown-toggle3"
@@ -77,7 +79,6 @@
                     </li>
                 </ul>
             </div>
-            </th:block>
         </div>
         <div class="home-burger-menu navbar-burger-menu">
             <svg viewBox="0 0 1024 1024" class="home-icon02">
@@ -88,3 +89,5 @@
         </div>
     </div>
 </nav>
+</body>
+</html>

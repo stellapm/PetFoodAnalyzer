@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User extends BaseEntity {
+public class UserEntity extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -35,13 +35,13 @@ public class User extends BaseEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Product> favorites;
 
-    public User() {
+    public UserEntity() {
         this.userRoles = new HashSet<>();
         this.pets = new HashSet<>();
         this.favorites = new HashSet<>();
     }
 
-    public User(String email, String password, String displayName, LocalDate created) {
+    public UserEntity(String email, String password, String displayName, LocalDate created) {
         this();
         this.email = email;
         this.password = password;
@@ -54,7 +54,7 @@ public class User extends BaseEntity {
         return email;
     }
 
-    public User setEmail(String email) {
+    public UserEntity setEmail(String email) {
         this.email = email;
         return this;
     }
@@ -63,7 +63,7 @@ public class User extends BaseEntity {
         return password;
     }
 
-    public User setPassword(String password) {
+    public UserEntity setPassword(String password) {
         this.password = password;
         return this;
     }
@@ -72,7 +72,7 @@ public class User extends BaseEntity {
         return displayName;
     }
 
-    public User setDisplayName(String displayName) {
+    public UserEntity setDisplayName(String displayName) {
         if (displayName == null || displayName.trim().isBlank()){
             this.displayName = this.email;
             return this;
@@ -86,7 +86,7 @@ public class User extends BaseEntity {
         return profilePicUrl;
     }
 
-    public User setProfilePicUrl(String profilePicUrl) {
+    public UserEntity setProfilePicUrl(String profilePicUrl) {
         if (profilePicUrl == null || profilePicUrl.trim().isBlank()){
             profilePicUrl = "/img/profile.png";
         }
@@ -99,7 +99,7 @@ public class User extends BaseEntity {
         return created;
     }
 
-    public User setCreated(LocalDate created) {
+    public UserEntity setCreated(LocalDate created) {
         this.created = created;
         return this;
     }
@@ -108,7 +108,7 @@ public class User extends BaseEntity {
         return userRoles;
     }
 
-    public User setUserRoles(Set<UserRole> userRoles) {
+    public UserEntity setUserRoles(Set<UserRole> userRoles) {
         this.userRoles = userRoles;
         return this;
     }
@@ -117,7 +117,7 @@ public class User extends BaseEntity {
         return pets;
     }
 
-    public User setPets(Set<Pet> pets) {
+    public UserEntity setPets(Set<Pet> pets) {
         this.pets = pets;
         return this;
     }
@@ -126,7 +126,7 @@ public class User extends BaseEntity {
         return favorites;
     }
 
-    public User setFavorites(Set<Product> favorites) {
+    public UserEntity setFavorites(Set<Product> favorites) {
         this.favorites = favorites;
         return this;
     }

@@ -15,16 +15,16 @@
           <form class="login-form" th:action="@{/users/login}" th:method="POST" th:object="${loginUserDTO}">
             <img
               alt="image"
-              src="/img/profile.png"
+              src="/images/profile.png"
               class="login-image"
             />
             <div class="login-container2">
               <input
-                      th:value="*{email}"
-                      th:field="*{email}"
+                      th:value="*{username}"
+                      th:field="*{username}"
                 type="text"
-                id="email"
-                name="email"
+                id="username"
+                name="username"
                 placeholder="E-mail address"
                 class="login-input input"
               />

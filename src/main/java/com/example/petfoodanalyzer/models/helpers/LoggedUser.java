@@ -1,15 +1,14 @@
 package com.example.petfoodanalyzer.models.helpers;
 
-import com.example.petfoodanalyzer.models.entities.users.User;
+import com.example.petfoodanalyzer.models.entities.users.UserEntity;
 import com.example.petfoodanalyzer.models.entities.users.UserRole;
 import com.example.petfoodanalyzer.models.enums.UserRoleTypes;
-import com.example.petfoodanalyzer.services.users.UserService;
+import com.example.petfoodanalyzer.services.users.UserEntityService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Component
 @SessionScope
@@ -18,7 +17,7 @@ public class LoggedUser {
     private String email;
     private Set<UserRole> userRoles;
 
-    public LoggedUser(UserService userService) {
+    public LoggedUser(UserEntityService userEntityService) {
         this.userRoles = new HashSet<>();
     }
 
@@ -49,7 +48,7 @@ public class LoggedUser {
         return this;
     }
 
-    public void login(User user) {
+    public void login(UserEntity user) {
         this.id = user.getId();
         this.email = user.getEmail();
         this.userRoles = user.getUserRoles();
@@ -60,11 +59,11 @@ public class LoggedUser {
     }
 
     public boolean isModerator(){
-        return findRole(UserRoleTypes.Moderator);
+        return findRole(UserRoleTypes.MODERATOR);
     }
 
     public boolean isAdmin(){
-        return findRole(UserRoleTypes.Admin);
+        return findRole(UserRoleTypes.ADMIN);
     }
 
     public void clearValues(){

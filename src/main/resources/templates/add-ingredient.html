@@ -13,7 +13,7 @@
   <h1 class="add-ingredient-text"><a href="/admin">Admin Panel</a></h1>
   <div class="add-ingredient-container1">
     <h1 class="add-ingredient-text">Add New Ingredient</h1>
-    <form class="add-ingredient-form" th:method="POST" th:action="@{/admin/addIngredient}" th:object="${addIngredientDTO}">
+    <form class="add-ingredient-form" th:method="POST" th:action="@{/admin/add-ingredient}" th:object="${addIngredientDTO}">
       <div id="input" class="add-ingredient-container2">
         <select th:value="*{ingredientCategoryStr}" th:field="*{ingredientCategoryStr}" id="ingredientCategory" class="add-ingredient-select">
           <option value="">Choose an ingredient category</option>

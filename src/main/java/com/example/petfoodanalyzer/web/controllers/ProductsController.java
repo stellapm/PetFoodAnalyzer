@@ -7,7 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/products")
-public class FoodsController extends BaseController {
+public class ProductsController extends BaseController {
 
     //product
     //compare
@@ -15,10 +15,10 @@ public class FoodsController extends BaseController {
     //favorite products
     //products by brand
 
-    @GetMapping("/analyze")
+    @GetMapping("/all")
     public ModelAndView getAnalyze(){
 
 
-        return super.view("analyze");
+        return super.view("all-products");
     }
 }

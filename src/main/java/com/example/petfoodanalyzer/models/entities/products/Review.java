@@ -1,7 +1,7 @@
 package com.example.petfoodanalyzer.models.entities.products;
 
 import com.example.petfoodanalyzer.models.entities.BaseEntity;
-import com.example.petfoodanalyzer.models.entities.users.User;
+import com.example.petfoodanalyzer.models.entities.users.UserEntity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -11,7 +11,7 @@ import java.util.Set;
 @Table(name = "reviews")
 public class Review extends BaseEntity {
     @ManyToOne
-    private User author;
+    private UserEntity author;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content; //TODO: at least 5 characters
@@ -23,16 +23,16 @@ public class Review extends BaseEntity {
     private Product product;
 
     @OneToMany
-    private Set<User> likes;
+    private Set<UserEntity> likes;
 
     public Review() {
     }
 
-    public User getAuthor() {
+    public UserEntity getAuthor() {
         return author;
     }
 
-    public Review setAuthor(User author) {
+    public Review setAuthor(UserEntity author) {
         this.author = author;
         return this;
     }
@@ -64,11 +64,11 @@ public class Review extends BaseEntity {
         return this;
     }
 
-    public Set<User> getLikes() {
+    public Set<UserEntity> getLikes() {
         return likes;
     }
 
-    public Review setLikes(Set<User> likes) {
+    public Review setLikes(Set<UserEntity> likes) {
         this.likes = likes;
         return this;
     }

@@ -1,19 +1,19 @@
 package com.example.petfoodanalyzer.validators;
 
 import com.example.petfoodanalyzer.validators.annotations.UniqueEmail;
-import com.example.petfoodanalyzer.services.users.UserService;
+import com.example.petfoodanalyzer.services.users.UserEntityService;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, String> {
-    private final UserService userService;
+    private final UserEntityService userEntityService;
 
-    public UniqueEmailValidator(UserService userService) {
-        this.userService = userService;
+    public UniqueEmailValidator(UserEntityService userEntityService) {
+        this.userEntityService = userEntityService;
     }
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return this.userService.findByEmail(value) == null;
+        return this.userEntityService.findByEmail(value) == null;
     }
 }

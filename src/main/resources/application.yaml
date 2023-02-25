@@ -16,14 +16,16 @@ spring:
     password: 1234
     username: root
     url: jdbc:mysql://localhost:3306/food_analyzer?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
-#logging:
-#  level:
-#    org:
+logging:
+  level:
+    org:
 #      hibernate:
 #        type:
 #          descriptor: TRACE
 #        SQL: DEBUG
 #      nodeValue: WARN
+#      springframework:
+#        security: DEBUG
 #    blog: WARN
 server:
   port: 8080
