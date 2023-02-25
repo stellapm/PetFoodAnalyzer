@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header"></head>
+
+<body>
+<header th:replace="fragments/navigation"></header>
+<link href="/css/all-ingredients.css" rel="stylesheet"/>
+<link href="/css/home.css" rel="stylesheet"/>
+<main>
+  <link href="./all-ingredients.css" rel="stylesheet" />
+  <div class="all-ingredients-container">
+    <div class="all-ingredients-features">
+      <h1 class="all-ingredients-text">
+        <span>All Ingredients</span>
+        <br />
+      </h1>
+      <span class="all-ingredients-text3">
+        The broadening knowledge of pet nutrition and food technology has
+        transformed the pet food industry remarkably over the years. It is now
+        widely recognized by the veterinary profession that pets are living
+        longer, healthier lives as a result of improved nutrition.
+      </span>
+      <div class="all-ingredients-container1 wrap">
+          <div class="feature-card31-feature-card" th:each="ingredient : ${ingredients}">
+            <img
+                    alt="image"
+                    src="/images/985515.png"
+                    class="feature-card31-icon"
+            />
+            <h2 class="feature-card31-text"><span th:text="${ingredient.name}">Lorem ipsum</span></h2>
+            <span class="feature-card31-text1">
+                  <span th:text="${ingredient.description}">Lorem ipsum dolor sit amet, consectetur adipiscing.</span>
+            </span>
+          </div>
+
+
+      </div>
+    </div>
+  </div>
+</main>
+<footer th:replace="fragments/footer"></footer>
+<script>
+  window.onload = () => {
+    const runAllScripts = () => {
+      initializeAllAccordions()
+    }
+
+    const listenForUrlChanges = () => {
+      let url = location.href
+      document.body.addEventListener(
+              'click',
+              () => {
+                requestAnimationFrame(() => {
+                  if (url !== location.href) {
+                    runAllScripts()
+                    url = location.href
+                  }
+                })
+              },
+              true
+      )
+    }
+
+    const initializeAllAccordions = () => {
+      const allAccordions = document.querySelectorAll('[data-role="Accordion"]');
+
+      allAccordions.forEach((accordion) => {
+        const accordionHeader = accordion.querySelector('[data-type="accordion-header"]')
+        const accordionContent = accordion.querySelector('[data-type="accordion-content"]')
+
+        accordionHeader.addEventListener('click', () => {
+          if (accordionContent.style.maxHeight) {
+            accordionContent.style.maxHeight = ''
+          } else {
+            accordionContent.style.maxHeight = `${accordionContent.scrollHeight}px`
+          }
+        })
+      })
+    }
+
+    listenForUrlChanges()
+    runAllScripts()
+  }
+</script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</body>
+</html>

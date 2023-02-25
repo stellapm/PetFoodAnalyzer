@@ -1,5 +1,6 @@
 package com.example.petfoodanalyzer.web.controllers;
 
+import com.example.petfoodanalyzer.models.dtos.ingredients.IngredientInfoDTO;
 import com.example.petfoodanalyzer.models.dtos.ingredients.IngredientsListDTO;
 import com.example.petfoodanalyzer.models.dtos.products.AddProductDTO;
 import com.example.petfoodanalyzer.services.ingredients.IngredientService;
@@ -54,5 +55,13 @@ public class IngredientsController extends BaseController {
         redirectAttributes.addFlashAttribute("ingredientBreakdown", ingredientBreakdown);
 
         return super.redirect("analyze");
+    }
+
+    @GetMapping("/all")
+    public ModelAndView getAllIngredients(ModelAndView modelAndView) {
+        List<IngredientInfoDTO> ingredients = this.ingredientService.getAllIngredients();
+        modelAndView.addObject("ingredients", ingredients);
+
+        return super.view("all-ingredients", modelAndView);
     }
 }
