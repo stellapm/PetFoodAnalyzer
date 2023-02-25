@@ -1,6 +1,7 @@
 package com.example.petfoodanalyzer.services.products;
 
 import com.example.petfoodanalyzer.models.dtos.products.AddProductDTO;
+import com.example.petfoodanalyzer.models.dtos.products.ProductOverviewInfoDTO;
 import com.example.petfoodanalyzer.models.entities.products.Brand;
 import com.example.petfoodanalyzer.models.entities.ingredients.Ingredient;
 import com.example.petfoodanalyzer.models.entities.products.Product;
@@ -55,5 +56,21 @@ public class ProductService {
         product.setIngredients(ingredients);
 
         this.productRepository.save(product);
+    }
+
+    public List<ProductOverviewInfoDTO> getAllProducts() {
+        return this.productRepository.findAll()
+                .stream()
+                .map(this::map)
+                .collect(Collectors.toList());
+    }
+
+    private ProductOverviewInfoDTO map(Product product) {
+        ProductOverviewInfoDTO productInfo = this.modelMapper.map(product, ProductOverviewInfoDTO.class);
+
+        productInfo.setBrandStr(product.getBrand().getName());
+        productInfo.setPetStr(product.getPet().getPetsType().name());
+
+        return productInfo;
     }
 }
