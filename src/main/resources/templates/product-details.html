@@ -88,37 +88,22 @@
       </div>
       <div class="product-container08">
         <h2 class="product-text20">Recommended</h2>
-        <div class="product-container09">
+        <div class="product-container09" th:each="product : ${recommendedProducts}">
           <img
                   alt="image"
-                  src="https://images.unsplash.com/photo-1571873735645-1ae72b963024?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDZ8fHBldCUyMGZvb2R8ZW58MHx8fHwxNjc2NDg1Njk2&amp;ixlib=rb-4.0.3&amp;w=200"
+                  th:src="${product.picUrl}"
                   class="product-image2"
           />
           <div class="product-container10">
-            <strong>FoodName</strong>
+            <strong th:text="${product.name}">FoodName</strong>
             <span>
-              <span>10 reviews</span>
+              <span th:text="|Reviews: ${product.reviewsCount}|">10 reviews</span>
               <br />
             </span>
-            <span>For Cats</span>
-            <button class="button button-primary">View</button>
+            <span th:text="|For ${product.petStr}s|">For Cats</span>
+            <a th:href="@{/products/details/{id}(id=*{product.id})}">View</a>
           </div>
         </div>
-        <div class="product-container11">
-          <img
-                  alt="image"
-                  src="https://images.unsplash.com/photo-1571873735645-1ae72b963024?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDZ8fHBldCUyMGZvb2R8ZW58MHx8fHwxNjc2NDg1Njk2&amp;ixlib=rb-4.0.3&amp;w=200"
-                  class="product-image3"
-          />
-          <div class="product-container12">
-            <strong>FoodName</strong>
-            <span>
-              <span>10 reviews</span>
-              <br />
-            </span>
-            <span>For Cats</span>
-            <button class="button button-primary">View</button>
-          </div>
         </div>
       </div>
     </div>

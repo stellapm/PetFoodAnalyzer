@@ -2,8 +2,14 @@ package com.example.petfoodanalyzer.web.controllers;
 
 import com.example.petfoodanalyzer.models.dtos.products.ProductDetailsDTO;
 import com.example.petfoodanalyzer.models.dtos.products.ProductOverviewInfoDTO;
+import com.example.petfoodanalyzer.models.dtos.products.RecommendedProductDTO;
+import com.example.petfoodanalyzer.models.entities.users.UserEntity;
 import com.example.petfoodanalyzer.services.products.ProductService;
+import com.example.petfoodanalyzer.services.users.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,10 +22,12 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductsController extends BaseController {
     private ProductService productService;
+    private UserEntityService userEntityService;
 
     @Autowired
-    public ProductsController(ProductService productService) {
+    public ProductsController(ProductService productService, UserEntityService userEntityService) {
         this.productService = productService;
+        this.userEntityService = userEntityService;
     }
     //product
     //compare
@@ -40,7 +48,18 @@ public class ProductsController extends BaseController {
         ProductDetailsDTO productDetailsDTO = this.productService.findById(id);
         modelAndView.addObject("productDetails", productDetailsDTO);
 
-        //recommended > depends on user pets. all if no logged user
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = null;
+
+        System.out.println(auth.getPrincipal());
+
+        if (!auth.getPrincipal().equals("anonymousUser")){
+            UserDetails userDetails = (UserDetails) auth.getPrincipal();
+            user = this.userEntityService.findByEmail(userDetails.getUsername());
+        }
+
+        List<RecommendedProductDTO> recommendedProducts = this.productService.getRecommendedProducts(user, id);
+        modelAndView.addObject("recommendedProducts", recommendedProducts);
 
         return super.view("product-details", modelAndView);
     }

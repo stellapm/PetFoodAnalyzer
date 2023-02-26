@@ -1,19 +1,20 @@
 package com.example.petfoodanalyzer.services.products;
 
-import com.example.petfoodanalyzer.models.dtos.products.AddProductDTO;
-import com.example.petfoodanalyzer.models.dtos.products.ProductDetailsDTO;
-import com.example.petfoodanalyzer.models.dtos.products.ProductOverviewInfoDTO;
-import com.example.petfoodanalyzer.models.dtos.products.ReviewInfoDTO;
+import com.example.petfoodanalyzer.models.dtos.products.*;
 import com.example.petfoodanalyzer.models.entities.products.Brand;
 import com.example.petfoodanalyzer.models.entities.ingredients.Ingredient;
 import com.example.petfoodanalyzer.models.entities.products.Product;
 import com.example.petfoodanalyzer.models.entities.products.Pet;
+import com.example.petfoodanalyzer.models.entities.users.UserEntity;
+import com.example.petfoodanalyzer.models.enums.PetsTypes;
 import com.example.petfoodanalyzer.repositories.products.ProductRepository;
 import com.example.petfoodanalyzer.services.ingredients.IngredientService;
+import com.example.petfoodanalyzer.services.users.UserEntityService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -27,15 +28,17 @@ public class ProductService {
     private final PetService petService;
     private final IngredientService ingredientService;
     private final ReviewService reviewService;
+    private final UserEntityService userEntityService;
 
     @Autowired
-    public ProductService(ProductRepository productRepository, ModelMapper modelMapper, BrandService brandService, PetService petService, IngredientService ingredientService, ReviewService reviewService) {
+    public ProductService(ProductRepository productRepository, ModelMapper modelMapper, BrandService brandService, PetService petService, IngredientService ingredientService, ReviewService reviewService, UserEntityService userEntityService) {
         this.productRepository = productRepository;
         this.modelMapper = modelMapper;
         this.brandService = brandService;
         this.petService = petService;
         this.ingredientService = ingredientService;
         this.reviewService = reviewService;
+        this.userEntityService = userEntityService;
     }
 
     public Product findByName(String name) {
@@ -65,11 +68,11 @@ public class ProductService {
     public List<ProductOverviewInfoDTO> getAllProducts() {
         return this.productRepository.findAll()
                 .stream()
-                .map(this::map)
+                .map(this::overviewMap)
                 .collect(Collectors.toList());
     }
 
-    private ProductOverviewInfoDTO map(Product product) {
+    private ProductOverviewInfoDTO overviewMap(Product product) {
         ProductOverviewInfoDTO productInfo = this.modelMapper.map(product, ProductOverviewInfoDTO.class);
 
         productInfo.setBrandStr(product.getBrand().getName());
@@ -93,5 +96,33 @@ public class ProductService {
         productDetails.setReviewsInfo(reviews);
 
         return productDetails;
+    }
+
+    public List<RecommendedProductDTO> getRecommendedProducts(UserEntity userEntity, Long productId) {
+        List<PetsTypes> pets = new ArrayList<>();
+
+        if (userEntity == null || userEntity.getPets().size() == 0){
+            pets = Arrays.stream(PetsTypes.values()).toList();
+        } else {
+            userEntity.getPets().stream()
+                    .map(Pet::getPetsType)
+                    .forEach(pets::add);
+        }
+
+        List<Product> products = this.productRepository.findAllProductsByPetType(pets, productId);
+
+        return products.stream()
+                .limit(5)
+                .map(this::recommendedMap)
+                .toList();
+    }
+
+    public RecommendedProductDTO recommendedMap(Product product){
+        RecommendedProductDTO recommended = this.modelMapper.map(product, RecommendedProductDTO.class);
+
+        recommended.setPetStr(product.getPet().getPetsType().name());
+        recommended.setReviewsCount(product.getReviews().size());
+
+        return recommended;
     }
 }
