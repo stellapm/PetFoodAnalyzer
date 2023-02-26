@@ -5,6 +5,7 @@ import com.example.petfoodanalyzer.models.entities.products.Brand;
 import com.example.petfoodanalyzer.models.entities.ingredients.Ingredient;
 import com.example.petfoodanalyzer.models.entities.products.Product;
 import com.example.petfoodanalyzer.models.entities.products.Pet;
+import com.example.petfoodanalyzer.models.entities.products.Review;
 import com.example.petfoodanalyzer.models.entities.users.UserEntity;
 import com.example.petfoodanalyzer.models.enums.PetsTypes;
 import com.example.petfoodanalyzer.repositories.products.ProductRepository;
@@ -14,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,17 +29,15 @@ public class ProductService {
     private final BrandService brandService;
     private final PetService petService;
     private final IngredientService ingredientService;
-    private final ReviewService reviewService;
     private final UserEntityService userEntityService;
 
     @Autowired
-    public ProductService(ProductRepository productRepository, ModelMapper modelMapper, BrandService brandService, PetService petService, IngredientService ingredientService, ReviewService reviewService, UserEntityService userEntityService) {
+    public ProductService(ProductRepository productRepository, ModelMapper modelMapper, BrandService brandService, PetService petService, IngredientService ingredientService, UserEntityService userEntityService) {
         this.productRepository = productRepository;
         this.modelMapper = modelMapper;
         this.brandService = brandService;
         this.petService = petService;
         this.ingredientService = ingredientService;
-        this.reviewService = reviewService;
         this.userEntityService = userEntityService;
     }
 
@@ -81,8 +81,8 @@ public class ProductService {
         return productInfo;
     }
 
-    public ProductDetailsDTO findById(Long id) {
-        Product product = this.productRepository.findById(id).get();
+    public ProductDetailsDTO getProductDetailsById(Long id) {
+        Product product = getProductById(id);
 
         ProductDetailsDTO productDetails = this.modelMapper.map(product, ProductDetailsDTO.class);
 
@@ -92,10 +92,14 @@ public class ProductService {
         String ingredientsList = ingredientService.stringifyIngredientNames(product.getIngredients());
         productDetails.setIngredientsListed(ingredientsList);
 
-        Set<ReviewInfoDTO> reviews = this.reviewService.mapReviewDetails(product.getReviews());
+        Set<ReviewInfoDTO> reviews = mapReviewDetails(product.getReviews());
         productDetails.setReviewsInfo(reviews);
 
         return productDetails;
+    }
+
+    public Product getProductById(Long id) {
+        return this.productRepository.findById(id).get();
     }
 
     public List<RecommendedProductDTO> getRecommendedProducts(UserEntity userEntity, Long productId) {
@@ -124,5 +128,27 @@ public class ProductService {
         recommended.setReviewsCount(product.getReviews().size());
 
         return recommended;
+    }
+
+    //Initially placed these methods in review service as they are working with the review-related objects
+    //Moved them here as they do not really use review repository and to avoid circular references between review service and product service
+
+    public Set<ReviewInfoDTO> mapReviewDetails(Set<Review> reviews) {
+        return reviews.stream()
+                .map(this::map)
+                .collect(Collectors.toSet());
+    }
+
+    private ReviewInfoDTO map(Review review) {
+        ReviewInfoDTO reviewInfo = this.modelMapper.map(review, ReviewInfoDTO.class);
+        reviewInfo.setAuthorUsername(review.getAuthor().getDisplayName());
+        reviewInfo.setAuthorProfilePic(review.getAuthor().getProfilePicUrl());
+        reviewInfo.setLikesCount(review.getLikes().size());
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formatDateTime = review.getCreatedOn().format(formatter);
+        reviewInfo.setCreated(formatDateTime);
+
+        return reviewInfo;
     }
 }

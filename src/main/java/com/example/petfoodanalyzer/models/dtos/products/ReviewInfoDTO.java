@@ -11,7 +11,7 @@ public class ReviewInfoDTO {
 
     private String content;
 
-    private LocalDateTime createdOn;
+    private String created;
 
     private int likesCount;
 
@@ -54,12 +54,12 @@ public class ReviewInfoDTO {
         return this;
     }
 
-    public LocalDateTime getCreatedOn() {
-        return createdOn;
+    public String getCreated() {
+        return created;
     }
 
-    public ReviewInfoDTO setCreatedOn(LocalDateTime createdOn) {
-        this.createdOn = createdOn;
+    public ReviewInfoDTO setCreated(String created) {
+        this.created = created;
         return this;
     }
 

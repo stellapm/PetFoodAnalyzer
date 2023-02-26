@@ -1,12 +1,17 @@
 package com.example.petfoodanalyzer.services.products;
 
+import com.example.petfoodanalyzer.models.dtos.products.AddReviewDTO;
 import com.example.petfoodanalyzer.models.dtos.products.ReviewInfoDTO;
+import com.example.petfoodanalyzer.models.entities.products.Product;
 import com.example.petfoodanalyzer.models.entities.products.Review;
+import com.example.petfoodanalyzer.models.entities.users.UserEntity;
 import com.example.petfoodanalyzer.repositories.products.ReviewRepository;
+import com.example.petfoodanalyzer.services.users.UserEntityService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -14,25 +19,28 @@ import java.util.stream.Collectors;
 public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final ModelMapper modelMapper;
+    private final UserEntityService userEntityService;
+    private final ProductService productService;
 
     @Autowired
-    public ReviewService(ReviewRepository reviewRepository, ModelMapper modelMapper) {
+    public ReviewService(ReviewRepository reviewRepository, ModelMapper modelMapper, UserEntityService userEntityService, ProductService productService) {
         this.reviewRepository = reviewRepository;
         this.modelMapper = modelMapper;
+        this.userEntityService = userEntityService;
+        this.productService = productService;
     }
 
-    public Set<ReviewInfoDTO> mapReviewDetails(Set<Review> reviews) {
-        return reviews.stream()
-                .map(this::map)
-                .collect(Collectors.toSet());
-    }
+    public void saveReview(Long id, AddReviewDTO addReviewDTO, String email) {
+        Review review = this.modelMapper.map(addReviewDTO, Review.class);
 
-    private ReviewInfoDTO map(Review review) {
-        ReviewInfoDTO reviewInfo = this.modelMapper.map(review, ReviewInfoDTO.class);
-        reviewInfo.setAuthorUsername(review.getAuthor().getDisplayName());
-        reviewInfo.setAuthorProfilePic(review.getAuthor().getProfilePicUrl());
-        reviewInfo.setLikesCount(review.getLikes().size());
+        UserEntity author = this.userEntityService.findByEmail(email);
+        review.setAuthor(author);
 
-        return reviewInfo;
+        review.setCreatedOn(LocalDateTime.now());
+
+        Product product = this.productService.getProductById(id);
+        review.setProduct(product);
+
+        this.reviewRepository.save(review);
     }
 }

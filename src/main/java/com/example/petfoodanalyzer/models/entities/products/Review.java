@@ -5,6 +5,7 @@ import com.example.petfoodanalyzer.models.entities.users.UserEntity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -14,7 +15,7 @@ public class Review extends BaseEntity {
     private UserEntity author;
 
     @Column(nullable = false, columnDefinition = "TEXT")
-    private String content; //TODO: at least 5 characters
+    private String content;
 
     @Column(name = "created_on", nullable = false)
     private LocalDateTime createdOn;
@@ -22,10 +23,11 @@ public class Review extends BaseEntity {
     @ManyToOne
     private Product product;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<UserEntity> likes;
 
     public Review() {
+        this.likes = new HashSet<>();
     }
 
     public UserEntity getAuthor() {

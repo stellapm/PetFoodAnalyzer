@@ -14,6 +14,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT p " +
             "FROM Product p " +
-            "WHERE p.pet.petsType IN :petsTypes AND p.id <> :productId")
+            "WHERE p.pet.petsType IN :petsTypes AND p.id <> :productId " +
+            "ORDER BY SIZE(p.reviews) DESC ")
     List<Product> findAllProductsByPetType(List<PetsTypes> petsTypes, Long productId);
 }

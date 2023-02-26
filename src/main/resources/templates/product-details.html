@@ -53,7 +53,7 @@
                     class="product-image1"
             />
             <span class="product-text10">
-              <span th:text="${review.createdOn}">DD/MM/YY</span>
+              <span th:text="${review.created}">DD/MM/YY</span>
               <br />
             </span>
           </div>
@@ -76,12 +76,14 @@
             </button>
           </div>
         </div>
-        <form sec:authorize="isAuthenticated()" th:action="@{/products/post-review}" th:method="POST">
+        <form sec:authorize="isAuthenticated()" th:action="@{/products/post-review/{id}(id=${productDetails.id})}" th:method="POST" th:object="${addReviewDTO}">
         <div class="product-container07">
-          <textarea
+          <textarea th:value="*{content}" th:field="*{content}"
                   placeholder="Write your review here..."
                   class="product-textarea textarea"
+                    name="content"
           ></textarea>
+          <small th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="validation">Email error message</small>
           <button class="product-button5 button button-primary">Button</button>
         </div>
         </form>

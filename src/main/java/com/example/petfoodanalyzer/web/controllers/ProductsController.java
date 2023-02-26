@@ -1,20 +1,23 @@
 package com.example.petfoodanalyzer.web.controllers;
 
+import com.example.petfoodanalyzer.models.dtos.products.AddReviewDTO;
 import com.example.petfoodanalyzer.models.dtos.products.ProductDetailsDTO;
 import com.example.petfoodanalyzer.models.dtos.products.ProductOverviewInfoDTO;
 import com.example.petfoodanalyzer.models.dtos.products.RecommendedProductDTO;
 import com.example.petfoodanalyzer.models.entities.users.UserEntity;
 import com.example.petfoodanalyzer.services.products.ProductService;
+import com.example.petfoodanalyzer.services.products.ReviewService;
 import com.example.petfoodanalyzer.services.users.UserEntityService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -23,11 +26,13 @@ import java.util.List;
 public class ProductsController extends BaseController {
     private ProductService productService;
     private UserEntityService userEntityService;
+    private ReviewService reviewService;
 
     @Autowired
-    public ProductsController(ProductService productService, UserEntityService userEntityService) {
+    public ProductsController(ProductService productService, UserEntityService userEntityService, ReviewService reviewService) {
         this.productService = productService;
         this.userEntityService = userEntityService;
+        this.reviewService = reviewService;
     }
     //product
     //compare
@@ -45,13 +50,11 @@ public class ProductsController extends BaseController {
 
     @GetMapping("/details/{id}")
     public ModelAndView getProductDetails(@PathVariable Long id, ModelAndView modelAndView){
-        ProductDetailsDTO productDetailsDTO = this.productService.findById(id);
+        ProductDetailsDTO productDetailsDTO = this.productService.getProductDetailsById(id);
         modelAndView.addObject("productDetails", productDetailsDTO);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = null;
-
-        System.out.println(auth.getPrincipal());
 
         if (!auth.getPrincipal().equals("anonymousUser")){
             UserDetails userDetails = (UserDetails) auth.getPrincipal();
@@ -62,5 +65,28 @@ public class ProductsController extends BaseController {
         modelAndView.addObject("recommendedProducts", recommendedProducts);
 
         return super.view("product-details", modelAndView);
+    }
+
+    @ModelAttribute(name = "addReviewDTO")
+    public AddReviewDTO addReviewDTO(){
+        return new AddReviewDTO();
+    }
+
+    @PostMapping("/post-review/{id}")
+    public ModelAndView postProductReview(@PathVariable Long id,
+                                          @Valid AddReviewDTO addReviewDTO,
+                                          BindingResult bindingResult,
+                                          RedirectAttributes redirectAttributes){
+        if (bindingResult.hasErrors()){
+            redirectAttributes.addFlashAttribute("addReviewDTO", addReviewDTO);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addReviewDTO", bindingResult);
+
+            return super.redirect("/products/details/" + id);
+        }
+
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        this.reviewService.saveReview(id, addReviewDTO, user.getUsername());
+
+        return super.redirect("/products/details/" + id);
     }
 }
