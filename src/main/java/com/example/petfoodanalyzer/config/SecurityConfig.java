@@ -32,7 +32,7 @@ public class SecurityConfig {
                 //allow access to static resources
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 //pages with access for all users
-                .requestMatchers("/", "/ingredients/analyze", "/ingredients/all", "/products/all", "/about").permitAll()
+                .requestMatchers("/", "/ingredients/analyze", "/ingredients/all", "/products/all", "/about", "/products/details/{id}").permitAll()
                 //pages with access for guests
                 .requestMatchers("/users/login", "/users/register").anonymous()
                 //pages with access for any authenticated user

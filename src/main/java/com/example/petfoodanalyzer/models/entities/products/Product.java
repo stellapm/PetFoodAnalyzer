@@ -10,10 +10,10 @@ import java.util.Set;
 @Table(name = "products")
 public class Product extends BaseEntity {
     @Column(nullable = false, unique = true)
-    private String name; // TODO: from 3 to 20 characters
+    private String name;
 
     @Column(nullable = false, columnDefinition = "TEXT")
-    private String description; //TODO: from 5 to 50 characters
+    private String description;
 
     @Column(name = "pic_url", nullable = false)
     private String picUrl;
@@ -24,14 +24,14 @@ public class Product extends BaseEntity {
     @ManyToOne
     private Pet pet;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "product_ingredients",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
     private Set<Ingredient> ingredients;
 
-    @OneToMany(targetEntity = Review.class, mappedBy = "product")
+    @OneToMany(targetEntity = Review.class, mappedBy = "product", fetch = FetchType.EAGER)
     private Set<Review> reviews;
 
     public Product() {

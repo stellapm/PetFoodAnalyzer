@@ -1,7 +1,9 @@
 package com.example.petfoodanalyzer.services.products;
 
 import com.example.petfoodanalyzer.models.dtos.products.AddProductDTO;
+import com.example.petfoodanalyzer.models.dtos.products.ProductDetailsDTO;
 import com.example.petfoodanalyzer.models.dtos.products.ProductOverviewInfoDTO;
+import com.example.petfoodanalyzer.models.dtos.products.ReviewInfoDTO;
 import com.example.petfoodanalyzer.models.entities.products.Brand;
 import com.example.petfoodanalyzer.models.entities.ingredients.Ingredient;
 import com.example.petfoodanalyzer.models.entities.products.Product;
@@ -24,14 +26,16 @@ public class ProductService {
     private final BrandService brandService;
     private final PetService petService;
     private final IngredientService ingredientService;
+    private final ReviewService reviewService;
 
     @Autowired
-    public ProductService(ProductRepository productRepository, ModelMapper modelMapper, BrandService brandService, PetService petService, IngredientService ingredientService) {
+    public ProductService(ProductRepository productRepository, ModelMapper modelMapper, BrandService brandService, PetService petService, IngredientService ingredientService, ReviewService reviewService) {
         this.productRepository = productRepository;
         this.modelMapper = modelMapper;
         this.brandService = brandService;
         this.petService = petService;
         this.ingredientService = ingredientService;
+        this.reviewService = reviewService;
     }
 
     public Product findByName(String name) {
@@ -72,5 +76,22 @@ public class ProductService {
         productInfo.setPetStr(product.getPet().getPetsType().name());
 
         return productInfo;
+    }
+
+    public ProductDetailsDTO findById(Long id) {
+        Product product = this.productRepository.findById(id).get();
+
+        ProductDetailsDTO productDetails = this.modelMapper.map(product, ProductDetailsDTO.class);
+
+        productDetails.setBrandStr(product.getBrand().getName());
+        productDetails.setPetStr(product.getPet().getPetsType().name());
+
+        String ingredientsList = ingredientService.stringifyIngredientNames(product.getIngredients());
+        productDetails.setIngredientsListed(ingredientsList);
+
+        Set<ReviewInfoDTO> reviews = this.reviewService.mapReviewDetails(product.getReviews());
+        productDetails.setReviewsInfo(reviews);
+
+        return productDetails;
     }
 }

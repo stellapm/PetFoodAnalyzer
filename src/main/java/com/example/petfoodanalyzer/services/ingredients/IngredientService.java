@@ -80,4 +80,11 @@ public class IngredientService {
                 .collect(Collectors.toList());
     }
 
+    public String stringifyIngredientNames(Set<Ingredient> ingredients) {
+        List<String> ingredientsNames = ingredients.stream()
+                .map(Ingredient::getName)
+                .toList();
+
+        return String.join(", ", ingredientsNames);
+    }
 }

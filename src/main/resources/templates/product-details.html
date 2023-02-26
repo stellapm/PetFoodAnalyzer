@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+<head th:replace="fragments/header"></head>
+
+<body>
+<header th:replace="fragments/navigation"></header>
+<link href="/css/product-details.css" rel="stylesheet"/>
+<link href="/css/home.css" rel="stylesheet"/>
+<main>
+  <div class="product-container">
+    <div class="product-container01">
+      <div class="product-column">
+        <section class="product-product-info">
+          <div class="product-container02">
+            <img
+                    alt="image"
+                    th:src="${productDetails.picUrl}"
+                    class="product-image"
+            />
+            <div class="product-container03">
+              <h1 th:text="${productDetails.name}">Heading</h1>
+              <ul class="list">
+                <li class="list-item" th:text="${productDetails.brandStr}"><span>Brand</span></li>
+                <li class="list-item" th:text="|For: ${productDetails.petStr}s|"><span>Pet</span></li>
+                <li class="list-item" th:text="${productDetails.description}"><span>Description</span></li>
+                <li class="list-item" th:text="|Ingredients: ${productDetails.ingredientsListed}|"><span>Ingredients</span></li>
+              </ul>
+              <div class="product-container04">
+                <button sec:authorize="isAuthenticated()" class="product-button1 button-secondary button" onclick="window.location.href='@{/products/favorite/{id}(id=*{product.id})}';">
+                  Favorite
+                </button>
+                <button sec:authorize="hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')" class="product-button2 button-secondary button" onclick="window.location.href='@{/products/edit/{id}(id=*{product.id})}';">
+                  Edit
+                </button>
+                <button sec:authorize="hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')" class="product-button3 button button-primary" onclick="window.location.href='@{/products/delete/{id}(id=*{product.id})}';">
+                  <span>
+                    <span>Delete</span>
+                    <br />
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+        <div class="product-review-section" th:each="review : ${productDetails.reviewsInfo}">
+          <div class="product-container05">
+            <img
+                    alt="image"
+                    th:src="${review.authorProfilePic}"
+                    class="product-image1"
+            />
+            <span class="product-text10">
+              <span th:text="${review.createdOn}">DD/MM/YY</span>
+              <br />
+            </span>
+          </div>
+          <div class="product-container06">
+            <span class="product-text13">
+              <span th:text="${review.authorUsername}">Username</span>
+              <br />
+            </span>
+            <span th:text="${review.content}">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel
+              congue arcu. Nam placerat, est vel scelerisque ultricies, lorem
+              risus pretium ipsum, vel luctus neque lectus non lacus.
+            </span>
+            <span th:text="|Likes: ${review.likesCount}|">Likes</span>
+            <button class="product-button4 button-secondary button" sec:authorize="isAuthenticated()">
+              <span>
+                <a th:href="@{/products/like-review/{id}(id=*{review.id})}">Like</a>
+                <br />
+              </span>
+            </button>
+          </div>
+        </div>
+        <form sec:authorize="isAuthenticated()" th:action="@{/products/post-review}" th:method="POST">
+        <div class="product-container07">
+          <textarea
+                  placeholder="Write your review here..."
+                  class="product-textarea textarea"
+          ></textarea>
+          <button class="product-button5 button button-primary">Button</button>
+        </div>
+        </form>
+      </div>
+      <div class="product-container08">
+        <h2 class="product-text20">Recommended</h2>
+        <div class="product-container09">
+          <img
+                  alt="image"
+                  src="https://images.unsplash.com/photo-1571873735645-1ae72b963024?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDZ8fHBldCUyMGZvb2R8ZW58MHx8fHwxNjc2NDg1Njk2&amp;ixlib=rb-4.0.3&amp;w=200"
+                  class="product-image2"
+          />
+          <div class="product-container10">
+            <strong>FoodName</strong>
+            <span>
+              <span>10 reviews</span>
+              <br />
+            </span>
+            <span>For Cats</span>
+            <button class="button button-primary">View</button>
+          </div>
+        </div>
+        <div class="product-container11">
+          <img
+                  alt="image"
+                  src="https://images.unsplash.com/photo-1571873735645-1ae72b963024?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDZ8fHBldCUyMGZvb2R8ZW58MHx8fHwxNjc2NDg1Njk2&amp;ixlib=rb-4.0.3&amp;w=200"
+                  class="product-image3"
+          />
+          <div class="product-container12">
+            <strong>FoodName</strong>
+            <span>
+              <span>10 reviews</span>
+              <br />
+            </span>
+            <span>For Cats</span>
+            <button class="button button-primary">View</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<footer th:replace="fragments/footer"></footer>
+<script>
+  window.onload = () => {
+    const runAllScripts = () => {
+      initializeAllAccordions()
+    }
+
+    const listenForUrlChanges = () => {
+      let url = location.href
+      document.body.addEventListener(
+              'click',
+              () => {
+                requestAnimationFrame(() => {
+                  if (url !== location.href) {
+                    runAllScripts()
+                    url = location.href
+                  }
+                })
+              },
+              true
+      )
+    }
+
+    const initializeAllAccordions = () => {
+      const allAccordions = document.querySelectorAll('[data-role="Accordion"]');
+
+      allAccordions.forEach((accordion) => {
+        const accordionHeader = accordion.querySelector('[data-type="accordion-header"]')
+        const accordionContent = accordion.querySelector('[data-type="accordion-content"]')
+
+        accordionHeader.addEventListener('click', () => {
+          if (accordionContent.style.maxHeight) {
+            accordionContent.style.maxHeight = ''
+          } else {
+            accordionContent.style.maxHeight = `${accordionContent.scrollHeight}px`
+          }
+        })
+      })
+    }
+
+    listenForUrlChanges()
+    runAllScripts()
+  }
+</script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</body>
+</html>
