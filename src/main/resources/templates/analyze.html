@@ -7,7 +7,7 @@
 <header th:replace="fragments/navigation"></header>
 <link href="/css/analyze.css" rel="stylesheet"/>
 <link href="/css/home.css" rel="stylesheet"/>
-<main>
+<main class="canvas-container">
   <div class="analyze-container">
     <form class="analyze-form" th:method="POST" th:action="@{/ingredients/analyze}" th:object="${ingredientsListDTO}">
       <div class="analyze-container1">
