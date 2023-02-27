@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -132,16 +133,15 @@ public class UserEntity extends BaseEntity {
     }
 
     @Override
-    public String toString() {
-        return "User{" +
-                "email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", displayName='" + displayName + '\'' +
-                ", profilePicUrl='" + profilePicUrl + '\'' +
-                ", created=" + created +
-                ", userRoles=" + userRoles.size() +
-                ", pets=" + pets.size() +
-                ", favorites=" + favorites.size() +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserEntity that = (UserEntity) o;
+        return email.equals(that.email) && displayName.equals(that.displayName) && profilePicUrl.equals(that.profilePicUrl) && created.equals(that.created);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, displayName, profilePicUrl, created);
     }
 }

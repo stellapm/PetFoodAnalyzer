@@ -81,7 +81,7 @@ public class ProductService {
         return productInfo;
     }
 
-    public ProductDetailsDTO getProductDetailsById(Long id) {
+    public ProductDetailsDTO getProductDetailsById(UserEntity user, Long id) {
         Product product = getProductById(id);
 
         ProductDetailsDTO productDetails = this.modelMapper.map(product, ProductDetailsDTO.class);
@@ -92,7 +92,7 @@ public class ProductService {
         String ingredientsList = ingredientService.stringifyIngredientNames(product.getIngredients());
         productDetails.setIngredientsListed(ingredientsList);
 
-        Set<ReviewInfoDTO> reviews = mapReviewDetails(product.getReviews());
+        Set<ReviewInfoDTO> reviews = mapReviewDetails(user, product.getReviews());
         productDetails.setReviewsInfo(reviews);
 
         return productDetails;
@@ -133,19 +133,25 @@ public class ProductService {
     //Initially placed these methods in review service as they are working with the review-related objects
     //Moved them here as they do not really use review repository and to avoid circular references between review service and product service
 
-    public Set<ReviewInfoDTO> mapReviewDetails(Set<Review> reviews) {
+    public Set<ReviewInfoDTO> mapReviewDetails(UserEntity user, Set<Review> reviews) {
         return reviews.stream()
-                .map(this::map)
+                .map(r -> map(user, r))
                 .collect(Collectors.toSet());
     }
 
-    private ReviewInfoDTO map(Review review) {
+    private ReviewInfoDTO map(UserEntity user, Review review) {
         ReviewInfoDTO reviewInfo = this.modelMapper.map(review, ReviewInfoDTO.class);
+
         reviewInfo.setAuthorUsername(review.getAuthor().getDisplayName());
         reviewInfo.setAuthorProfilePic(review.getAuthor().getProfilePicUrl());
+
         reviewInfo.setLikesCount(review.getLikes().size());
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        if (review.getLikes().contains(user)){
+            reviewInfo.setLoggedUserLike(true);
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String formatDateTime = review.getCreatedOn().format(formatter);
         reviewInfo.setCreated(formatDateTime);
 

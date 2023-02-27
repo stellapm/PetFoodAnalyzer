@@ -50,9 +50,6 @@ public class ProductsController extends BaseController {
 
     @GetMapping("/details/{id}")
     public ModelAndView getProductDetails(@PathVariable Long id, ModelAndView modelAndView){
-        ProductDetailsDTO productDetailsDTO = this.productService.getProductDetailsById(id);
-        modelAndView.addObject("productDetails", productDetailsDTO);
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = null;
 
@@ -60,6 +57,9 @@ public class ProductsController extends BaseController {
             UserDetails userDetails = (UserDetails) auth.getPrincipal();
             user = this.userEntityService.findByEmail(userDetails.getUsername());
         }
+
+        ProductDetailsDTO productDetailsDTO = this.productService.getProductDetailsById(user, id);
+        modelAndView.addObject("productDetails", productDetailsDTO);
 
         List<RecommendedProductDTO> recommendedProducts = this.productService.getRecommendedProducts(user, id);
         modelAndView.addObject("recommendedProducts", recommendedProducts);
@@ -84,9 +84,18 @@ public class ProductsController extends BaseController {
             return super.redirect("/products/details/" + id);
         }
 
-        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails user = getCurrentUserDetails();
         this.reviewService.saveReview(id, addReviewDTO, user.getUsername());
 
         return super.redirect("/products/details/" + id);
+    }
+
+    @GetMapping("/{pid}/like-review/{rid}")
+    public ModelAndView likeProductReview(@PathVariable Long rid, @PathVariable Long pid){
+        UserDetails user = getCurrentUserDetails();
+
+        this.reviewService.likeProductReview(rid, user.getUsername());
+
+        return super.redirect("/products/details/" + pid);
     }
 }

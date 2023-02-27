@@ -68,9 +68,9 @@
               risus pretium ipsum, vel luctus neque lectus non lacus.
             </span>
             <span th:text="|Likes: ${review.likesCount}|">Likes</span>
-            <button class="product-button4 button-secondary button" sec:authorize="isAuthenticated()">
+            <button class="product-button4 button-secondary button" sec:authorize="isAuthenticated()" th:unless="${review.loggedUserLike}">
               <span>
-                <a th:href="@{/products/like-review/{id}(id=*{review.id})}">Like</a>
+                <a th:href="@{/products/{pid}/like-review/{rid}(pid=${productDetails.id}, rid=*{review.id})}">Like</a>
                 <br />
               </span>
             </button>

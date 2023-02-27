@@ -15,6 +15,8 @@ public class ReviewInfoDTO {
 
     private int likesCount;
 
+    private boolean loggedUserLike;
+
     public ReviewInfoDTO() {
     }
 
@@ -69,6 +71,15 @@ public class ReviewInfoDTO {
 
     public ReviewInfoDTO setLikesCount(int likesCount) {
         this.likesCount = likesCount;
+        return this;
+    }
+
+    public boolean isLoggedUserLike() {
+        return loggedUserLike;
+    }
+
+    public ReviewInfoDTO setLoggedUserLike(boolean loggedUserLike) {
+        this.loggedUserLike = loggedUserLike;
         return this;
     }
 }

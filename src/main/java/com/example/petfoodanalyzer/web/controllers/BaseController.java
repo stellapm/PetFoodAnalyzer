@@ -1,5 +1,7 @@
 package com.example.petfoodanalyzer.web.controllers;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.servlet.ModelAndView;
 
 public class BaseController {
@@ -14,5 +16,10 @@ public class BaseController {
 
     public ModelAndView redirect(String url){
         return this.view("redirect:" + url);
+    }
+
+    public static UserDetails getCurrentUserDetails() {
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user;
     }
 }
