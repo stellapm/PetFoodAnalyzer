@@ -40,12 +40,23 @@ public class ProductsController extends BaseController {
     //products by brand
 
     @GetMapping("/all")
-    public ModelAndView getAnalyze(ModelAndView modelAndView){
+    public ModelAndView getAll(ModelAndView modelAndView){
         List<ProductOverviewInfoDTO> allProducts = this.productService.getAllProducts();
 
         modelAndView.addObject("allProducts", allProducts);
 
         return super.view("all-products", modelAndView);
+    }
+
+    @GetMapping("/favorites")
+    public ModelAndView getFavorites(ModelAndView modelAndView){
+        UserDetails userDetails = getCurrentUserDetails();
+
+        List<ProductOverviewInfoDTO> favoriteProducts = this.userEntityService.getFavorites(userDetails.getUsername());
+
+        modelAndView.addObject("favoriteProducts", favoriteProducts);
+
+        return super.view("favorite-products", modelAndView);
     }
 
     @GetMapping("/details/{id}")

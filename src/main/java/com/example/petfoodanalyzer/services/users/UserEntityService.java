@@ -1,5 +1,6 @@
 package com.example.petfoodanalyzer.services.users;
 
+import com.example.petfoodanalyzer.models.dtos.products.ProductOverviewInfoDTO;
 import com.example.petfoodanalyzer.models.dtos.users.*;
 import com.example.petfoodanalyzer.models.entities.products.Pet;
 import com.example.petfoodanalyzer.models.entities.users.UserEntity;
@@ -19,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -128,6 +130,15 @@ public class UserEntityService {
         UserEntity user = findByEmail(username);
         user.getFavorites().add(this.productService.getProductById(productId));
         this.userEntityRepository.save(user);
+    }
+
+    public List<ProductOverviewInfoDTO> getFavorites(String username) {
+        UserEntity user = findByEmail(username);
+
+        return user.getFavorites()
+                .stream()
+                .map(p -> this.modelMapper.map(p, ProductOverviewInfoDTO.class))
+                .toList();
     }
 
 //    public void updateLoggedUser(EditUserProfileDTO editUserProfileDTO) {

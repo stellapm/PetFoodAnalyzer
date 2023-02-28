@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header"></head>
+
+<body>
+<header th:replace="fragments/navigation"></header>
+<link href="/css/all-products.css" rel="stylesheet"/>
+<link href="/css/home.css" rel="stylesheet"/>
+<main class="canvas-container">
+    <div class="all-products-container">
+        <div class="all-products-blog">
+            <div class="all-products-container1">
+                <div
+                        class="blog-post-card2-blog-post-card blog-post-card2-root-class-name3"
+                        th:each="product : ${favoriteProducts}"
+                >
+                    <img
+                            alt="image"
+                            th:src="${product.picUrl}"
+                            class="blog-post-card2-image"
+                    />
+                    <div class="blog-post-card2-container">
+                        <div class="blog-post-card2-container1">
+                            <span class="blog-post-card2-text" th:text="${product.brandStr}"><span>ENTERPRISE</span></span>
+                        </div>
+                        <h1 class="blog-post-card2-text1">
+                            <span th:text="${product.name}">Lorem ipsum dolor sit amet</span>
+                        </h1>
+                        <span class="blog-post-card2-text2">
+                            <span th:text="|For: ${product.petStr}|">
+                Lorem ipsum dolor sit amet
+              </span>
+              <span th:text="${product.description}">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non
+                volutpat turpis. Mauris luctus rutrum mi ut rhoncus. Integer in
+                dignissim tortor. Lorem ipsum dolor sit amet, consectetur
+                adipiscing ...
+              </span>
+            </span>
+                        <div class="blog-post-card2-container2">
+                            <div class="blog-post-card2-profile"></div>
+                            <a class="blog-post-card2-text3" th:href="@{/products/details/{id}(id=*{product.id})}">Read More -&gt;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+<footer th:replace="fragments/footer"></footer>
+<script>
+    window.onload = () => {
+        const runAllScripts = () => {
+            initializeAllAccordions()
+        }
+
+        const listenForUrlChanges = () => {
+            let url = location.href
+            document.body.addEventListener(
+                'click',
+                () => {
+                    requestAnimationFrame(() => {
+                        if (url !== location.href) {
+                            runAllScripts()
+                            url = location.href
+                        }
+                    })
+                },
+                true
+            )
+        }
+
+        const initializeAllAccordions = () => {
+            const allAccordions = document.querySelectorAll('[data-role="Accordion"]');
+
+            allAccordions.forEach((accordion) => {
+                const accordionHeader = accordion.querySelector('[data-type="accordion-header"]')
+                const accordionContent = accordion.querySelector('[data-type="accordion-content"]')
+
+                accordionHeader.addEventListener('click', () => {
+                    if (accordionContent.style.maxHeight) {
+                        accordionContent.style.maxHeight = ''
+                    } else {
+                        accordionContent.style.maxHeight = `${accordionContent.scrollHeight}px`
+                    }
+                })
+            })
+        }
+
+        listenForUrlChanges()
+        runAllScripts()
+    }
+</script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</body>
+</html>
