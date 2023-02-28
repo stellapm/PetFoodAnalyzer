@@ -29,17 +29,20 @@
                 <li class="list-item" th:text="|Ingredients: ${productDetails.ingredientsListed}|"><span>Ingredients</span></li>
               </ul>
               <div class="product-container04">
-                <button sec:authorize="isAuthenticated()" class="product-button1 button-secondary button" onclick="window.location.href='@{/products/favorite/{id}(id=*{product.id})}';">
-                  Favorite
+                <button th:unless="${productDetails.loggedUserFave}"
+                        sec:authorize="isAuthenticated()"
+                        class="product-button1 button-secondary button">
+                  <a th:href="@{/products/fave-product/{id}(id=${productDetails.id})}">Favorite
+                  </a>
                 </button>
-                <button sec:authorize="hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')" class="product-button2 button-secondary button" onclick="window.location.href='@{/products/edit/{id}(id=*{product.id})}';">
-                  Edit
+                <button sec:authorize="hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')"
+                        class="product-button2 button-secondary button">
+                  <a>Edit</a>
                 </button>
-                <button sec:authorize="hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')" class="product-button3 button button-primary" onclick="window.location.href='@{/products/delete/{id}(id=*{product.id})}';">
-                  <span>
-                    <span>Delete</span>
+                <button sec:authorize="hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')"
+                        class="product-button3 button button-primary">
+                    <a>Delete</a>
                     <br />
-                  </span>
                 </button>
               </div>
             </div>

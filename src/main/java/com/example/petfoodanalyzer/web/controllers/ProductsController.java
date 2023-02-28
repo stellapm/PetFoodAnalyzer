@@ -98,4 +98,13 @@ public class ProductsController extends BaseController {
 
         return super.redirect("/products/details/" + pid);
     }
+
+    @GetMapping("/fave-product/{id}")
+    public ModelAndView faceProduct(@PathVariable Long id){
+        UserDetails user = getCurrentUserDetails();
+
+        this.userEntityService.favoriteProduct(id, user.getUsername());
+
+        return super.redirect("/products/details/" + id);
+    }
 }

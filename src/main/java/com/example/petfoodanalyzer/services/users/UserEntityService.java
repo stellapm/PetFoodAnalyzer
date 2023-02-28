@@ -7,6 +7,7 @@ import com.example.petfoodanalyzer.models.entities.users.UserRole;
 import com.example.petfoodanalyzer.models.enums.UserRoleTypes;
 import com.example.petfoodanalyzer.repositories.users.UserEntityRepository;
 import com.example.petfoodanalyzer.services.products.PetService;
+import com.example.petfoodanalyzer.services.products.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,15 +30,17 @@ public class UserEntityService {
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final UserDetailsService userDetailsService;
+    private final ProductService productService;
 
     @Autowired
-    public UserEntityService(UserEntityRepository userEntityRepository, UserRoleService userRoleService, PetService petService, ModelMapper modelMapper, PasswordEncoder passwordEncoder, UserDetailsService userDetailsService) {
+    public UserEntityService(UserEntityRepository userEntityRepository, UserRoleService userRoleService, PetService petService, ModelMapper modelMapper, PasswordEncoder passwordEncoder, UserDetailsService userDetailsService, ProductService productService) {
         this.userEntityRepository = userEntityRepository;
         this.userRoleService = userRoleService;
         this.petService = petService;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
         this.userDetailsService = userDetailsService;
+        this.productService = productService;
     }
 
     public UserEntity findByEmail(String email) {
@@ -100,13 +103,13 @@ public class UserEntityService {
         return true;
     }
     public LoggedUserProfileDTO getProfileInfo(String email) {
-        UserEntity user = this.userEntityRepository.findByEmail(email);
+        UserEntity user = findByEmail(email);
 
         return this.modelMapper.map(user, LoggedUserProfileDTO.class);
     }
 
     public void updateUserRoles(ManageRoleDTO manageRoleDTO) {
-        UserEntity user = getByEmail(manageRoleDTO);
+        UserEntity user = findByEmail(manageRoleDTO.getEmail());
 
         if (!manageRoleDTO.getRoles().contains("USER")){
             manageRoleDTO.getRoles().add("USER");
@@ -121,8 +124,10 @@ public class UserEntityService {
         this.userEntityRepository.save(user);
     }
 
-    private UserEntity getByEmail(ManageRoleDTO manageRoleDTO) {
-        return this.userEntityRepository.findByEmail(manageRoleDTO.getEmail());
+    public void favoriteProduct(Long productId, String username) {
+        UserEntity user = findByEmail(username);
+        user.getFavorites().add(this.productService.getProductById(productId));
+        this.userEntityRepository.save(user);
     }
 
 //    public void updateLoggedUser(EditUserProfileDTO editUserProfileDTO) {

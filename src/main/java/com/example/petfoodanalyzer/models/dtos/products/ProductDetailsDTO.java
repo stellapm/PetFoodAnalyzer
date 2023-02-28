@@ -17,6 +17,8 @@ public class ProductDetailsDTO {
 
     private String ingredientsListed;
 
+    private boolean loggedUserFave;
+
     private Set<ReviewInfoDTO> reviewsInfo;
 
     public ProductDetailsDTO() {
@@ -82,6 +84,15 @@ public class ProductDetailsDTO {
 
     public ProductDetailsDTO setIngredientsListed(String ingredientsListed) {
         this.ingredientsListed = ingredientsListed;
+        return this;
+    }
+
+    public boolean isLoggedUserFave() {
+        return loggedUserFave;
+    }
+
+    public ProductDetailsDTO setLoggedUserFave(boolean loggedUserFave) {
+        this.loggedUserFave = loggedUserFave;
         return this;
     }
 

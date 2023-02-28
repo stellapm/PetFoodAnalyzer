@@ -36,7 +36,7 @@ public class SecurityConfig {
                 //pages with access for guests
                 .requestMatchers("/users/login", "/users/register").anonymous()
                 //pages with access for any authenticated user
-                .requestMatchers("/products/favorites", "/users/my-profile", "/users/logout").authenticated()
+                .requestMatchers("/products/favorites", "/products/fave-product/{id}", "/users/my-profile", "/users/logout").authenticated()
                 //pages with access for admins
                 .requestMatchers("/admin", "/admin/add-ingredient", "/admin/add-brand", "/admin/add-product", "/admin/manage-roles").hasRole(UserRoleTypes.ADMIN.name())
                 .anyRequest().authenticated()
@@ -46,7 +46,7 @@ public class SecurityConfig {
                         .loginPage("/users/login")
                         .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
                         .passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY)
-                        .defaultSuccessUrl("/", true)
+//                        .defaultSuccessUrl("/", true)
                         .failureForwardUrl("/users/login")
                     .and()
                 //logout handle

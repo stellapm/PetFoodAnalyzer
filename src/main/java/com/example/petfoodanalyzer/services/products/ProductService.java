@@ -10,7 +10,6 @@ import com.example.petfoodanalyzer.models.entities.users.UserEntity;
 import com.example.petfoodanalyzer.models.enums.PetsTypes;
 import com.example.petfoodanalyzer.repositories.products.ProductRepository;
 import com.example.petfoodanalyzer.services.ingredients.IngredientService;
-import com.example.petfoodanalyzer.services.users.UserEntityService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,16 +28,14 @@ public class ProductService {
     private final BrandService brandService;
     private final PetService petService;
     private final IngredientService ingredientService;
-    private final UserEntityService userEntityService;
 
     @Autowired
-    public ProductService(ProductRepository productRepository, ModelMapper modelMapper, BrandService brandService, PetService petService, IngredientService ingredientService, UserEntityService userEntityService) {
+    public ProductService(ProductRepository productRepository, ModelMapper modelMapper, BrandService brandService, PetService petService, IngredientService ingredientService) {
         this.productRepository = productRepository;
         this.modelMapper = modelMapper;
         this.brandService = brandService;
         this.petService = petService;
         this.ingredientService = ingredientService;
-        this.userEntityService = userEntityService;
     }
 
     public Product findByName(String name) {
@@ -91,6 +88,10 @@ public class ProductService {
 
         String ingredientsList = ingredientService.stringifyIngredientNames(product.getIngredients());
         productDetails.setIngredientsListed(ingredientsList);
+
+        if (user!= null && user.getFavorites().contains(product)){
+            productDetails.setLoggedUserFave(true);
+        }
 
         Set<ReviewInfoDTO> reviews = mapReviewDetails(user, product.getReviews());
         productDetails.setReviewsInfo(reviews);
@@ -147,7 +148,7 @@ public class ProductService {
 
         reviewInfo.setLikesCount(review.getLikes().size());
 
-        if (review.getLikes().contains(user)){
+        if (review.getLikes().contains(user)) {
             reviewInfo.setLoggedUserLike(true);
         }
 
