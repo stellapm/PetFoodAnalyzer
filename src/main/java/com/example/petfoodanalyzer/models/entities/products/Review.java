@@ -23,7 +23,7 @@ public class Review extends BaseEntity {
     @ManyToOne
     private Product product;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<UserEntity> likes;
 
     public Review() {

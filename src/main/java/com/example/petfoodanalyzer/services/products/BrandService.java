@@ -1,6 +1,7 @@
 package com.example.petfoodanalyzer.services.products;
 
 import com.example.petfoodanalyzer.models.dtos.products.AddBrandDTO;
+import com.example.petfoodanalyzer.models.dtos.products.BrandInfoDTO;
 import com.example.petfoodanalyzer.models.entities.products.Brand;
 import com.example.petfoodanalyzer.repositories.products.BrandRepository;
 import org.modelmapper.ModelMapper;
@@ -24,6 +25,10 @@ public class BrandService {
         return this.brandRepository.findByName(name);
     }
 
+    public Brand findById(Long id){
+        return this.brandRepository.findById(id).get();
+    }
+
     public void addBrand(AddBrandDTO addBrandDTO) {
         Brand brand = this.modelMapper.map(addBrandDTO, Brand.class);
         this.brandRepository.save(brand);
@@ -31,5 +36,9 @@ public class BrandService {
 
     public List<String> getAllBrandsNamesAsString() {
         return this.brandRepository.findAllBrandNames();
+    }
+
+    public BrandInfoDTO getBrandInfoById(Long id) {
+        return this.modelMapper.map(findById(id), BrandInfoDTO.class);
     }
 }

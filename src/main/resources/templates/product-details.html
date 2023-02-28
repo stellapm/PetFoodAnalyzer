@@ -29,21 +29,26 @@
                 <li class="list-item" th:text="|Ingredients: ${productDetails.ingredientsListed}|"><span>Ingredients</span></li>
               </ul>
               <div class="product-container04">
+                <form style="display: inline" th:action="@{/products/fave-product/{id}(id=${productDetails.id})}" method="get">
                 <button th:unless="${productDetails.loggedUserFave}"
                         sec:authorize="isAuthenticated()"
                         class="product-button1 button-secondary button">
-                  <a th:href="@{/products/fave-product/{id}(id=${productDetails.id})}">Favorite
-                  </a>
+                  Favorite
                 </button>
+                </form>
+                <form style="display: inline" action="http://example.com/" method="get">
                 <button sec:authorize="hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')"
                         class="product-button2 button-secondary button">
-                  <a>Edit</a>
+                 Edit
                 </button>
+                </form>
+                <form style="display: inline" action="http://example.com/" method="get">
                 <button sec:authorize="hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')"
                         class="product-button3 button button-primary">
-                    <a>Delete</a>
+                    Delete
                     <br />
                 </button>
+                </form>
               </div>
             </div>
           </div>
@@ -71,12 +76,11 @@
               risus pretium ipsum, vel luctus neque lectus non lacus.
             </span>
             <span th:text="|Likes: ${review.likesCount}|">Likes</span>
+            <form style="display: inline" th:action="@{/products/{pid}/like-review/{rid}(pid=${productDetails.id}, rid=*{review.id})}" method="get">
             <button class="product-button4 button-secondary button" sec:authorize="isAuthenticated()" th:unless="${review.loggedUserLike}">
-              <span>
-                <a th:href="@{/products/{pid}/like-review/{rid}(pid=${productDetails.id}, rid=*{review.id})}">Like</a>
-                <br />
-              </span>
+              Like<br />
             </button>
+            </form>
           </div>
         </div>
         <form sec:authorize="isAuthenticated()" th:action="@{/products/post-review/{id}(id=${productDetails.id})}" th:method="POST" th:object="${addReviewDTO}">

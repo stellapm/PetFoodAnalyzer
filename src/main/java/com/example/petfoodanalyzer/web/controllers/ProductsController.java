@@ -1,10 +1,8 @@
 package com.example.petfoodanalyzer.web.controllers;
 
-import com.example.petfoodanalyzer.models.dtos.products.AddReviewDTO;
-import com.example.petfoodanalyzer.models.dtos.products.ProductDetailsDTO;
-import com.example.petfoodanalyzer.models.dtos.products.ProductOverviewInfoDTO;
-import com.example.petfoodanalyzer.models.dtos.products.RecommendedProductDTO;
+import com.example.petfoodanalyzer.models.dtos.products.*;
 import com.example.petfoodanalyzer.models.entities.users.UserEntity;
+import com.example.petfoodanalyzer.services.products.BrandService;
 import com.example.petfoodanalyzer.services.products.ProductService;
 import com.example.petfoodanalyzer.services.products.ReviewService;
 import com.example.petfoodanalyzer.services.users.UserEntityService;
@@ -27,12 +25,14 @@ public class ProductsController extends BaseController {
     private ProductService productService;
     private UserEntityService userEntityService;
     private ReviewService reviewService;
+    private BrandService brandService;
 
     @Autowired
-    public ProductsController(ProductService productService, UserEntityService userEntityService, ReviewService reviewService) {
+    public ProductsController(ProductService productService, UserEntityService userEntityService, ReviewService reviewService, BrandService brandService) {
         this.productService = productService;
         this.userEntityService = userEntityService;
         this.reviewService = reviewService;
+        this.brandService = brandService;
     }
     //product
     //compare
@@ -57,6 +57,17 @@ public class ProductsController extends BaseController {
         modelAndView.addObject("favoriteProducts", favoriteProducts);
 
         return super.view("favorite-products", modelAndView);
+    }
+
+    @GetMapping("/by-brand/{id}")
+    public ModelAndView getProductsByBrand(@PathVariable Long id, ModelAndView modelAndView){
+        BrandInfoDTO brandInfo = this.brandService.getBrandInfoById(id);
+        modelAndView.addObject("brandInfo", brandInfo);
+
+        List<ProductOverviewInfoDTO> brandProducts = this.productService.getAllProductsByBrand(id);
+        modelAndView.addObject("brandProducts", brandProducts);
+
+        return super.view("products-by-brand", modelAndView);
     }
 
     @GetMapping("/details/{id}")
@@ -111,7 +122,7 @@ public class ProductsController extends BaseController {
     }
 
     @GetMapping("/fave-product/{id}")
-    public ModelAndView faceProduct(@PathVariable Long id){
+    public ModelAndView faveProduct(@PathVariable Long id){
         UserDetails user = getCurrentUserDetails();
 
         this.userEntityService.favoriteProduct(id, user.getUsername());

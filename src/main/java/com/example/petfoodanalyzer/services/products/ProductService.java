@@ -158,4 +158,11 @@ public class ProductService {
 
         return reviewInfo;
     }
+
+    public List<ProductOverviewInfoDTO> getAllProductsByBrand(Long id) {
+        return this.productRepository.findByBrandId(id)
+                .stream()
+                .map(p -> this.modelMapper.map(p, ProductOverviewInfoDTO.class))
+                .toList();
+    }
 }
