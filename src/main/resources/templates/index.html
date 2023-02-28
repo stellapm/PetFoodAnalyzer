@@ -36,41 +36,15 @@
             Discover products from the top, latest and trending brands
           </span>
             <div class="home-container3">
-                <div
-                        class="feature-card1-feature-card feature-card1-root-class-name"
-                >
-                    <img
+                <div class="feature-card1-feature-card feature-card1-root-class-name"
+                th:each="brand : ${featuredBrands}">
+                    <a th:href="@{products/by-brand/{id}(id=${brand.id})}">
+                        <img
                             alt="image"
-                            src="/playground_assets/logo_royalcanin_1000x700-200h.jpg"
+                            th:src="${brand.picUrl}"
                             class="feature-card1-image"
                     />
-                </div>
-                <div
-                        class="feature-card2-feature-card feature-card2-root-class-name"
-                >
-                    <img
-                            alt="image"
-                            src="/playground_assets/logo_josera_1000x700-200h.jpg"
-                            class="feature-card2-image"
-                    />
-                </div>
-                <div
-                        class="feature-card3-feature-card feature-card3-root-class-name"
-                >
-                    <img
-                            alt="image"
-                            src="/playground_assets/logo_tasteofthewild_1000x700-200h.jpg"
-                            class="feature-card3-image"
-                    />
-                </div>
-                <div
-                        class="feature-card4-feature-card feature-card4-root-class-name"
-                >
-                    <img
-                            alt="image"
-                            src="/playground_assets/logo_wolf_of_wilderness_1000x700-200h.jpg"
-                            class="feature-card4-image"
-                    />
+                    </a>
                 </div>
             </div>
         </div>
