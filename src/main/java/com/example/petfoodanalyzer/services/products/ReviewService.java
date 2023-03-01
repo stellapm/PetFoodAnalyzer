@@ -1,6 +1,7 @@
 package com.example.petfoodanalyzer.services.products;
 
 import com.example.petfoodanalyzer.models.dtos.products.AddReviewDTO;
+import com.example.petfoodanalyzer.models.dtos.products.ReviewOverviewDTO;
 import com.example.petfoodanalyzer.models.entities.products.Product;
 import com.example.petfoodanalyzer.models.entities.products.Review;
 import com.example.petfoodanalyzer.models.entities.users.UserEntity;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ReviewService {
@@ -48,5 +51,20 @@ public class ReviewService {
         review.getLikes().add(user);
 
         this.reviewRepository.save(review);
+    }
+
+    public List<ReviewOverviewDTO> findMostReviewed() {
+        return this.reviewRepository.findMostReviewed()
+                .stream()
+                .limit(3)
+                .map(r -> new ReviewOverviewDTO(
+                        r.getAuthor().getDisplayName(),
+                        r.getAuthor().getProfilePicUrl(),
+                        r.getContent(),
+                        r.getProduct().getName(),
+                        r.getProduct().getPicUrl(),
+                        r.getProduct().getId()
+                ))
+                .toList();
     }
 }

@@ -1,7 +1,10 @@
 package com.example.petfoodanalyzer.web.controllers;
 
 import com.example.petfoodanalyzer.models.dtos.products.BrandOverviewDTO;
+import com.example.petfoodanalyzer.models.dtos.products.ReviewOverviewDTO;
 import com.example.petfoodanalyzer.services.products.BrandService;
+import com.example.petfoodanalyzer.services.products.ProductService;
+import com.example.petfoodanalyzer.services.products.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,21 +14,22 @@ import java.util.List;
 
 @Controller
 public class HomeController extends BaseController{
-    //most reviewed
-
+    private ReviewService reviewService;
     private BrandService brandService;
 
     @Autowired
-    public HomeController(BrandService brandService) {
+    public HomeController(ReviewService reviewService, BrandService brandService) {
+        this.reviewService = reviewService;
         this.brandService = brandService;
     }
-    //brands with most products
 
     @GetMapping("/")
     public ModelAndView guestHome(ModelAndView modelAndView){
         List<BrandOverviewDTO> featuredBrands = this.brandService.findFeaturedBrands();
-
         modelAndView.addObject("featuredBrands", featuredBrands);
+
+        List<ReviewOverviewDTO> mostReviewed = this.reviewService.findMostReviewed();
+        modelAndView.addObject("mostReviewed", mostReviewed);
 
         return super.view("index", modelAndView);
     }

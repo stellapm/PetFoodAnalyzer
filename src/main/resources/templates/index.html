@@ -48,23 +48,23 @@
                 </div>
             </div>
         </div>
-        <h1 class="home-text23">Most Reviewed</h1>
+        <h1 class="home-text23">Featured Reviews</h1>
         <div class="home-reviews">
-            <div class="home-container4">
-                <div
+            <div class="home-container4" th:each="review : ${mostReviewed}">
+                <a th:href="@{/products/details/{id}(id=*{review.productId})}"><div
                         class="review-card1-blog-post-card review-card1-root-class-name3"
                 >
                     <img
                             alt="image"
-                            src="https://images.unsplash.com/photo-1608408891486-f5cade977d19?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDN8fHBldCUyMGZvb2R8ZW58MHx8fHwxNjc1Mjg1MTUw&amp;ixlib=rb-4.0.3&amp;w=1500"
+                            th:src="${review.productPicUrl}"
                             class="review-card1-image"
                     />
                     <div class="review-card1-container">
                 <span id="title" class="review-card1-text">
-                  <span>Lorem ipsum dolor sit amet</span>
+                  <span th:text="|For product: ${review.productName}|">Lorem ipsum dolor sit amet</span>
                 </span>
                         <span id="comment" class="review-card1-text1">
-                  <span>
+                  <span th:text="${review.content}">
                     Lorem ipsum dolor sit amet, consectetur, adipiscing elit.
                     Sed non volutpat turpis. ​ Mauris luctus rutrum mi ut
                     rhoncus. Integer in dignissim tortor. Lorem ​​ ipsum dolor
@@ -76,96 +76,17 @@
                                 <img
                                         id="userUrl"
                                         alt="profile"
-                                        src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDd8fG1hbiUyMHBvcnRyYWl0fGVufDB8fHx8MTYyNjQzMTMwMw&amp;ixlib=rb-1.2.1&amp;w=200"
-                                        image_src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDd8fG1hbiUyMHBvcnRyYWl0fGVufDB8fHx8MTYyNjQzMTMwMw&amp;ixlib=rb-1.2.1&amp;h=1200"
+                                        th:src="${review.authorProfilePic}"
                                         class="review-card1-image1"
                                 />
                                 <span id="displayName" class="review-card1-text2">
-                      <span>Jon Doe</span>
+                      <span th:text="${review.authorDisplayName}">Jon Doe</span>
                     </span>
                             </div>
-                            <span id="created" class="review-card1-text3">
-                    <span>5 min read</span>
-                  </span>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="home-container5">
-                <div
-                        class="review-card2-blog-post-card review-card2-root-class-name"
-                >
-                    <img
-                            alt="image"
-                            src="https://images.unsplash.com/photo-1561297108-98ab65d92bd8?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDMzfHxwZXQlMjBmb29kfGVufDB8fHx8MTY3NTI4NTE1MA&amp;ixlib=rb-4.0.3&amp;w=1500"
-                            class="review-card2-image"
-                    />
-                    <div class="review-card2-container">
-                <span class="review-card2-text">
-                  <span>Lorem ipsum dolor sit amet</span>
-                </span>
-                        <span class="review-card2-text1">
-                  <span>
-                    Lorem ipsum dolor sit amet, consectetur, adipiscing elit.
-                    Sed non volutpat turpis. ​ Mauris luctus rutrum mi ut
-                    rhoncus. Integer in dignissim tortor. Lorem ​​ ipsum dolor
-                    sit amet, consectetur adipiscing elit.
-                  </span>
-                </span>
-                        <div class="review-card2-container1">
-                            <div class="review-card2-profile">
-                                <img
-                                        alt="profile"
-                                        src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDd8fG1hbiUyMHBvcnRyYWl0fGVufDB8fHx8MTYyNjQzMTMwMw&amp;ixlib=rb-1.2.1&amp;h=1200"
-                                        image_src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDd8fG1hbiUyMHBvcnRyYWl0fGVufDB8fHx8MTYyNjQzMTMwMw&amp;ixlib=rb-1.2.1&amp;h=1200"
-                                        class="review-card2-image1"
-                                />
-                                <span class="review-card2-text2"><span>Jon Doe</span></span>
-                            </div>
-                            <span class="review-card2-text3">
-                    <span>5 min read</span>
-                  </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="home-container6">
-                <div
-                        class="review-card3-blog-post-card review-card3-root-class-name"
-                >
-                    <img
-                            alt="image"
-                            src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDM4fHxwZXQlMjBmb29kfGVufDB8fHx8MTY3NTI4NTE1MA&amp;ixlib=rb-4.0.3&amp;w=1500"
-                            class="review-card3-image"
-                    />
-                    <div class="review-card3-container">
-                <span class="review-card3-text">
-                  <span>Lorem ipsum dolor sit amet</span>
-                </span>
-                        <span class="review-card3-text1">
-                  <span>
-                    Lorem ipsum dolor sit amet, consectetur, adipiscing elit.
-                    Sed non volutpat turpis. ​ Mauris luctus rutrum mi ut
-                    rhoncus. Integer in dignissim tortor. Lorem ​​ ipsum dolor
-                    sit amet, consectetur adipiscing elit.
-                  </span>
-                </span>
-                        <div class="review-card3-container1">
-                            <div class="review-card3-profile">
-                                <img
-                                        alt="profile"
-                                        src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDd8fG1hbiUyMHBvcnRyYWl0fGVufDB8fHx8MTYyNjQzMTMwMw&amp;ixlib=rb-1.2.1&amp;h=1200"
-                                        image_src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDd8fG1hbiUyMHBvcnRyYWl0fGVufDB8fHx8MTYyNjQzMTMwMw&amp;ixlib=rb-1.2.1&amp;h=1200"
-                                        class="review-card3-image1"
-                                />
-                                <span class="review-card3-text2"><span>Jon Doe</span></span>
-                            </div>
-                            <span class="review-card3-text3">
-                    <span>5 min read</span>
-                  </span>
-                        </div>
-                    </div>
-                </div>
+                </a>
             </div>
         </div>
     </div>

@@ -16,7 +16,7 @@
   transform: scale(1.02);
 }
 .feature-card1-image {
-  width: 141px;
+  width: 200px;
   height: var(--dl-size-size-medium);
   align-self: center;
   object-fit: cover;
@@ -109,7 +109,7 @@
 
 
 .review-card1-blog-post-card {
-  width: 100%;
+  width: 350px;
   display: flex;
   overflow: hidden;
   max-width: var(--dl-size-size-maxwidth);

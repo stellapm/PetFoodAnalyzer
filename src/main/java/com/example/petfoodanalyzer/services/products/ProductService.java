@@ -165,4 +165,6 @@ public class ProductService {
                 .map(p -> this.modelMapper.map(p, ProductOverviewInfoDTO.class))
                 .toList();
     }
+
+
 }
