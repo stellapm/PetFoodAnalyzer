@@ -14,6 +14,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
             "FROM Review r " +
             "where r.id IN " +
             "(SELECT DISTINCT r.product.id FROM Review r) " +
+            "AND r.id IN (SELECT DISTINCT r.author.id FROM Review r)" +
             "ORDER BY r.createdOn DESC ")
     List<Review> findMostReviewed();
 }

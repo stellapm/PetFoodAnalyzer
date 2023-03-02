@@ -36,17 +36,10 @@
                   Favorite
                 </button>
                 </form>
-                <form style="display: inline" action="http://example.com/" method="get">
+                <form style="display: inline" th:action="@{/products/edit-product/{id}(id=${productDetails.id})}" method="get">
                 <button sec:authorize="hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')"
                         class="product-button2 button-secondary button">
                  Edit
-                </button>
-                </form>
-                <form style="display: inline" action="http://example.com/" method="get">
-                <button sec:authorize="hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')"
-                        class="product-button3 button button-primary">
-                    Delete
-                    <br />
                 </button>
                 </form>
               </div>

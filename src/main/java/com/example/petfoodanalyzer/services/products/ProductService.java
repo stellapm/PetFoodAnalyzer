@@ -8,6 +8,7 @@ import com.example.petfoodanalyzer.models.entities.products.Pet;
 import com.example.petfoodanalyzer.models.entities.products.Review;
 import com.example.petfoodanalyzer.models.entities.users.UserEntity;
 import com.example.petfoodanalyzer.models.enums.PetsTypes;
+import com.example.petfoodanalyzer.models.views.products.EditProductViewModel;
 import com.example.petfoodanalyzer.repositories.products.ProductRepository;
 import com.example.petfoodanalyzer.services.ingredients.IngredientService;
 import org.modelmapper.ModelMapper;
@@ -36,6 +37,10 @@ public class ProductService {
         this.brandService = brandService;
         this.petService = petService;
         this.ingredientService = ingredientService;
+    }
+
+    public Product getProductById(Long id) {
+        return this.productRepository.findById(id).get();
     }
 
     public Product findByName(String name) {
@@ -99,10 +104,33 @@ public class ProductService {
         return productDetails;
     }
 
-    public Product getProductById(Long id) {
-        return this.productRepository.findById(id).get();
+    //Initially placed these methods in review service as they are working with the review-related objects
+    //Moved them here as they do not really use review repository and to avoid circular references between review service and product service
+
+    public Set<ReviewInfoDTO> mapReviewDetails(UserEntity user, Set<Review> reviews) {
+        return reviews.stream()
+                .map(r -> map(user, r))
+                .collect(Collectors.toSet());
     }
 
+    private ReviewInfoDTO map(UserEntity user, Review review) {
+        ReviewInfoDTO reviewInfo = this.modelMapper.map(review, ReviewInfoDTO.class);
+
+        reviewInfo.setAuthorUsername(review.getAuthor().getDisplayName());
+        reviewInfo.setAuthorProfilePic(review.getAuthor().getProfilePicUrl());
+
+        reviewInfo.setLikesCount(review.getLikes().size());
+
+        if (review.getLikes().contains(user)) {
+            reviewInfo.setLoggedUserLike(true);
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String formatDateTime = review.getCreatedOn().format(formatter);
+        reviewInfo.setCreated(formatDateTime);
+
+        return reviewInfo;
+    }
     public List<RecommendedProductDTO> getRecommendedProducts(UserEntity userEntity, Long productId) {
         List<PetsTypes> pets = new ArrayList<>();
 
@@ -131,34 +159,6 @@ public class ProductService {
         return recommended;
     }
 
-    //Initially placed these methods in review service as they are working with the review-related objects
-    //Moved them here as they do not really use review repository and to avoid circular references between review service and product service
-
-    public Set<ReviewInfoDTO> mapReviewDetails(UserEntity user, Set<Review> reviews) {
-        return reviews.stream()
-                .map(r -> map(user, r))
-                .collect(Collectors.toSet());
-    }
-
-    private ReviewInfoDTO map(UserEntity user, Review review) {
-        ReviewInfoDTO reviewInfo = this.modelMapper.map(review, ReviewInfoDTO.class);
-
-        reviewInfo.setAuthorUsername(review.getAuthor().getDisplayName());
-        reviewInfo.setAuthorProfilePic(review.getAuthor().getProfilePicUrl());
-
-        reviewInfo.setLikesCount(review.getLikes().size());
-
-        if (review.getLikes().contains(user)) {
-            reviewInfo.setLoggedUserLike(true);
-        }
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String formatDateTime = review.getCreatedOn().format(formatter);
-        reviewInfo.setCreated(formatDateTime);
-
-        return reviewInfo;
-    }
-
     public List<ProductOverviewInfoDTO> getAllProductsByBrand(Long id) {
         return this.productRepository.findByBrandId(id)
                 .stream()
@@ -166,5 +166,15 @@ public class ProductService {
                 .toList();
     }
 
+    public EditProductViewModel getEditedProductInfo(Long id) {
+        Product product = this.getProductById(id);
 
+        EditProductViewModel editView = this.modelMapper.map(product, EditProductViewModel.class);
+
+        editView.setBrandStr(product.getBrand().getName());
+        editView.setPetStr(product.getPet().getPetsType().name());
+        editView.setIngredientsList(this.ingredientService.stringifyIngredientNames(product.getIngredients()));
+
+        return editView;
+    }
 }
