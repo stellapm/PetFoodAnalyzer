@@ -1,6 +1,6 @@
-package com.example.petfoodanalyzer.models.dtos.products;
+package com.example.petfoodanalyzer.models.viewModels.products;
 
-public class ProductOverviewInfoDTO {
+public class EditProductViewModel {
     private Long id;
 
     private String name;
@@ -13,14 +13,13 @@ public class ProductOverviewInfoDTO {
 
     private String petStr;
 
-    public ProductOverviewInfoDTO() {
-    }
+    private String ingredientsList;
 
     public Long getId() {
         return id;
     }
 
-    public ProductOverviewInfoDTO setId(Long id) {
+    public EditProductViewModel setId(Long id) {
         this.id = id;
         return this;
     }
@@ -29,7 +28,7 @@ public class ProductOverviewInfoDTO {
         return name;
     }
 
-    public ProductOverviewInfoDTO setName(String name) {
+    public EditProductViewModel setName(String name) {
         this.name = name;
         return this;
     }
@@ -38,7 +37,7 @@ public class ProductOverviewInfoDTO {
         return description;
     }
 
-    public ProductOverviewInfoDTO setDescription(String description) {
+    public EditProductViewModel setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -47,7 +46,7 @@ public class ProductOverviewInfoDTO {
         return picUrl;
     }
 
-    public ProductOverviewInfoDTO setPicUrl(String picUrl) {
+    public EditProductViewModel setPicUrl(String picUrl) {
         this.picUrl = picUrl;
         return this;
     }
@@ -56,7 +55,7 @@ public class ProductOverviewInfoDTO {
         return brandStr;
     }
 
-    public ProductOverviewInfoDTO setBrandStr(String brandStr) {
+    public EditProductViewModel setBrandStr(String brandStr) {
         this.brandStr = brandStr;
         return this;
     }
@@ -65,8 +64,17 @@ public class ProductOverviewInfoDTO {
         return petStr;
     }
 
-    public ProductOverviewInfoDTO setPetStr(String petStr) {
+    public EditProductViewModel setPetStr(String petStr) {
         this.petStr = petStr;
+        return this;
+    }
+
+    public String getIngredientsList() {
+        return ingredientsList;
+    }
+
+    public EditProductViewModel setIngredientsList(String ingredientsList) {
+        this.ingredientsList = ingredientsList;
         return this;
     }
 }

@@ -1,17 +1,17 @@
-package com.example.petfoodanalyzer.models.dtos.products;
+package com.example.petfoodanalyzer.models.viewModels.products;
 
-public class BrandOverviewDTO {
+public class BrandOverviewViewModel {
     private Long id;
     private String picUrl;
 
-    public BrandOverviewDTO() {
+    public BrandOverviewViewModel() {
     }
 
     public Long getId() {
         return id;
     }
 
-    public BrandOverviewDTO setId(Long id) {
+    public BrandOverviewViewModel setId(Long id) {
         this.id = id;
         return this;
     }
@@ -20,7 +20,7 @@ public class BrandOverviewDTO {
         return picUrl;
     }
 
-    public BrandOverviewDTO setPicUrl(String picUrl) {
+    public BrandOverviewViewModel setPicUrl(String picUrl) {
         this.picUrl = picUrl;
         return this;
     }

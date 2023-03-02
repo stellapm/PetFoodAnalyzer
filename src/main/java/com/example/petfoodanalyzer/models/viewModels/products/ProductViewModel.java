@@ -1,8 +1,10 @@
-package com.example.petfoodanalyzer.models.dtos.products;
+package com.example.petfoodanalyzer.models.viewModels.products;
+
+import com.example.petfoodanalyzer.models.dtos.products.ReviewInfoDTO;
 
 import java.util.Set;
 
-public class ProductDetailsDTO {
+public class ProductViewModel {
     private Long id;
 
     private String name;
@@ -21,14 +23,14 @@ public class ProductDetailsDTO {
 
     private Set<ReviewInfoDTO> reviewsInfo;
 
-    public ProductDetailsDTO() {
+    public ProductViewModel() {
     }
 
     public Long getId() {
         return id;
     }
 
-    public ProductDetailsDTO setId(Long id) {
+    public ProductViewModel setId(Long id) {
         this.id = id;
         return this;
     }
@@ -37,7 +39,7 @@ public class ProductDetailsDTO {
         return name;
     }
 
-    public ProductDetailsDTO setName(String name) {
+    public ProductViewModel setName(String name) {
         this.name = name;
         return this;
     }
@@ -46,7 +48,7 @@ public class ProductDetailsDTO {
         return description;
     }
 
-    public ProductDetailsDTO setDescription(String description) {
+    public ProductViewModel setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -55,7 +57,7 @@ public class ProductDetailsDTO {
         return picUrl;
     }
 
-    public ProductDetailsDTO setPicUrl(String picUrl) {
+    public ProductViewModel setPicUrl(String picUrl) {
         this.picUrl = picUrl;
         return this;
     }
@@ -64,7 +66,7 @@ public class ProductDetailsDTO {
         return brandStr;
     }
 
-    public ProductDetailsDTO setBrandStr(String brandStr) {
+    public ProductViewModel setBrandStr(String brandStr) {
         this.brandStr = brandStr;
         return this;
     }
@@ -73,7 +75,7 @@ public class ProductDetailsDTO {
         return petStr;
     }
 
-    public ProductDetailsDTO setPetStr(String petStr) {
+    public ProductViewModel setPetStr(String petStr) {
         this.petStr = petStr;
         return this;
     }
@@ -82,7 +84,7 @@ public class ProductDetailsDTO {
         return ingredientsListed;
     }
 
-    public ProductDetailsDTO setIngredientsListed(String ingredientsListed) {
+    public ProductViewModel setIngredientsListed(String ingredientsListed) {
         this.ingredientsListed = ingredientsListed;
         return this;
     }
@@ -91,7 +93,7 @@ public class ProductDetailsDTO {
         return loggedUserFave;
     }
 
-    public ProductDetailsDTO setLoggedUserFave(boolean loggedUserFave) {
+    public ProductViewModel setLoggedUserFave(boolean loggedUserFave) {
         this.loggedUserFave = loggedUserFave;
         return this;
     }
@@ -100,7 +102,7 @@ public class ProductDetailsDTO {
         return reviewsInfo;
     }
 
-    public ProductDetailsDTO setReviewsInfo(Set<ReviewInfoDTO> reviewsInfo) {
+    public ProductViewModel setReviewsInfo(Set<ReviewInfoDTO> reviewsInfo) {
         this.reviewsInfo = reviewsInfo;
         return this;
     }

@@ -1,8 +1,8 @@
 package com.example.petfoodanalyzer.services.products;
 
 import com.example.petfoodanalyzer.models.dtos.products.AddBrandDTO;
-import com.example.petfoodanalyzer.models.dtos.products.BrandInfoDTO;
-import com.example.petfoodanalyzer.models.dtos.products.BrandOverviewDTO;
+import com.example.petfoodanalyzer.models.viewModels.products.BrandViewModel;
+import com.example.petfoodanalyzer.models.viewModels.products.BrandOverviewViewModel;
 import com.example.petfoodanalyzer.models.entities.products.Brand;
 import com.example.petfoodanalyzer.repositories.products.BrandRepository;
 import org.modelmapper.ModelMapper;
@@ -39,15 +39,15 @@ public class BrandService {
         return this.brandRepository.findAllBrandNames();
     }
 
-    public BrandInfoDTO getBrandInfoById(Long id) {
-        return this.modelMapper.map(findById(id), BrandInfoDTO.class);
+    public BrandViewModel getBrandInfoById(Long id) {
+        return this.modelMapper.map(findById(id), BrandViewModel.class);
     }
 
-    public List<BrandOverviewDTO> findFeaturedBrands() {
+    public List<BrandOverviewViewModel> findFeaturedBrands() {
         return this.brandRepository.findFeaturedBrands()
                 .stream()
                 .limit(4)
-                .map(b -> this.modelMapper.map(b, BrandOverviewDTO.class))
+                .map(b -> this.modelMapper.map(b, BrandOverviewViewModel.class))
                 .toList();
     }
 }

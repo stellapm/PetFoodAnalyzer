@@ -8,7 +8,10 @@ import com.example.petfoodanalyzer.models.entities.products.Pet;
 import com.example.petfoodanalyzer.models.entities.products.Review;
 import com.example.petfoodanalyzer.models.entities.users.UserEntity;
 import com.example.petfoodanalyzer.models.enums.PetsTypes;
-import com.example.petfoodanalyzer.models.views.products.EditProductViewModel;
+import com.example.petfoodanalyzer.models.viewModels.products.EditProductViewModel;
+import com.example.petfoodanalyzer.models.viewModels.products.ProductViewModel;
+import com.example.petfoodanalyzer.models.viewModels.products.ProductOverviewViewModel;
+import com.example.petfoodanalyzer.models.viewModels.products.RecommendedProductViewModel;
 import com.example.petfoodanalyzer.repositories.products.ProductRepository;
 import com.example.petfoodanalyzer.services.ingredients.IngredientService;
 import org.modelmapper.ModelMapper;
@@ -67,15 +70,15 @@ public class ProductService {
         this.productRepository.save(product);
     }
 
-    public List<ProductOverviewInfoDTO> getAllProducts() {
+    public List<ProductOverviewViewModel> getAllProducts() {
         return this.productRepository.findAll()
                 .stream()
                 .map(this::overviewMap)
                 .collect(Collectors.toList());
     }
 
-    private ProductOverviewInfoDTO overviewMap(Product product) {
-        ProductOverviewInfoDTO productInfo = this.modelMapper.map(product, ProductOverviewInfoDTO.class);
+    private ProductOverviewViewModel overviewMap(Product product) {
+        ProductOverviewViewModel productInfo = this.modelMapper.map(product, ProductOverviewViewModel.class);
 
         productInfo.setBrandStr(product.getBrand().getName());
         productInfo.setPetStr(product.getPet().getPetsType().name());
@@ -83,10 +86,10 @@ public class ProductService {
         return productInfo;
     }
 
-    public ProductDetailsDTO getProductDetailsById(UserEntity user, Long id) {
+    public ProductViewModel getProductDetailsById(UserEntity user, Long id) {
         Product product = getProductById(id);
 
-        ProductDetailsDTO productDetails = this.modelMapper.map(product, ProductDetailsDTO.class);
+        ProductViewModel productDetails = this.modelMapper.map(product, ProductViewModel.class);
 
         productDetails.setBrandStr(product.getBrand().getName());
         productDetails.setPetStr(product.getPet().getPetsType().name());
@@ -131,7 +134,7 @@ public class ProductService {
 
         return reviewInfo;
     }
-    public List<RecommendedProductDTO> getRecommendedProducts(UserEntity userEntity, Long productId) {
+    public List<RecommendedProductViewModel> getRecommendedProducts(UserEntity userEntity, Long productId) {
         List<PetsTypes> pets = new ArrayList<>();
 
         if (userEntity == null || userEntity.getPets().size() == 0){
@@ -150,8 +153,8 @@ public class ProductService {
                 .toList();
     }
 
-    public RecommendedProductDTO recommendedMap(Product product){
-        RecommendedProductDTO recommended = this.modelMapper.map(product, RecommendedProductDTO.class);
+    public RecommendedProductViewModel recommendedMap(Product product){
+        RecommendedProductViewModel recommended = this.modelMapper.map(product, RecommendedProductViewModel.class);
 
         recommended.setPetStr(product.getPet().getPetsType().name());
         recommended.setReviewsCount(product.getReviews().size());
@@ -159,10 +162,10 @@ public class ProductService {
         return recommended;
     }
 
-    public List<ProductOverviewInfoDTO> getAllProductsByBrand(Long id) {
+    public List<ProductOverviewViewModel> getAllProductsByBrand(Long id) {
         return this.productRepository.findByBrandId(id)
                 .stream()
-                .map(p -> this.modelMapper.map(p, ProductOverviewInfoDTO.class))
+                .map(p -> this.modelMapper.map(p, ProductOverviewViewModel.class))
                 .toList();
     }
 

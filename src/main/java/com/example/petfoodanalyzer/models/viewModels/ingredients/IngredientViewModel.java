@@ -1,18 +1,18 @@
-package com.example.petfoodanalyzer.models.dtos.ingredients;
+package com.example.petfoodanalyzer.models.viewModels.ingredients;
 
-public class IngredientInfoDTO {
+public class IngredientViewModel {
     private String name;
 
     private String description;
 
-    public IngredientInfoDTO() {
+    public IngredientViewModel() {
     }
 
     public String getName() {
         return name;
     }
 
-    public IngredientInfoDTO setName(String name) {
+    public IngredientViewModel setName(String name) {
         this.name = name;
         return this;
     }
@@ -21,7 +21,7 @@ public class IngredientInfoDTO {
         return description;
     }
 
-    public IngredientInfoDTO setDescription(String description) {
+    public IngredientViewModel setDescription(String description) {
         this.description = description;
         return this;
     }

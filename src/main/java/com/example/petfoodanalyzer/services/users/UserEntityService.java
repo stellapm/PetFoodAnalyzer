@@ -1,11 +1,12 @@
 package com.example.petfoodanalyzer.services.users;
 
-import com.example.petfoodanalyzer.models.dtos.products.ProductOverviewInfoDTO;
+import com.example.petfoodanalyzer.models.viewModels.products.ProductOverviewViewModel;
 import com.example.petfoodanalyzer.models.dtos.users.*;
 import com.example.petfoodanalyzer.models.entities.products.Pet;
 import com.example.petfoodanalyzer.models.entities.users.UserEntity;
 import com.example.petfoodanalyzer.models.entities.users.UserRole;
 import com.example.petfoodanalyzer.models.enums.UserRoleTypes;
+import com.example.petfoodanalyzer.models.viewModels.users.LoggedUserViewModel;
 import com.example.petfoodanalyzer.repositories.users.UserEntityRepository;
 import com.example.petfoodanalyzer.services.products.PetService;
 import com.example.petfoodanalyzer.services.products.ProductService;
@@ -104,10 +105,10 @@ public class UserEntityService {
 
         return true;
     }
-    public LoggedUserProfileDTO getProfileInfo(String email) {
+    public LoggedUserViewModel getProfileInfo(String email) {
         UserEntity user = findByEmail(email);
 
-        return this.modelMapper.map(user, LoggedUserProfileDTO.class);
+        return this.modelMapper.map(user, LoggedUserViewModel.class);
     }
 
     public void updateUserRoles(ManageRoleDTO manageRoleDTO) {
@@ -132,12 +133,12 @@ public class UserEntityService {
         this.userEntityRepository.save(user);
     }
 
-    public List<ProductOverviewInfoDTO> getFavorites(String username) {
+    public List<ProductOverviewViewModel> getFavorites(String username) {
         UserEntity user = findByEmail(username);
 
         return user.getFavorites()
                 .stream()
-                .map(p -> this.modelMapper.map(p, ProductOverviewInfoDTO.class))
+                .map(p -> this.modelMapper.map(p, ProductOverviewViewModel.class))
                 .toList();
     }
 

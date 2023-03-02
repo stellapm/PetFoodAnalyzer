@@ -1,7 +1,7 @@
 package com.example.petfoodanalyzer.web.controllers;
 
 import com.example.petfoodanalyzer.models.dtos.users.EditUserProfileDTO;
-import com.example.petfoodanalyzer.models.dtos.users.LoggedUserProfileDTO;
+import com.example.petfoodanalyzer.models.viewModels.users.LoggedUserViewModel;
 import com.example.petfoodanalyzer.models.dtos.users.LoginUserDTO;
 import com.example.petfoodanalyzer.models.dtos.users.RegisterUserDTO;
 import com.example.petfoodanalyzer.services.products.PetService;
@@ -107,7 +107,7 @@ public class UsersController extends BaseController{
 
         UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        LoggedUserProfileDTO profileInfo = this.userEntityService.getProfileInfo(user.getUsername());
+        LoggedUserViewModel profileInfo = this.userEntityService.getProfileInfo(user.getUsername());
         modelAndView.addObject("profileInfo", profileInfo);
 
         return super.view("profile", modelAndView);

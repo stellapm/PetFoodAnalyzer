@@ -1,20 +1,20 @@
-package com.example.petfoodanalyzer.models.dtos.products;
+package com.example.petfoodanalyzer.models.viewModels.products;
 
-public class BrandInfoDTO {
+public class BrandViewModel {
     private String name;
 
     private String description;
 
     private String picUrl;
 
-    public BrandInfoDTO() {
+    public BrandViewModel() {
     }
 
     public String getName() {
         return name;
     }
 
-    public BrandInfoDTO setName(String name) {
+    public BrandViewModel setName(String name) {
         this.name = name;
         return this;
     }
@@ -23,7 +23,7 @@ public class BrandInfoDTO {
         return description;
     }
 
-    public BrandInfoDTO setDescription(String description) {
+    public BrandViewModel setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -32,7 +32,7 @@ public class BrandInfoDTO {
         return picUrl;
     }
 
-    public BrandInfoDTO setPicUrl(String picUrl) {
+    public BrandViewModel setPicUrl(String picUrl) {
         this.picUrl = picUrl;
         return this;
     }

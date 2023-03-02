@@ -2,7 +2,7 @@ package com.example.petfoodanalyzer.web.controllers;
 
 import com.example.petfoodanalyzer.models.dtos.products.*;
 import com.example.petfoodanalyzer.models.entities.users.UserEntity;
-import com.example.petfoodanalyzer.models.views.products.EditProductViewModel;
+import com.example.petfoodanalyzer.models.viewModels.products.*;
 import com.example.petfoodanalyzer.services.products.BrandService;
 import com.example.petfoodanalyzer.services.products.PetService;
 import com.example.petfoodanalyzer.services.products.ProductService;
@@ -45,7 +45,7 @@ public class ProductsController extends BaseController {
 
     @GetMapping("/all")
     public ModelAndView getAll(ModelAndView modelAndView) {
-        List<ProductOverviewInfoDTO> allProducts = this.productService.getAllProducts();
+        List<ProductOverviewViewModel> allProducts = this.productService.getAllProducts();
 
         modelAndView.addObject("allProducts", allProducts);
 
@@ -56,7 +56,7 @@ public class ProductsController extends BaseController {
     public ModelAndView getFavorites(ModelAndView modelAndView) {
         UserDetails userDetails = getCurrentUserDetails();
 
-        List<ProductOverviewInfoDTO> favoriteProducts = this.userEntityService.getFavorites(userDetails.getUsername());
+        List<ProductOverviewViewModel> favoriteProducts = this.userEntityService.getFavorites(userDetails.getUsername());
 
         modelAndView.addObject("favoriteProducts", favoriteProducts);
 
@@ -65,10 +65,10 @@ public class ProductsController extends BaseController {
 
     @GetMapping("/by-brand/{id}")
     public ModelAndView getProductsByBrand(@PathVariable Long id, ModelAndView modelAndView) {
-        BrandInfoDTO brandInfo = this.brandService.getBrandInfoById(id);
+        BrandViewModel brandInfo = this.brandService.getBrandInfoById(id);
         modelAndView.addObject("brandInfo", brandInfo);
 
-        List<ProductOverviewInfoDTO> brandProducts = this.productService.getAllProductsByBrand(id);
+        List<ProductOverviewViewModel> brandProducts = this.productService.getAllProductsByBrand(id);
         modelAndView.addObject("brandProducts", brandProducts);
 
         return super.view("products-by-brand", modelAndView);
@@ -84,10 +84,10 @@ public class ProductsController extends BaseController {
             user = this.userEntityService.findByEmail(userDetails.getUsername());
         }
 
-        ProductDetailsDTO productDetailsDTO = this.productService.getProductDetailsById(user, id);
-        modelAndView.addObject("productDetails", productDetailsDTO);
+        ProductViewModel productViewModel = this.productService.getProductDetailsById(user, id);
+        modelAndView.addObject("productDetails", productViewModel);
 
-        List<RecommendedProductDTO> recommendedProducts = this.productService.getRecommendedProducts(user, id);
+        List<RecommendedProductViewModel> recommendedProducts = this.productService.getRecommendedProducts(user, id);
         modelAndView.addObject("recommendedProducts", recommendedProducts);
 
         return super.view("product-details", modelAndView);

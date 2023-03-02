@@ -1,7 +1,7 @@
 package com.example.petfoodanalyzer.services.ingredients;
 
 import com.example.petfoodanalyzer.models.dtos.ingredients.AddIngredientDTO;
-import com.example.petfoodanalyzer.models.dtos.ingredients.IngredientInfoDTO;
+import com.example.petfoodanalyzer.models.viewModels.ingredients.IngredientViewModel;
 import com.example.petfoodanalyzer.models.dtos.ingredients.IngredientsListDTO;
 import com.example.petfoodanalyzer.models.entities.ingredients.Ingredient;
 import com.example.petfoodanalyzer.models.entities.ingredients.IngredientCategory;
@@ -73,10 +73,10 @@ public class IngredientService {
         return analyzeResult;
     }
 
-    public List<IngredientInfoDTO> getAllIngredients() {
+    public List<IngredientViewModel> getAllIngredients() {
         return this.ingredientRepository.findAll()
                 .stream()
-                .map(i -> this.modelMapper.map(i, IngredientInfoDTO.class))
+                .map(i -> this.modelMapper.map(i, IngredientViewModel.class))
                 .collect(Collectors.toList());
     }
 

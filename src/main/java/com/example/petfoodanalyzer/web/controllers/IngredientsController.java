@@ -1,8 +1,7 @@
 package com.example.petfoodanalyzer.web.controllers;
 
-import com.example.petfoodanalyzer.models.dtos.ingredients.IngredientInfoDTO;
+import com.example.petfoodanalyzer.models.viewModels.ingredients.IngredientViewModel;
 import com.example.petfoodanalyzer.models.dtos.ingredients.IngredientsListDTO;
-import com.example.petfoodanalyzer.models.dtos.products.AddProductDTO;
 import com.example.petfoodanalyzer.services.ingredients.IngredientService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +58,7 @@ public class IngredientsController extends BaseController {
 
     @GetMapping("/all")
     public ModelAndView getAllIngredients(ModelAndView modelAndView) {
-        List<IngredientInfoDTO> ingredients = this.ingredientService.getAllIngredients();
+        List<IngredientViewModel> ingredients = this.ingredientService.getAllIngredients();
         modelAndView.addObject("ingredients", ingredients);
 
         return super.view("all-ingredients", modelAndView);

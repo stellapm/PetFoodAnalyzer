@@ -1,6 +1,6 @@
-package com.example.petfoodanalyzer.models.dtos.products;
+package com.example.petfoodanalyzer.models.viewModels.products;
 
-public class ReviewOverviewDTO {
+public class ReviewOverviewViewModel {
     private String authorDisplayName;
 
     private String authorProfilePic;
@@ -13,10 +13,10 @@ public class ReviewOverviewDTO {
 
     private long productId;
 
-    public ReviewOverviewDTO() {
+    public ReviewOverviewViewModel() {
     }
 
-    public ReviewOverviewDTO(String authorDisplayName, String authorProfilePic, String content, String productName, String productPicUrl, long productId) {
+    public ReviewOverviewViewModel(String authorDisplayName, String authorProfilePic, String content, String productName, String productPicUrl, long productId) {
         this.authorDisplayName = authorDisplayName;
         this.authorProfilePic = authorProfilePic;
         this.content = content;
@@ -29,7 +29,7 @@ public class ReviewOverviewDTO {
         return authorDisplayName;
     }
 
-    public ReviewOverviewDTO setAuthorDisplayName(String authorDisplayName) {
+    public ReviewOverviewViewModel setAuthorDisplayName(String authorDisplayName) {
         this.authorDisplayName = authorDisplayName;
         return this;
     }
@@ -38,7 +38,7 @@ public class ReviewOverviewDTO {
         return authorProfilePic;
     }
 
-    public ReviewOverviewDTO setAuthorProfilePic(String authorProfilePic) {
+    public ReviewOverviewViewModel setAuthorProfilePic(String authorProfilePic) {
         this.authorProfilePic = authorProfilePic;
         return this;
     }
@@ -47,7 +47,7 @@ public class ReviewOverviewDTO {
         return content;
     }
 
-    public ReviewOverviewDTO setContent(String content) {
+    public ReviewOverviewViewModel setContent(String content) {
         this.content = content;
         return this;
     }
@@ -56,7 +56,7 @@ public class ReviewOverviewDTO {
         return productName;
     }
 
-    public ReviewOverviewDTO setProductName(String productName) {
+    public ReviewOverviewViewModel setProductName(String productName) {
         this.productName = productName;
         return this;
     }
@@ -65,7 +65,7 @@ public class ReviewOverviewDTO {
         return productPicUrl;
     }
 
-    public ReviewOverviewDTO setProductPicUrl(String productPicUrl) {
+    public ReviewOverviewViewModel setProductPicUrl(String productPicUrl) {
         this.productPicUrl = productPicUrl;
         return this;
     }
@@ -74,7 +74,7 @@ public class ReviewOverviewDTO {
         return productId;
     }
 
-    public ReviewOverviewDTO setProductId(long productId) {
+    public ReviewOverviewViewModel setProductId(long productId) {
         this.productId = productId;
         return this;
     }

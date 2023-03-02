@@ -1,6 +1,6 @@
-package com.example.petfoodanalyzer.models.dtos.products;
+package com.example.petfoodanalyzer.models.viewModels.products;
 
-public class RecommendedProductDTO {
+public class RecommendedProductViewModel {
     private Long id;
 
     private String name;
@@ -11,14 +11,14 @@ public class RecommendedProductDTO {
 
     private int reviewsCount;
 
-    public RecommendedProductDTO() {
+    public RecommendedProductViewModel() {
     }
 
     public Long getId() {
         return id;
     }
 
-    public RecommendedProductDTO setId(Long id) {
+    public RecommendedProductViewModel setId(Long id) {
         this.id = id;
         return this;
     }
@@ -27,7 +27,7 @@ public class RecommendedProductDTO {
         return name;
     }
 
-    public RecommendedProductDTO setName(String name) {
+    public RecommendedProductViewModel setName(String name) {
         this.name = name;
         return this;
     }
@@ -36,7 +36,7 @@ public class RecommendedProductDTO {
         return picUrl;
     }
 
-    public RecommendedProductDTO setPicUrl(String picUrl) {
+    public RecommendedProductViewModel setPicUrl(String picUrl) {
         this.picUrl = picUrl;
         return this;
     }
@@ -45,7 +45,7 @@ public class RecommendedProductDTO {
         return petStr;
     }
 
-    public RecommendedProductDTO setPetStr(String petStr) {
+    public RecommendedProductViewModel setPetStr(String petStr) {
         this.petStr = petStr;
         return this;
     }
@@ -54,7 +54,7 @@ public class RecommendedProductDTO {
         return reviewsCount;
     }
 
-    public RecommendedProductDTO setReviewsCount(int reviewsCount) {
+    public RecommendedProductViewModel setReviewsCount(int reviewsCount) {
         this.reviewsCount = reviewsCount;
         return this;
     }

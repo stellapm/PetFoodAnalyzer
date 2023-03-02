@@ -1,11 +1,11 @@
-package com.example.petfoodanalyzer.models.dtos.users;
+package com.example.petfoodanalyzer.models.viewModels.users;
 
 import com.example.petfoodanalyzer.models.entities.products.Pet;
 
 import java.time.LocalDate;
 import java.util.Set;
 
-public class LoggedUserProfileDTO {
+public class LoggedUserViewModel {
     private String email;
 
     private String displayName;
@@ -16,14 +16,14 @@ public class LoggedUserProfileDTO {
 
     private Set<Pet> pets;
 
-    public LoggedUserProfileDTO() {
+    public LoggedUserViewModel() {
     }
 
     public String getEmail() {
         return email;
     }
 
-    public LoggedUserProfileDTO setEmail(String email) {
+    public LoggedUserViewModel setEmail(String email) {
         this.email = email;
         return this;
     }
@@ -32,7 +32,7 @@ public class LoggedUserProfileDTO {
         return displayName;
     }
 
-    public LoggedUserProfileDTO setDisplayName(String displayName) {
+    public LoggedUserViewModel setDisplayName(String displayName) {
         this.displayName = displayName;
         return this;
     }
@@ -41,7 +41,7 @@ public class LoggedUserProfileDTO {
         return profilePicUrl;
     }
 
-    public LoggedUserProfileDTO setProfilePicUrl(String profilePicUrl) {
+    public LoggedUserViewModel setProfilePicUrl(String profilePicUrl) {
         this.profilePicUrl = profilePicUrl;
         return this;
     }
@@ -50,7 +50,7 @@ public class LoggedUserProfileDTO {
         return created;
     }
 
-    public LoggedUserProfileDTO setCreated(LocalDate created) {
+    public LoggedUserViewModel setCreated(LocalDate created) {
         this.created = created;
         return this;
     }
@@ -59,7 +59,7 @@ public class LoggedUserProfileDTO {
         return pets;
     }
 
-    public LoggedUserProfileDTO setPets(Set<Pet> pets) {
+    public LoggedUserViewModel setPets(Set<Pet> pets) {
         this.pets = pets;
         return this;
     }
