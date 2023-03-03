@@ -108,7 +108,15 @@ public class UserEntityService {
     public LoggedUserViewModel getProfileInfo(String email) {
         UserEntity user = findByEmail(email);
 
-        return this.modelMapper.map(user, LoggedUserViewModel.class);
+        LoggedUserViewModel loggedUserViewModel = this.modelMapper.map(user, LoggedUserViewModel.class);
+
+        List<String> assignedPets = user.getPets().stream()
+                .map(p -> p.getPetsType().name())
+                .toList();
+
+        loggedUserViewModel.setPetsList(assignedPets);
+
+        return loggedUserViewModel;
     }
 
     public void updateUserRoles(ManageRoleDTO manageRoleDTO) {
@@ -142,15 +150,29 @@ public class UserEntityService {
                 .toList();
     }
 
-//    public void updateLoggedUser(EditUserProfileDTO editUserProfileDTO) {
-//        User user = this.userRepository.findByEmail(this.loggedUser.getEmail());
-//
-//
-//
-//        Set<Pet> pets = this.petService.getAllMatchingPetTypes(editUserProfileDTO.getTypes());
-//        user.getPets().clear();
-//        user.getPets().addAll(pets);
-//
-//        System.out.println(user);
-//    }
+    public void updateLoggedUser(EditUserProfileDTO editUserProfileDTO, String email) {
+        UserEntity user = findByEmail(email);
+
+        if (!editUserProfileDTO.getProfilePicUrl().trim().isBlank()){
+            user.setProfilePicUrl(editUserProfileDTO.getProfilePicUrl());
+        }
+
+        if (!editUserProfileDTO.getEmail().trim().isBlank()){
+            user.setEmail(editUserProfileDTO.getEmail());
+        }
+
+        if (!editUserProfileDTO.getPassword().trim().isBlank()){
+            user.setPassword(this.passwordEncoder.encode(editUserProfileDTO.getPassword()));
+        }
+
+        if (!editUserProfileDTO.getDisplayName().trim().isBlank()){
+            user.setDisplayName(editUserProfileDTO.getDisplayName());
+        }
+
+        Set<Pet> pets = this.petService.getAllMatchingPetTypes(editUserProfileDTO.getTypes());
+        user.getPets().clear();
+        user.getPets().addAll(pets);
+
+        this.userEntityRepository.save(user);
+    }
 }

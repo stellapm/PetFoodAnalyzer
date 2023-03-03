@@ -17,7 +17,7 @@
               <span class="profile-text17" th:text="|Created: ${profileInfo.created}|">Created: DD/MM/YYYY</span>
             </div>
             <div>
-              <form th:method="PATCH" th:action="@{/users/myProfile}" th:object="${editUserProfileDTO}">
+              <form th:method="PATCH" th:action="@{/users/my-profile}" th:object="${editUserProfileDTO}">
                 <div class="profile-container06">
                   <div class="profile-container07">
                     <img
@@ -102,23 +102,23 @@
                         placeholder="Confirm Password"
                         class="profile-textinput input"
                       />
-                      <small th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" class="validation">Email error message</small>
+                      <small th:if="${confirmPassword}" class="validation">Email error message</small>
                     </div>
                   </div>
                   <div class="checkbox-wrapper">
                     <label class="p-2 " for="pet">Pets:</label>
                     <span th:each="type : ${petTypes}">
-              <input th:field="*{types}"
+<!--                      th:field="*{types}"-->
+              <input
                      type="checkbox"
                      id="pet"
-                     name="type"
+                     name="types"
                      class="checkbox"
                      th:checked="${profileInfo.hasPet(type)}"
                      th:value="${type}"
               />
                 <label class="checkbox-label" th:text="${type}"></label>
                 </span>
-                    <small th:if="${#fields.hasErrors('types')}" th:errors="*{types}" class="validation">Email error message</small>
                   </div>
                   <div class="profile-container19">
                     <button

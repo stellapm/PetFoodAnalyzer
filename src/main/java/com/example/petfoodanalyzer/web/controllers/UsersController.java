@@ -105,7 +105,7 @@ public class UsersController extends BaseController{
 
         listPets(modelAndView);
 
-        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails user = getCurrentUserDetails();
 
         LoggedUserViewModel profileInfo = this.userEntityService.getProfileInfo(user.getUsername());
         modelAndView.addObject("profileInfo", profileInfo);
@@ -114,10 +114,25 @@ public class UsersController extends BaseController{
     }
 
     @PatchMapping("/my-profile")
-    public ModelAndView postMyProfile(@Valid EditUserProfileDTO editUserProfileDTO){
+    public ModelAndView postMyProfile(@Valid EditUserProfileDTO editUserProfileDTO,
+                                      BindingResult bindingResult,
+                                      RedirectAttributes redirectAttributes) {
+        if (!editUserProfileDTO.getPassword().equals(editUserProfileDTO.getConfirmPassword())){
+            bindingResult.addError(new FieldError(
+                    "differentConfirmPassword",
+                    "confirmPassword",
+                    "Passwords must be the same."));
+        }
 
-        //TODO: update on profile. Must support partial updates and validation
-//        this.userService.updateLoggedUser(editUserProfileDTO);
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("editUserProfileDTO", editUserProfileDTO);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.editUserProfileDTO", bindingResult);
+
+            return super.redirect("my-profile");
+        }
+
+        UserDetails user = getCurrentUserDetails();
+        this.userEntityService.updateLoggedUser(editUserProfileDTO, user.getUsername());
 
         return super.redirect("my-profile");
     }

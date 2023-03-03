@@ -9,7 +9,7 @@ import org.hibernate.annotations.Filter;
 import java.util.List;
 
 public class EditUserProfileDTO {
-    @BlankOrPattern(regexp = "[\\w\\W]{5}", message = "Please enter a valid URL.")
+    @BlankOrPattern(regexp = "[\\w\\W]{5,}", message = "Please enter a valid URL.")
     private String profilePicUrl;
 
     @UniqueEmail
@@ -86,17 +86,5 @@ public class EditUserProfileDTO {
     public EditUserProfileDTO setTypes(List<String> types) {
         this.types = types;
         return this;
-    }
-
-    @Override
-    public String toString() {
-        return "EditUserProfileDTO{" +
-                "profilePicUrl='" + profilePicUrl + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", confirmPassword='" + confirmPassword + '\'' +
-                ", displayName='" + displayName + '\'' +
-                ", types=" + types.size() +
-                '}';
     }
 }

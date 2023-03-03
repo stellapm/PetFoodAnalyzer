@@ -13,7 +13,7 @@ public class EditProductDTO {
     @BlankOrPattern(regexp = "[\\w\\W]{3,20}", message = "Name should be between 3 and 20 characters")
     private String name;
 
-    @BlankOrPattern(regexp = "[\\w\\W]{5}", message = "Description should be at least 5 characters")
+    @BlankOrPattern(regexp = "[\\w\\W]{5,}", message = "Description should be at least 5 characters")
     private String description;
 
     private String picUrl;

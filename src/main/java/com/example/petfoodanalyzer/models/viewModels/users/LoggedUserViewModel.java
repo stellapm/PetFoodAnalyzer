@@ -3,6 +3,7 @@ package com.example.petfoodanalyzer.models.viewModels.users;
 import com.example.petfoodanalyzer.models.entities.products.Pet;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 public class LoggedUserViewModel {
@@ -14,7 +15,7 @@ public class LoggedUserViewModel {
 
     private LocalDate created;
 
-    private Set<Pet> pets;
+    private List<String> petsList;
 
     public LoggedUserViewModel() {
     }
@@ -55,21 +56,22 @@ public class LoggedUserViewModel {
         return this;
     }
 
-    public Set<Pet> getPets() {
-        return pets;
+    public List<String> getPetsList() {
+        return petsList;
     }
 
-    public LoggedUserViewModel setPets(Set<Pet> pets) {
-        this.pets = pets;
+    public LoggedUserViewModel setPetsList(List<String> petsList) {
+        this.petsList = petsList;
         return this;
     }
 
     public boolean hasPet(String pet){
-        for (Pet currentPet : pets) {
-            if(currentPet.getPetsType().name().equals(pet)){
-                return true;
-            }
+
+        if (this.petsList.contains(pet)){
+            System.out.println(pet);
+            return true;
         }
+
         return false;
     }
 }
