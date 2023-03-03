@@ -1,23 +1,28 @@
 package com.example.petfoodanalyzer.models.dtos.users;
 
+import com.example.petfoodanalyzer.validators.annotations.BlankOrPattern;
 import com.example.petfoodanalyzer.validators.annotations.UniqueEmail;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.Filter;
 
 import java.util.List;
 
 public class EditUserProfileDTO {
-    @Size(min = 5, message = "Please enter a valid URL.")
+    @BlankOrPattern(regexp = "[\\w\\W]{5}", message = "Please enter a valid URL.")
     private String profilePicUrl;
 
     @UniqueEmail
-    @Pattern(regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$",
-            message = "Please enter a valid email.")
+    @BlankOrPattern(regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$",
+      message = "Please enter a valid email.")
     private String email;
 
-    @Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!.]).{6,15})",
-            message = "Password should contain at least one digit, one upper case letter, one lower case letter and one special symbol (“@#$%”).")
-    @Size(min = 6, max = 15, message = "Password should be between 6 and 15 characters.")
+    @BlankOrPattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!.]).{6,15})",
+            message = "Password should be between 6 and 15 characters and it should contain " +
+                    "at least one digit, " +
+                    "one upper case letter, " +
+                    "one lower case letter and " +
+                    "one special symbol (“@#$%”).")
     private String password;
 
     private String confirmPassword;

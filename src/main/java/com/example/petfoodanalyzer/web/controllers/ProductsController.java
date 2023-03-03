@@ -150,7 +150,7 @@ public class ProductsController extends BaseController {
         modelAndView.addObject("allPets", allPets);
 
         EditProductViewModel editProductViewModel = this.productService.getEditedProductInfo(id);
-        modelAndView.addObject("editProductView", editProductViewModel);
+        modelAndView.addObject("editProductViewModel", editProductViewModel);
 
         return super.view("edit-product", modelAndView);
     }

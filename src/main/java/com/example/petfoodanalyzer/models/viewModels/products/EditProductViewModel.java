@@ -1,8 +1,6 @@
 package com.example.petfoodanalyzer.models.viewModels.products;
 
 public class EditProductViewModel {
-    private Long id;
-
     private String name;
 
     private String description;
@@ -14,15 +12,6 @@ public class EditProductViewModel {
     private String petStr;
 
     private String ingredientsList;
-
-    public Long getId() {
-        return id;
-    }
-
-    public EditProductViewModel setId(Long id) {
-        this.id = id;
-        return this;
-    }
 
     public String getName() {
         return name;

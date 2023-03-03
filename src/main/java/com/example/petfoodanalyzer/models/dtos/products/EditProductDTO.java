@@ -1,20 +1,21 @@
 package com.example.petfoodanalyzer.models.dtos.products;
 
+import com.example.petfoodanalyzer.validators.annotations.BlankOrIngredientsPresent;
+import com.example.petfoodanalyzer.validators.annotations.BlankOrPattern;
 import com.example.petfoodanalyzer.validators.annotations.IngredientsPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import jdk.jfr.DataAmount;
+
 
 public class EditProductDTO {
-    @Size(min = 3, max = 20, message = "Name should be between 3 and 20 characters")
-    @NotBlank(message = "Please enter name.")
+    @BlankOrPattern(regexp = "[\\w\\W]{3,20}", message = "Name should be between 3 and 20 characters")
     private String name;
 
-    @NotBlank(message = "Please enter description.")
-    @Size(min = 5, message = "Description should be at least 5 characters")
+    @BlankOrPattern(regexp = "[\\w\\W]{5}", message = "Description should be at least 5 characters")
     private String description;
 
-    @NotBlank(message = "Please enter a valid URL.")
     private String picUrl;
 
     @NotBlank(message = "Please select a brand.")
@@ -23,9 +24,8 @@ public class EditProductDTO {
     @NotBlank(message = "Please select a pet.")
     private String petStr;
 
-    @Pattern(regexp = "^([a-zA-Z0-9]+,?\\s*)+$", message = "Please enter ingredients separated by commas")
-    @NotBlank(message = "Please enter ingredients.")
-    @IngredientsPresent
+    @BlankOrPattern(regexp = "^([a-zA-Z0-9]+,?\\s*)+$", message = "Please enter ingredients separated by commas")
+    @BlankOrIngredientsPresent
     private String ingredientsList;
 
     public EditProductDTO() {
