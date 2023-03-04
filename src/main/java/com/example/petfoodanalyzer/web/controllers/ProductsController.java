@@ -167,8 +167,7 @@ public class ProductsController extends BaseController {
             return super.redirect("/products/edit-product/" + id);
         }
 
-//        this.productService.addProduct(addProductDTO);
-        System.out.println(true);
+        this.productService.editProduct(id, editProductDTO);
 
         return super.redirect("/products/details/" + id);
     }

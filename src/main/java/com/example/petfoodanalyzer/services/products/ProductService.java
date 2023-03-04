@@ -180,4 +180,38 @@ public class ProductService {
 
         return editView;
     }
+
+    public void editProduct(Long id, EditProductDTO editProductDTO) {
+        Product product = this.getProductById(id);
+
+        if (!editProductDTO.getName().trim().isBlank()){
+            product.setName(editProductDTO.getName());
+        }
+
+        if (!editProductDTO.getDescription().trim().isBlank()){
+            product.setDescription(editProductDTO.getDescription());
+        }
+
+        if (!editProductDTO.getPicUrl().trim().isBlank()){
+            product.setPicUrl(editProductDTO.getPicUrl());
+        }
+
+        Brand brand = this.brandService.findByName(editProductDTO.getBrandStr());
+        product.setBrand(brand);
+
+        Pet pet = this.petService.getPetByName(editProductDTO.getPetStr());
+        product.setPet(pet);
+
+        if (!editProductDTO.getIngredientsList().trim().isBlank()){
+            List<String> ingredientsRaw = Arrays.stream(editProductDTO.getIngredientsList().split(",\\s+")).toList();
+
+            Set<Ingredient> ingredients = ingredientsRaw.stream()
+                    .map(this.ingredientService::findByName)
+                    .collect(Collectors.toSet());
+
+            product.setIngredients(ingredients);
+        }
+
+        this.productRepository.save(product);
+    }
 }

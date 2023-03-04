@@ -16,11 +16,11 @@ public class RegisterUserDTO {
 
     @NotBlank(message = "Please enter password")
     @Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!.]).{6,15})",
-            message = """
-                    Password should contain at least:
-                    one digit, one upper case letter, one lower case letter,
-                    one special symbol (“@#$%”).""")
-    @Size(min = 6, max = 15, message = "Password should be between 6 and 15 characters.")
+            message = "Password should be between 6 and 15 characters and it should contain " +
+                    "at least one digit, " +
+                    "one upper case letter, " +
+                    "one lower case letter and " +
+                    "one special symbol (“@#$%”).")
     private String password;
 
     @NotBlank(message = "Please enter password.")
