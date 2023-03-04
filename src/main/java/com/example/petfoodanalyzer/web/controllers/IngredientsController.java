@@ -20,7 +20,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/ingredients")
 public class IngredientsController extends BaseController {
-    private IngredientService ingredientService;
+    private final IngredientService ingredientService;
 
     @Autowired
     public IngredientsController(IngredientService ingredientService) {

@@ -19,7 +19,6 @@ public class BaseController {
     }
 
     public static UserDetails getCurrentUserDetails() {
-        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return user;
+        return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

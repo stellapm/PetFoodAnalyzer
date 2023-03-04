@@ -2,14 +2,11 @@ package com.example.petfoodanalyzer.web.controllers;
 
 import com.example.petfoodanalyzer.models.dtos.users.EditUserProfileDTO;
 import com.example.petfoodanalyzer.models.viewModels.users.LoggedUserViewModel;
-import com.example.petfoodanalyzer.models.dtos.users.LoginUserDTO;
 import com.example.petfoodanalyzer.models.dtos.users.RegisterUserDTO;
 import com.example.petfoodanalyzer.services.products.PetService;
 import com.example.petfoodanalyzer.services.users.UserEntityService;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
@@ -70,11 +67,6 @@ public class UsersController extends BaseController{
         return super.redirect("login");
     }
 
-    @ModelAttribute(name = "loginUserDTO")
-    public LoginUserDTO loginUserDTO(){
-        return new LoginUserDTO();
-    }
-
     @GetMapping("/login")
     public ModelAndView getLogin(){
         return super.view("login");
@@ -83,6 +75,7 @@ public class UsersController extends BaseController{
     @PostMapping("/login-error")
     public ModelAndView failedLogin(@ModelAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY) String username,
                                     RedirectAttributes redirectAttributes){
+        System.out.println("failed to log in");
 
         redirectAttributes.addFlashAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY, username);
         redirectAttributes.addFlashAttribute("badCredentials", true);

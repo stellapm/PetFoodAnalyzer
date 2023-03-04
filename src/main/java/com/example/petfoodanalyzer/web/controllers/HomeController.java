@@ -13,8 +13,8 @@ import java.util.List;
 
 @Controller
 public class HomeController extends BaseController{
-    private ReviewService reviewService;
-    private BrandService brandService;
+    private final ReviewService reviewService;
+    private final BrandService brandService;
 
     @Autowired
     public HomeController(ReviewService reviewService, BrandService brandService) {

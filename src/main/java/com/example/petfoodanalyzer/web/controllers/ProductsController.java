@@ -24,11 +24,11 @@ import java.util.List;
 @Controller
 @RequestMapping("/products")
 public class ProductsController extends BaseController {
-    private ProductService productService;
-    private UserEntityService userEntityService;
-    private ReviewService reviewService;
-    private BrandService brandService;
-    private PetService petService;
+    private final ProductService productService;
+    private final UserEntityService userEntityService;
+    private final ReviewService reviewService;
+    private final BrandService brandService;
+    private final PetService petService;
 
     @Autowired
     public ProductsController(ProductService productService, UserEntityService userEntityService, ReviewService reviewService, BrandService brandService, PetService petService) {
@@ -38,10 +38,6 @@ public class ProductsController extends BaseController {
         this.brandService = brandService;
         this.petService = petService;
     }
-    //product
-    //compare
-    //favorite products
-    //products by brand
 
     @GetMapping("/all")
     public ModelAndView getAll(ModelAndView modelAndView) {

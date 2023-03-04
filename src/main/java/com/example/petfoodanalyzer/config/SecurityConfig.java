@@ -49,15 +49,13 @@ public class SecurityConfig {
                         .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
                         .passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY)
                         .defaultSuccessUrl("/")
-                        .failureForwardUrl("/users/login-error")
+//                        .failureForwardUrl("/users/login-error")
                     .and()
                 //logout handle
                         .logout()
-//                        .clearAuthentication(true)
                         .logoutUrl("/users/logout")
                         .logoutSuccessUrl("/")
                         .invalidateHttpSession(true)
-//                        .deleteCookies("time")
                         .deleteCookies("JSESSIONID");
 
         return http.build();
