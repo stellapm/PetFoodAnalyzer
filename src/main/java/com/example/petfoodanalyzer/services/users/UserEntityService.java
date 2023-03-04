@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +48,7 @@ public class UserEntityService {
     }
 
     public UserEntity findByEmail(String email) {
-        return this.userEntityRepository.findByEmail(email);
+        return this.userEntityRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User with email " + email + " not found."));
     }
 
     private boolean isUsersInit() {
@@ -79,32 +80,6 @@ public class UserEntityService {
         this.userEntityRepository.save(user);
     }
 
-    public boolean login(LoginUserDTO loginUserDTO) {
-        UserEntity user = this.findByEmail(loginUserDTO.getUsername());
-
-        if (user == null) {
-            return false;
-        }
-
-        if (!this.passwordEncoder.matches(loginUserDTO.getPassword(), user.getPassword())) {
-            return false;
-        }
-
-        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
-
-        Authentication auth =
-                new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        userDetails.getPassword(),
-                        userDetails.getAuthorities()
-                );
-
-        SecurityContextHolder.
-                getContext().
-                setAuthentication(auth);
-
-        return true;
-    }
     public LoggedUserViewModel getProfileInfo(String email) {
         UserEntity user = findByEmail(email);
 

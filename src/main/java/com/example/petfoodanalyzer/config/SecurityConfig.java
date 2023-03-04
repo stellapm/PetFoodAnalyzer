@@ -32,11 +32,13 @@ public class SecurityConfig {
                 //allow access to static resources
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 //pages with access for all users
-                .requestMatchers("/", "/ingredients/analyze", "/ingredients/all", "/products/all", "/about", "/products/details/{id}", "/products/by-brand/{id}").permitAll()
-                //pages with access for guests
-                .requestMatchers("/users/login", "/users/register").anonymous()
+                .requestMatchers("/", "/about",
+                        "/users/login", "/users/register",
+                        "/ingredients/analyze", "/ingredients/all",
+                        "/products/all", "/products/details/{id}", "/products/by-brand/{id}").permitAll()
                 //pages with access for any authenticated user
-                .requestMatchers("/products/favorites", "/products/fave-product/{id}", "/users/my-profile", "/users/logout").authenticated()
+                .requestMatchers("/products/favorites", "/products/fave-product/{id}",
+                        "/users/my-profile", "/users/logout").authenticated()
                 //pages with access for admins
                 .requestMatchers("/admin", "/admin/add-ingredient", "/admin/add-brand", "/admin/add-product", "/admin/manage-roles").hasRole(UserRoleTypes.ADMIN.name())
                 .anyRequest().authenticated()
@@ -46,16 +48,16 @@ public class SecurityConfig {
                         .loginPage("/users/login")
                         .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
                         .passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY)
-//                        .defaultSuccessUrl("/", true)
-                        .failureForwardUrl("/users/login")
+                        .defaultSuccessUrl("/")
+                        .failureForwardUrl("/users/login-error")
                     .and()
                 //logout handle
                         .logout()
-                        .clearAuthentication(true)
+//                        .clearAuthentication(true)
                         .logoutUrl("/users/logout")
                         .logoutSuccessUrl("/")
                         .invalidateHttpSession(true)
-                        .deleteCookies("time")
+//                        .deleteCookies("time")
                         .deleteCookies("JSESSIONID");
 
         return http.build();

@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -25,9 +26,6 @@ import java.util.List;
 public class UsersController extends BaseController{
     private final UserEntityService userEntityService;
     private final PetService petService;
-
-    //profile
-    //admin
 
     @Autowired
     public UsersController(UserEntityService userEntityService, PetService petService) {
@@ -82,17 +80,14 @@ public class UsersController extends BaseController{
         return super.view("login");
     }
 
-    @PostMapping("/login")
-    public ModelAndView postLogin(@Valid LoginUserDTO loginUserDTO,
-                                  RedirectAttributes redirectAttributes){
+    @PostMapping("/login-error")
+    public ModelAndView failedLogin(@ModelAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY) String username,
+                                    RedirectAttributes redirectAttributes){
 
-        if (!this.userEntityService.login(loginUserDTO)){
-            redirectAttributes.addFlashAttribute("loginUserDTO", loginUserDTO);
-            redirectAttributes.addFlashAttribute("invalidCreds", true);
-            return super.redirect("login");
-        }
+        redirectAttributes.addFlashAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY, username);
+        redirectAttributes.addFlashAttribute("badCredentials", true);
 
-        return super.redirect("/");
+        return super.redirect("login");
     }
 
     @ModelAttribute(name = "editUserProfileDTO")
@@ -135,12 +130,6 @@ public class UsersController extends BaseController{
         this.userEntityService.updateLoggedUser(editUserProfileDTO, user.getUsername());
 
         return super.redirect("my-profile");
-    }
-
-    @GetMapping("/logout")
-    public ModelAndView getLogout(HttpSession httpSession){
-        httpSession.invalidate();
-        return super.redirect("/");
     }
 
     private void listPets(ModelAndView modelAndView) {

@@ -12,7 +12,8 @@
       <div class="login-container">
         <div class="login-container1">
           <h1 class="login-text">Sign In</h1>
-          <form class="login-form" th:action="@{/users/login}" th:method="POST" th:object="${loginUserDTO}">
+          <form class="login-form" th:action="@{/users/login}" th:method="POST">
+<!--            //th:object="${loginUserDTO}-->
             <img
               alt="image"
               src="/images/profile.png"
@@ -20,8 +21,7 @@
             />
             <div class="login-container2">
               <input
-                      th:value="*{username}"
-                      th:field="*{username}"
+                      th:value="${username}"
                 type="text"
                 id="username"
                 name="username"
@@ -29,8 +29,6 @@
                 class="login-input input"
               />
               <input
-                      th:value="*{password}"
-                      th:field="*{password}"
                 type="password"
                 id="password"
                 name="password"
@@ -38,7 +36,7 @@
                 class="login-textinput input"
               />
             </div>
-            <div th:if="${invalidCreds}" class="validation">Incorrect username or password!</div>
+            <div th:if="${badCredentials}" class="validation">Incorrect username or password!</div>
             <button
               id="login-btn"
               name="login-btn"

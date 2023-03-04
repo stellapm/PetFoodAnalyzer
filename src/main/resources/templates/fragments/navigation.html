@@ -69,14 +69,16 @@
                             <a class="home-text13" href="/admin">Admin</a>
                         </div>
                     </li>
+                    <form th:method="POST" th:action="@{users/logout}">
                     <li data-thq="thq-dropdown" class="home-dropdown3 list-item">
                         <div
                                 data-thq="thq-dropdown-toggle"
                                 class="home-dropdown-toggle4"
                         >
-                            <a class="home-text14" href="/users/logout">Log Out</a>
+                            <input type="submit" class="home-text14" value="Logout" />
                         </div>
                     </li>
+                    </form>
                 </ul>
             </div>
         </div>
