@@ -33,12 +33,12 @@ public class SecurityConfig {
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 //pages with access for all users
                 .requestMatchers("/", "/about",
-                        "/users/login", "/users/register",
+                        "/users/login", "/users/register", "/users/expired",
                         "/ingredients/analyze", "/ingredients/all",
                         "/products/all", "/products/details/{id}", "/products/by-brand/{id}").permitAll()
                 //pages with access for any authenticated user
                 .requestMatchers("/products/favorites", "/products/fave-product/{id}",
-                        "/users/my-profile", "/users/logout").authenticated()
+                        "/users/my-profile").authenticated()
                 //pages with access for admins
                 .requestMatchers("/admin", "/admin/add-ingredient", "/admin/add-brand", "/admin/add-product", "/admin/manage-roles").hasRole(UserRoleTypes.ADMIN.name())
                 .anyRequest().authenticated()
@@ -49,7 +49,7 @@ public class SecurityConfig {
                         .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
                         .passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY)
                         .defaultSuccessUrl("/")
-//                        .failureForwardUrl("/users/login-error")
+                        .failureForwardUrl("/users/login-error")
                     .and()
                 //logout handle
                         .logout()

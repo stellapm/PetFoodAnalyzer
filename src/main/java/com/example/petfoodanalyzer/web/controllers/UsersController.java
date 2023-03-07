@@ -83,6 +83,11 @@ public class UsersController extends BaseController{
         return super.redirect("login");
     }
 
+    @GetMapping("/expired")
+    public String sessionExpired() {
+        return "expired";
+    }
+
     @ModelAttribute(name = "editUserProfileDTO")
     public EditUserProfileDTO editUserProfileDTO(){
         return new EditUserProfileDTO();

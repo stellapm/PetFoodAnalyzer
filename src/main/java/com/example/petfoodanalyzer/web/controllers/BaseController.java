@@ -1,5 +1,6 @@
 package com.example.petfoodanalyzer.web.controllers;
 
+import com.example.petfoodanalyzer.web.interceptor.UserInterceptor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.servlet.ModelAndView;

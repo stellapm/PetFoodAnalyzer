@@ -8,6 +8,7 @@ import com.example.petfoodanalyzer.services.products.PetService;
 import com.example.petfoodanalyzer.services.products.ProductService;
 import com.example.petfoodanalyzer.services.products.ReviewService;
 import com.example.petfoodanalyzer.services.users.UserEntityService;
+import com.example.petfoodanalyzer.web.interceptor.UserInterceptor;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -73,9 +74,10 @@ public class ProductsController extends BaseController {
     @GetMapping("/details/{id}")
     public ModelAndView getProductDetails(@PathVariable Long id, ModelAndView modelAndView) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
         UserEntity user = null;
 
-        if (!auth.getPrincipal().equals("anonymousUser")) {
+        if (UserInterceptor.isUserLogged()) {
             UserDetails userDetails = (UserDetails) auth.getPrincipal();
             user = this.userEntityService.findByEmail(userDetails.getUsername());
         }
