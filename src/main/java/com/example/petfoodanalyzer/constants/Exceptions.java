@@ -7,5 +7,9 @@ public class Exceptions {
 
     public final static String NAME_IDENTIFIER = "name";
 
+    public final static String ERROR_403 = "403";
+
+    public final static String ERROR_500 = "500";
+
 
 }
