@@ -13,7 +13,7 @@ public class ObjectNotFoundAdvice {
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ExceptionHandler(ObjectNotFoundException.class)
     public ModelAndView onProductNotFound(ObjectNotFoundException exception) {
-        ModelAndView modelAndView = new ModelAndView("object-not-found");
+        ModelAndView modelAndView = new ModelAndView("error/object-not-found");
 
         modelAndView.addObject("objectType", exception.getObjectType());
 

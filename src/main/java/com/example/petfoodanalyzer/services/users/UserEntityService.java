@@ -1,5 +1,6 @@
 package com.example.petfoodanalyzer.services.users;
 
+import com.example.petfoodanalyzer.events.RegisteredUserEvent;
 import com.example.petfoodanalyzer.models.viewModels.products.ProductOverviewViewModel;
 import com.example.petfoodanalyzer.models.dtos.users.*;
 import com.example.petfoodanalyzer.models.entities.products.Pet;
@@ -12,10 +13,8 @@ import com.example.petfoodanalyzer.services.products.PetService;
 import com.example.petfoodanalyzer.services.products.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,9 +34,11 @@ public class UserEntityService {
     private final PasswordEncoder passwordEncoder;
     private final UserDetailsService userDetailsService;
     private final ProductService productService;
+    private final EmailService emailService;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
-    public UserEntityService(UserEntityRepository userEntityRepository, UserRoleService userRoleService, PetService petService, ModelMapper modelMapper, PasswordEncoder passwordEncoder, UserDetailsService userDetailsService, ProductService productService) {
+    public UserEntityService(UserEntityRepository userEntityRepository, UserRoleService userRoleService, PetService petService, ModelMapper modelMapper, PasswordEncoder passwordEncoder, UserDetailsService userDetailsService, ProductService productService, EmailService emailService, ApplicationEventPublisher applicationEventPublisher) {
         this.userEntityRepository = userEntityRepository;
         this.userRoleService = userRoleService;
         this.petService = petService;
@@ -45,6 +46,8 @@ public class UserEntityService {
         this.passwordEncoder = passwordEncoder;
         this.userDetailsService = userDetailsService;
         this.productService = productService;
+        this.emailService = emailService;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     private boolean isUsersInit() {
@@ -73,6 +76,14 @@ public class UserEntityService {
         user.getUserRoles().add(userRole);
 
         this.userEntityRepository.save(user);
+
+        RegisteredUserEvent registeredUserEvent = new RegisteredUserEvent(user.getEmail());
+        applicationEventPublisher.publishEvent(registeredUserEvent);
+    }
+
+    @EventListener(RegisteredUserEvent.class)
+    public void onRegisteredUser(RegisteredUserEvent event){
+        this.emailService.sendRegistrationEmail(event.getEmail());
     }
 
     public UserEntity findByEmail(String email) {

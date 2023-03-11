@@ -15,8 +15,10 @@ import com.example.petfoodanalyzer.models.viewModels.products.ProductOverviewVie
 import com.example.petfoodanalyzer.models.viewModels.products.RecommendedProductViewModel;
 import com.example.petfoodanalyzer.repositories.products.ProductRepository;
 import com.example.petfoodanalyzer.services.ingredients.IngredientService;
+import com.example.petfoodanalyzer.services.users.EmailService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
@@ -28,7 +30,6 @@ import java.util.stream.Collectors;
 
 import static com.example.petfoodanalyzer.constants.Exceptions.ID_IDENTIFIER;
 import static com.example.petfoodanalyzer.constants.Exceptions.NAME_IDENTIFIER;
-import static com.example.petfoodanalyzer.constants.Models.INGREDIENT;
 import static com.example.petfoodanalyzer.constants.Models.PRODUCT;
 
 @Service

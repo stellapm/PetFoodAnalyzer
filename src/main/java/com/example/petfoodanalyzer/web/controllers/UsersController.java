@@ -84,7 +84,7 @@ public class UsersController extends BaseController{
 
     @GetMapping("/expired")
     public String sessionExpired() {
-        return "expired";
+        return "error/expired";
     }
 
     @ModelAttribute(name = "editUserProfileDTO")
@@ -94,7 +94,6 @@ public class UsersController extends BaseController{
 
     @GetMapping("/my-profile")
     public ModelAndView getMyProfile(ModelAndView modelAndView){
-
         listPets(modelAndView);
 
         UserDetails user = getCurrentUserDetails();
