@@ -1,5 +1,6 @@
 package com.example.petfoodanalyzer.services.ingredients;
 
+import com.example.petfoodanalyzer.exceptions.ObjectNotFoundException;
 import com.example.petfoodanalyzer.models.dtos.ingredients.AddIngredientDTO;
 import com.example.petfoodanalyzer.models.viewModels.ingredients.IngredientViewModel;
 import com.example.petfoodanalyzer.models.dtos.ingredients.IngredientsListDTO;
@@ -12,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.example.petfoodanalyzer.constants.Models.INGREDIENT;
+import static com.example.petfoodanalyzer.constants.Exceptions.NAME_IDENTIFIER;
 
 @Service
 public class IngredientService {
@@ -27,7 +31,9 @@ public class IngredientService {
     }
 
     public Ingredient findByName(String name) {
-        return this.ingredientRepository.findByName(name);
+        return this.ingredientRepository
+                .findByName(name)
+                .orElseThrow(() -> new ObjectNotFoundException(NAME_IDENTIFIER, name, INGREDIENT));
     }
 
     public void addIngredient(AddIngredientDTO addIngredientDTO) {

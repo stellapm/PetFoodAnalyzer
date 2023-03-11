@@ -37,12 +37,4 @@ public class ManageRoleDTO {
         this.roles = roles;
         return this;
     }
-
-    @Override
-    public String toString() {
-        return "ManageRoleDTO{" +
-                "email='" + email + '\'' +
-                ", roles=" + String.join(", ", roles) +
-                '}';
-    }
 }

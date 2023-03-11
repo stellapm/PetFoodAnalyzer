@@ -1,5 +1,6 @@
 package com.example.petfoodanalyzer.services.users;
 
+import com.example.petfoodanalyzer.exceptions.ObjectNotFoundException;
 import com.example.petfoodanalyzer.models.entities.users.UserRole;
 import com.example.petfoodanalyzer.models.enums.UserRoleTypes;
 import com.example.petfoodanalyzer.repositories.users.UserRoleRepository;
@@ -9,6 +10,10 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.example.petfoodanalyzer.constants.Exceptions.NAME_IDENTIFIER;
+import static com.example.petfoodanalyzer.constants.Models.BRAND;
+import static com.example.petfoodanalyzer.constants.Models.USER_ROLE;
 
 @Service
 public class UserRoleService {
@@ -36,7 +41,9 @@ public class UserRoleService {
     }
 
     public UserRole getUserRole(UserRoleTypes roleType) {
-                return this.userRoleRepository.findByRoleType(roleType);
+                return this.userRoleRepository
+                        .findByRoleType(roleType)
+                        .orElseThrow(() -> new ObjectNotFoundException(NAME_IDENTIFIER, roleType.name(), USER_ROLE));
     }
 
     private List<UserRole> getAllUserRoles(){

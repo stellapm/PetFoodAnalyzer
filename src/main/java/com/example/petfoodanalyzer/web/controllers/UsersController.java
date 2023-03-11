@@ -75,7 +75,6 @@ public class UsersController extends BaseController{
     @PostMapping("/login-error")
     public ModelAndView failedLogin(@ModelAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY) String username,
                                     RedirectAttributes redirectAttributes){
-        System.out.println("failed to log in");
 
         redirectAttributes.addFlashAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY, username);
         redirectAttributes.addFlashAttribute("badCredentials", true);

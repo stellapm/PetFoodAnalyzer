@@ -47,10 +47,6 @@ public class UserEntityService {
         this.productService = productService;
     }
 
-    public UserEntity findByEmail(String email) {
-        return this.userEntityRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User with email " + email + " not found."));
-    }
-
     private boolean isUsersInit() {
         return this.userEntityRepository.count() > 0;
     }
@@ -59,7 +55,6 @@ public class UserEntityService {
         UserRole adminRole = this.userRoleService.getUserRole(UserRoleTypes.ADMIN);
         user.getUserRoles().add(adminRole);
     }
-
 
     public void register(RegisterUserDTO registerUserDTO) {
         UserEntity user = new UserEntity(registerUserDTO.getEmail(),
@@ -78,6 +73,10 @@ public class UserEntityService {
         user.getUserRoles().add(userRole);
 
         this.userEntityRepository.save(user);
+    }
+
+    public UserEntity findByEmail(String email) {
+        return this.userEntityRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User with email " + email + " not found."));
     }
 
     public LoggedUserViewModel getProfileInfo(String email) {

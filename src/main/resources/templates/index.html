@@ -50,6 +50,8 @@
         </div>
         <h1 class="home-text23">Featured Reviews</h1>
         <div class="home-reviews">
+            <th:block th:if="${mostReviewed.size() == 0}" class="review-card1-text1">Be the first to leave a review!</th:block>
+
             <div class="home-container4" th:each="review : ${mostReviewed}">
                 <a th:href="@{/products/details/{id}(id=*{review.productId})}"><div
                         class="review-card1-blog-post-card review-card1-root-class-name3"

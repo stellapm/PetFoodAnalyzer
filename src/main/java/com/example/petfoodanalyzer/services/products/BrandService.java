@@ -1,5 +1,6 @@
 package com.example.petfoodanalyzer.services.products;
 
+import com.example.petfoodanalyzer.exceptions.ObjectNotFoundException;
 import com.example.petfoodanalyzer.models.dtos.products.AddBrandDTO;
 import com.example.petfoodanalyzer.models.viewModels.products.BrandViewModel;
 import com.example.petfoodanalyzer.models.viewModels.products.BrandOverviewViewModel;
@@ -8,6 +9,12 @@ import com.example.petfoodanalyzer.repositories.products.BrandRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import static com.example.petfoodanalyzer.constants.Exceptions.ID_IDENTIFIER;
+import static com.example.petfoodanalyzer.constants.Exceptions.NAME_IDENTIFIER;
+import static com.example.petfoodanalyzer.constants.Models.BRAND;
+
+
 
 import java.util.List;
 
@@ -23,11 +30,11 @@ public class BrandService {
     }
 
     public Brand findByName(String name) {
-        return this.brandRepository.findByName(name);
+        return this.brandRepository.findByName(name).orElseThrow(() -> new ObjectNotFoundException(NAME_IDENTIFIER, name, BRAND));
     }
 
     public Brand findById(Long id){
-        return this.brandRepository.findById(id).get();
+        return this.brandRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(ID_IDENTIFIER, String.valueOf(id), BRAND));
     }
 
     public void addBrand(AddBrandDTO addBrandDTO) {

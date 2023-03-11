@@ -1,5 +1,6 @@
 package com.example.petfoodanalyzer.services.products;
 
+import com.example.petfoodanalyzer.exceptions.ObjectNotFoundException;
 import com.example.petfoodanalyzer.models.dtos.products.AddReviewDTO;
 import com.example.petfoodanalyzer.models.viewModels.products.ReviewOverviewViewModel;
 import com.example.petfoodanalyzer.models.entities.products.Product;
@@ -13,6 +14,11 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static com.example.petfoodanalyzer.constants.Exceptions.ID_IDENTIFIER;
+import static com.example.petfoodanalyzer.constants.Exceptions.NAME_IDENTIFIER;
+import static com.example.petfoodanalyzer.constants.Models.INGREDIENT;
+import static com.example.petfoodanalyzer.constants.Models.REVIEW;
 
 @Service
 public class ReviewService {
@@ -44,7 +50,9 @@ public class ReviewService {
     }
 
     public void likeProductReview(Long id, String username) {
-        Review review = this.reviewRepository.findById(id).get();
+        Review review = this.reviewRepository
+                .findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException(ID_IDENTIFIER, String.valueOf(id), REVIEW));
 
         UserEntity user = this.userEntityService.findByEmail(username);
         review.getLikes().add(user);

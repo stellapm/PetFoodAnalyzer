@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -27,20 +28,22 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests()
+        http.
+                authorizeHttpRequests()
                 //allow access to static resources
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 //pages with access for all users
                 .requestMatchers("/", "/about",
-                        "/users/login", "/users/register", "/users/expired",
+                        "/users/login", "/users/register", "/users/expired", "/users/login-error",
                         "/ingredients/analyze", "/ingredients/all",
                         "/products/all", "/products/details/{id}", "/products/by-brand/{id}").permitAll()
                 //pages with access for any authenticated user
-                .requestMatchers("/products/favorites", "/products/fave-product/{id}",
+                .requestMatchers("/products/favorites", "/products/fave-product/{id}", "/products/post-review/{id}", "/products/{pid}/like-review/{rid}",
                         "/users/my-profile").authenticated()
+                //pages with access for mod/admin
+                .requestMatchers("/products/edit-product/{id}").hasAnyRole(UserRoleTypes.ADMIN.name(), UserRoleTypes.MODERATOR.name())
                 //pages with access for admins
-                .requestMatchers("/admin", "/admin/add-ingredient", "/admin/add-brand", "/admin/add-product", "/admin/manage-roles").hasRole(UserRoleTypes.ADMIN.name())
+                .requestMatchers("/admin", "/admin/**").hasRole(UserRoleTypes.ADMIN.name())
                 .anyRequest().authenticated()
                     .and()
                 //login handle
@@ -53,7 +56,7 @@ public class SecurityConfig {
                     .and()
                 //logout handle
                         .logout()
-                        .logoutUrl("/users/logout")
+                        .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID");

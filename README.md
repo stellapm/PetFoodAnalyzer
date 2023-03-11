@@ -47,7 +47,7 @@ Admins should be able to:
 * Add more pet types
 
 # Bugs and other fixes:
-* users/login, users/register, users/my-profile, admin/manage-roles POST requests leads to redirect (status 302) after applying spring security chain filter. 
+* users/register, users/my-profile, admin/manage-roles POST requests leads to redirect (status 302) after applying spring security chain filter. 
 * user can't like two reviews on the same product
 * Ingredient lookup should be key insensitive 
 * Improve ingredient regex as ingredients can include various special characters

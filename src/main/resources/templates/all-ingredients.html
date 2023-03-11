@@ -21,6 +21,7 @@
         longer, healthier lives as a result of improved nutrition.
       </span>
       <div class="all-ingredients-container1 wrap">
+        <th:block th:if="${ingredients.size() == 0}" class="all-ingredients-text3">There are no ingredients yet.</th:block>
           <div class="feature-card31-feature-card" th:each="ingredient : ${ingredients}">
             <img
                     alt="image"

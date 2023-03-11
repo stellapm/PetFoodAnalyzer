@@ -1,5 +1,6 @@
 package com.example.petfoodanalyzer.services.products;
 
+import com.example.petfoodanalyzer.exceptions.ObjectNotFoundException;
 import com.example.petfoodanalyzer.models.dtos.products.*;
 import com.example.petfoodanalyzer.models.entities.products.Brand;
 import com.example.petfoodanalyzer.models.entities.ingredients.Ingredient;
@@ -25,6 +26,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static com.example.petfoodanalyzer.constants.Exceptions.ID_IDENTIFIER;
+import static com.example.petfoodanalyzer.constants.Exceptions.NAME_IDENTIFIER;
+import static com.example.petfoodanalyzer.constants.Models.INGREDIENT;
+import static com.example.petfoodanalyzer.constants.Models.PRODUCT;
+
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
@@ -43,11 +49,15 @@ public class ProductService {
     }
 
     public Product getProductById(Long id) {
-        return this.productRepository.findById(id).get();
+        return this.productRepository
+                .findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException(ID_IDENTIFIER, String.valueOf(id), PRODUCT));
     }
 
     public Product findByName(String name) {
-        return this.productRepository.findByName(name);
+        return this.productRepository
+                .findByName(name)
+                .orElseThrow(() -> new ObjectNotFoundException(NAME_IDENTIFIER, name, PRODUCT));
     }
 
     public void addProduct(AddProductDTO addProductDTO) {

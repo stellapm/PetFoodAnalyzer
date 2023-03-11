@@ -1,5 +1,6 @@
 package com.example.petfoodanalyzer.services.ingredients;
 
+import com.example.petfoodanalyzer.exceptions.ObjectNotFoundException;
 import com.example.petfoodanalyzer.models.dtos.ingredients.IngredientCategoryInitDTO;
 import com.example.petfoodanalyzer.models.entities.ingredients.IngredientCategory;
 import com.example.petfoodanalyzer.models.enums.IngredientCategoryNames;
@@ -14,6 +15,10 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.example.petfoodanalyzer.constants.Exceptions.NAME_IDENTIFIER;
+import static com.example.petfoodanalyzer.constants.Models.INGREDIENT;
+import static com.example.petfoodanalyzer.constants.Models.INGREDIENT_CATEGORY;
 
 @Service
 public class IngredientCategoryService {
@@ -64,9 +69,9 @@ public class IngredientCategoryService {
     public IngredientCategory getIngredientCategoryByName(String ingredientCategory) {
         IngredientCategoryNames ingredientCategoryName = Arrays.stream(IngredientCategoryNames.values())
                 .filter(cn -> cn.getValue().equals(ingredientCategory))
-                .findFirst()
-                .get();
+                .findFirst().get();
 
-        return this.ingredientCategoryRepository.findByName(ingredientCategoryName);
+        return this.ingredientCategoryRepository.findByName(ingredientCategoryName)
+                .orElseThrow(() -> new ObjectNotFoundException(NAME_IDENTIFIER, ingredientCategory, INGREDIENT_CATEGORY));
     }
 }
