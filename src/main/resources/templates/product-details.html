@@ -69,21 +69,22 @@
               risus pretium ipsum, vel luctus neque lectus non lacus.
             </span>
             <span th:text="|Likes: ${review.likesCount}|">Likes</span>
-            <form style="display: inline" th:action="@{/products/{pid}/like-review/{rid}(pid=${productDetails.id}, rid=*{review.id})}" method="get">
+            <a th:href="@{/reviews/{productId}/report-review/{reviewId}(productId=${productDetails.id}, reviewId=*{review.id})}">Report</a>
+            <form style="display: inline" th:action="@{/reviews/{productId}/like-review/{reviewId}(productId=${productDetails.id}, reviewId=*{review.id})}" method="get">
             <button class="product-button4 button-secondary button" sec:authorize="isAuthenticated()" th:unless="${review.loggedUserLike}">
               Like<br />
             </button>
             </form>
           </div>
         </div>
-        <form sec:authorize="isAuthenticated()" th:action="@{/products/post-review/{id}(id=${productDetails.id})}" th:method="POST" th:object="${addReviewDTO}">
+        <form sec:authorize="isAuthenticated()" th:action="@{/reviews/post-review/{productId}(productId=${productDetails.id})}" th:method="POST" th:object="${addReviewDTO}">
         <div class="product-container07">
-          <textarea th:value="*{content}" th:field="*{content}"
+          <textarea th:value="${addReviewDTO.content}" th:field="${addReviewDTO.content}"
                   placeholder="Write your review here..."
                   class="product-textarea textarea"
                     name="content"
           ></textarea>
-          <small th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="validation">Email error message</small>
+          <small th:if="${#fields.hasErrors('content')}" th:errors="${addReviewDTO.content}" class="validation">Email error message</small>
           <button class="product-button5 button button-primary">Button</button>
         </div>
         </form>

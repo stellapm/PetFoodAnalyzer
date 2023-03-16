@@ -32,19 +32,17 @@ public class UserEntityService {
     private final PetService petService;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
-    private final UserDetailsService userDetailsService;
     private final ProductService productService;
     private final EmailService emailService;
     private final ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
-    public UserEntityService(UserEntityRepository userEntityRepository, UserRoleService userRoleService, PetService petService, ModelMapper modelMapper, PasswordEncoder passwordEncoder, UserDetailsService userDetailsService, ProductService productService, EmailService emailService, ApplicationEventPublisher applicationEventPublisher) {
+    public UserEntityService(UserEntityRepository userEntityRepository, UserRoleService userRoleService, PetService petService, ModelMapper modelMapper, PasswordEncoder passwordEncoder, ProductService productService, EmailService emailService, ApplicationEventPublisher applicationEventPublisher) {
         this.userEntityRepository = userEntityRepository;
         this.userRoleService = userRoleService;
         this.petService = petService;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
-        this.userDetailsService = userDetailsService;
         this.productService = productService;
         this.emailService = emailService;
         this.applicationEventPublisher = applicationEventPublisher;
@@ -52,6 +50,10 @@ public class UserEntityService {
 
     private boolean isUsersInit() {
         return this.userEntityRepository.count() > 0;
+    }
+
+    public UserEntity findByEmail(String email) {
+        return this.userEntityRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User with email " + email + " not found."));
     }
 
     private void makeUserAdmin(UserEntity user) {
@@ -84,10 +86,6 @@ public class UserEntityService {
     @EventListener(RegisteredUserEvent.class)
     public void onRegisteredUser(RegisteredUserEvent event){
         this.emailService.sendRegistrationEmail(event.getEmail());
-    }
-
-    public UserEntity findByEmail(String email) {
-        return this.userEntityRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User with email " + email + " not found."));
     }
 
     public LoggedUserViewModel getProfileInfo(String email) {

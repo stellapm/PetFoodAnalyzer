@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -38,8 +37,8 @@ public class SecurityConfig {
                         "/ingredients/analyze", "/ingredients/all",
                         "/products/all", "/products/details/{id}", "/products/by-brand/{id}").permitAll()
                 //pages with access for any authenticated user
-                .requestMatchers("/products/favorites", "/products/fave-product/{id}", "/products/post-review/{id}", "/products/{pid}/like-review/{rid}",
-                        "/users/my-profile").authenticated()
+                .requestMatchers("/products/favorites", "/products/fave-product/{id}",
+                        "/users/my-profile", "/reviews/**").authenticated()
                 //pages with access for mod/admin
                 .requestMatchers("/products/edit-product/{id}").hasAnyRole(UserRoleTypes.ADMIN.name(), UserRoleTypes.MODERATOR.name())
                 //pages with access for admins

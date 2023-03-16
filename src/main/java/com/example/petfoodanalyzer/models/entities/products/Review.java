@@ -20,6 +20,9 @@ public class Review extends BaseEntity {
     @Column(name = "created_on", nullable = false)
     private LocalDateTime createdOn;
 
+    @Basic
+    private boolean reported;
+
     @ManyToOne
     private Product product;
 
@@ -54,6 +57,15 @@ public class Review extends BaseEntity {
 
     public Review setCreatedOn(LocalDateTime createdOn) {
         this.createdOn = createdOn;
+        return this;
+    }
+
+    public boolean isReported() {
+        return reported;
+    }
+
+    public Review setReported(boolean reported) {
+        this.reported = reported;
         return this;
     }
 

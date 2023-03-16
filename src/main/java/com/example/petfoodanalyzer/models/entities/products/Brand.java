@@ -12,7 +12,7 @@ import java.util.Set;
 @Table(name = "brands")
 public class Brand extends BaseEntity {
     @Column(nullable = false, unique = true)
-    private String name; // TODO: from 3 to 20 characters
+    private String name;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;

@@ -27,15 +27,13 @@ import java.util.List;
 public class ProductsController extends BaseController {
     private final ProductService productService;
     private final UserEntityService userEntityService;
-    private final ReviewService reviewService;
     private final BrandService brandService;
     private final PetService petService;
 
     @Autowired
-    public ProductsController(ProductService productService, UserEntityService userEntityService, ReviewService reviewService, BrandService brandService, PetService petService) {
+    public ProductsController(ProductService productService, UserEntityService userEntityService, BrandService brandService, PetService petService) {
         this.productService = productService;
         this.userEntityService = userEntityService;
-        this.reviewService = reviewService;
         this.brandService = brandService;
         this.petService = petService;
     }
@@ -72,7 +70,9 @@ public class ProductsController extends BaseController {
     }
 
     @GetMapping("/details/{id}")
-    public ModelAndView getProductDetails(@PathVariable Long id, ModelAndView modelAndView) {
+    public ModelAndView getProductDetails(@PathVariable Long id,
+                                          @ModelAttribute("addReviewDTO") AddReviewDTO addReviewDTO,
+                                          ModelAndView modelAndView) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         UserEntity user = null;
@@ -89,38 +89,6 @@ public class ProductsController extends BaseController {
         modelAndView.addObject("recommendedProducts", recommendedProducts);
 
         return super.view("product-details", modelAndView);
-    }
-
-    @ModelAttribute(name = "addReviewDTO")
-    public AddReviewDTO addReviewDTO() {
-        return new AddReviewDTO();
-    }
-
-    @PostMapping("/post-review/{id}")
-    public ModelAndView postProductReview(@PathVariable Long id,
-                                          @Valid AddReviewDTO addReviewDTO,
-                                          BindingResult bindingResult,
-                                          RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("addReviewDTO", addReviewDTO);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addReviewDTO", bindingResult);
-
-            return super.redirect("/products/details/" + id);
-        }
-
-        UserDetails user = getCurrentUserDetails();
-        this.reviewService.saveReview(id, addReviewDTO, user.getUsername());
-
-        return super.redirect("/products/details/" + id);
-    }
-
-    @GetMapping("/{pid}/like-review/{rid}")
-    public ModelAndView likeProductReview(@PathVariable Long rid, @PathVariable Long pid) {
-        UserDetails user = getCurrentUserDetails();
-
-        this.reviewService.likeProductReview(rid, user.getUsername());
-
-        return super.redirect("/products/details/" + pid);
     }
 
     @GetMapping("/fave-product/{id}")
