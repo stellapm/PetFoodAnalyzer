@@ -22,6 +22,7 @@ Logged users should be able to:
 * Add a product to their favorites
 * Write a product review
 * Like other user reviews
+* Report reviews
 * View recommended products for the pet type assigned during registration/profile edit
 * View Favorite products
 * Logout
@@ -36,6 +37,11 @@ Admins should be able to:
 * Add product
 * Manage user roles
 
+Other functionality
+* Cron job: Each night at 00:00 reported reviews are deleted
+* Interceptors: tracking user session + timing out sessions for users not active within the last 30min
+* Evens: Welcome email is sent to newly registered users
+
 # Future/Upcoming upgrades
 * Moderators and admins should be able to delete products
 * Admins can delete brands
@@ -48,7 +54,7 @@ Admins should be able to:
 
 # Bugs and other fixes:
 * users/register, users/my-profile, admin/manage-roles POST requests leads to redirect (status 302) after applying spring security chain filter. 
-* user can't like two reviews on the same product
+* user can't like two reviews
 * Ingredient lookup should be key insensitive 
 * Improve ingredient regex as ingredients can include various special characters
 * Add binding models

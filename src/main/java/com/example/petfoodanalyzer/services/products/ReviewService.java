@@ -16,8 +16,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.example.petfoodanalyzer.constants.Exceptions.ID_IDENTIFIER;
-import static com.example.petfoodanalyzer.constants.Exceptions.NAME_IDENTIFIER;
-import static com.example.petfoodanalyzer.constants.Models.INGREDIENT;
 import static com.example.petfoodanalyzer.constants.Models.REVIEW;
 
 @Service
@@ -82,5 +80,10 @@ public class ReviewService {
         Review review = findById(id);
         review.setReported(true);
         this.reviewRepository.save(review);
+    }
+
+    public void cleanUpReported() {
+        List<Review> reviews = this.reviewRepository.findAllReported();
+        this.reviewRepository.deleteAll(reviews);
     }
 }
