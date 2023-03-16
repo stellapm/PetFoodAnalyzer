@@ -35,6 +35,11 @@ public class ReviewService {
         this.productService = productService;
     }
 
+    public Review findById(Long id){
+        return this.reviewRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException(ID_IDENTIFIER, String.valueOf(id), REVIEW));
+    }
+
     public void saveReview(Long id, AddReviewDTO addReviewDTO, String email) {
         Review review = this.modelMapper.map(addReviewDTO, Review.class);
 
@@ -50,9 +55,7 @@ public class ReviewService {
     }
 
     public void likeProductReview(Long id, String username) {
-        Review review = this.reviewRepository
-                .findById(id)
-                .orElseThrow(() -> new ObjectNotFoundException(ID_IDENTIFIER, String.valueOf(id), REVIEW));
+        Review review = findById(id);
 
         UserEntity user = this.userEntityService.findByEmail(username);
         review.getLikes().add(user);
@@ -73,5 +76,11 @@ public class ReviewService {
                         r.getProduct().getId()
                 ))
                 .toList();
+    }
+
+    public void reportReview(Long id) {
+        Review review = findById(id);
+        review.setReported(true);
+        this.reviewRepository.save(review);
     }
 }

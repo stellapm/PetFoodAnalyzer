@@ -38,9 +38,8 @@ public class ReviewController extends BaseController{
 
     @GetMapping("/{productId}/report-review/{reviewId}")
     public ModelAndView reportProductReview(@PathVariable Long reviewId, @PathVariable Long productId) {
-        UserDetails user = getCurrentUserDetails();
 
-        //TODO: Implement reporting
+        this.reviewService.reportReview(reviewId);
 
         return super.redirect("/products/details/" + productId);
     }
