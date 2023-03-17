@@ -1,8 +1,6 @@
-package com.example.petfoodanalyzer.models.dtos.products;
+package com.example.petfoodanalyzer.models.viewModels.products;
 
-import java.time.LocalDateTime;
-
-public class ReviewInfoDTO {
+public class ReviewInfoViewModel {
     private Long id;
 
     private String authorUsername;
@@ -17,14 +15,14 @@ public class ReviewInfoDTO {
 
     private boolean loggedUserLike;
 
-    public ReviewInfoDTO() {
+    public ReviewInfoViewModel() {
     }
 
     public Long getId() {
         return id;
     }
 
-    public ReviewInfoDTO setId(Long id) {
+    public ReviewInfoViewModel setId(Long id) {
         this.id = id;
         return this;
     }
@@ -33,7 +31,7 @@ public class ReviewInfoDTO {
         return authorUsername;
     }
 
-    public ReviewInfoDTO setAuthorUsername(String authorUsername) {
+    public ReviewInfoViewModel setAuthorUsername(String authorUsername) {
         this.authorUsername = authorUsername;
         return this;
     }
@@ -42,7 +40,7 @@ public class ReviewInfoDTO {
         return authorProfilePic;
     }
 
-    public ReviewInfoDTO setAuthorProfilePic(String authorProfilePic) {
+    public ReviewInfoViewModel setAuthorProfilePic(String authorProfilePic) {
         this.authorProfilePic = authorProfilePic;
         return this;
     }
@@ -51,7 +49,7 @@ public class ReviewInfoDTO {
         return content;
     }
 
-    public ReviewInfoDTO setContent(String content) {
+    public ReviewInfoViewModel setContent(String content) {
         this.content = content;
         return this;
     }
@@ -60,7 +58,7 @@ public class ReviewInfoDTO {
         return created;
     }
 
-    public ReviewInfoDTO setCreated(String created) {
+    public ReviewInfoViewModel setCreated(String created) {
         this.created = created;
         return this;
     }
@@ -69,7 +67,7 @@ public class ReviewInfoDTO {
         return likesCount;
     }
 
-    public ReviewInfoDTO setLikesCount(int likesCount) {
+    public ReviewInfoViewModel setLikesCount(int likesCount) {
         this.likesCount = likesCount;
         return this;
     }
@@ -78,7 +76,7 @@ public class ReviewInfoDTO {
         return loggedUserLike;
     }
 
-    public ReviewInfoDTO setLoggedUserLike(boolean loggedUserLike) {
+    public ReviewInfoViewModel setLoggedUserLike(boolean loggedUserLike) {
         this.loggedUserLike = loggedUserLike;
         return this;
     }

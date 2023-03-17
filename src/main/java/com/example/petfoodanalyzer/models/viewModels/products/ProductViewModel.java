@@ -1,7 +1,5 @@
 package com.example.petfoodanalyzer.models.viewModels.products;
 
-import com.example.petfoodanalyzer.models.dtos.products.ReviewInfoDTO;
-
 import java.util.Set;
 
 public class ProductViewModel {
@@ -21,7 +19,7 @@ public class ProductViewModel {
 
     private boolean loggedUserFave;
 
-    private Set<ReviewInfoDTO> reviewsInfo;
+    private Set<ReviewInfoViewModel> reviewsInfo;
 
     public ProductViewModel() {
     }
@@ -98,11 +96,11 @@ public class ProductViewModel {
         return this;
     }
 
-    public Set<ReviewInfoDTO> getReviewsInfo() {
+    public Set<ReviewInfoViewModel> getReviewsInfo() {
         return reviewsInfo;
     }
 
-    public ProductViewModel setReviewsInfo(Set<ReviewInfoDTO> reviewsInfo) {
+    public ProductViewModel setReviewsInfo(Set<ReviewInfoViewModel> reviewsInfo) {
         this.reviewsInfo = reviewsInfo;
         return this;
     }

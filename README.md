@@ -43,8 +43,9 @@ Other functionality
 * Evens: Welcome email is sent to newly registered users
 
 # Future/Upcoming upgrades
-* Moderators and admins should be able to delete products
+* Moderators and admins should be able to delete products and reviews
 * Admins can delete brands
+* Track last login date and send a week notice for users inactive for a specific period of time. Delete if no activity afterwards
 * Ingredient analyzer could provide information in a piechart 
 * Implement product/review rating system
 * Compare products (focus on ingredients)
@@ -53,8 +54,7 @@ Other functionality
 * Add more pet types
 
 # Bugs and other fixes:
-* users/register, users/my-profile, admin/manage-roles POST requests leads to redirect (status 302) after applying spring security chain filter. 
-* user can't like two reviews
+* users/register, users/my-profile, admin/manage-roles POST requests leads to redirect (status 302) after applying spring security chain filter.
 * Ingredient lookup should be key insensitive 
 * Improve ingredient regex as ingredients can include various special characters
 * Add binding models

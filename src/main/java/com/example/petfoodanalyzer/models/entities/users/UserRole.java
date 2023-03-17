@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 @Table(name = "user_roles")
 public class UserRole extends BaseEntity {
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "role_type", nullable = false)
     private UserRoleTypes roleType;
 
     public UserRole() {

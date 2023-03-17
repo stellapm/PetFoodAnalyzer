@@ -9,16 +9,11 @@ import com.example.petfoodanalyzer.models.entities.products.Pet;
 import com.example.petfoodanalyzer.models.entities.products.Review;
 import com.example.petfoodanalyzer.models.entities.users.UserEntity;
 import com.example.petfoodanalyzer.models.enums.PetsTypes;
-import com.example.petfoodanalyzer.models.viewModels.products.EditProductViewModel;
-import com.example.petfoodanalyzer.models.viewModels.products.ProductViewModel;
-import com.example.petfoodanalyzer.models.viewModels.products.ProductOverviewViewModel;
-import com.example.petfoodanalyzer.models.viewModels.products.RecommendedProductViewModel;
+import com.example.petfoodanalyzer.models.viewModels.products.*;
 import com.example.petfoodanalyzer.repositories.products.ProductRepository;
 import com.example.petfoodanalyzer.services.ingredients.IngredientService;
-import com.example.petfoodanalyzer.services.users.EmailService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
@@ -112,7 +107,7 @@ public class ProductService {
             productDetails.setLoggedUserFave(true);
         }
 
-        Set<ReviewInfoDTO> reviews = mapReviewDetails(user, product.getReviews());
+        Set<ReviewInfoViewModel> reviews = mapReviewDetails(user, product.getReviews());
         productDetails.setReviewsInfo(reviews);
 
         return productDetails;
@@ -121,14 +116,14 @@ public class ProductService {
     //Initially placed these methods in review service as they are working with the review-related objects
     //Moved them here as they do not really use review repository and to avoid circular references between review service and product service
 
-    public Set<ReviewInfoDTO> mapReviewDetails(UserEntity user, Set<Review> reviews) {
+    public Set<ReviewInfoViewModel> mapReviewDetails(UserEntity user, Set<Review> reviews) {
         return reviews.stream()
                 .map(r -> map(user, r))
                 .collect(Collectors.toSet());
     }
 
-    private ReviewInfoDTO map(UserEntity user, Review review) {
-        ReviewInfoDTO reviewInfo = this.modelMapper.map(review, ReviewInfoDTO.class);
+    private ReviewInfoViewModel map(UserEntity user, Review review) {
+        ReviewInfoViewModel reviewInfo = this.modelMapper.map(review, ReviewInfoViewModel.class);
 
         reviewInfo.setAuthorUsername(review.getAuthor().getDisplayName());
         reviewInfo.setAuthorProfilePic(review.getAuthor().getProfilePicUrl());

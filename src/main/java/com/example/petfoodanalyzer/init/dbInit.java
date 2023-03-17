@@ -2,6 +2,7 @@ package com.example.petfoodanalyzer.init;
 
 import com.example.petfoodanalyzer.services.ingredients.IngredientCategoryService;
 import com.example.petfoodanalyzer.services.products.PetService;
+import com.example.petfoodanalyzer.services.users.UserEntityService;
 import com.example.petfoodanalyzer.services.users.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -11,15 +12,17 @@ import java.io.IOException;
 
 @Component
 public class dbInit implements CommandLineRunner {
-    private IngredientCategoryService ingredientCategoryService;
-    private UserRoleService userRoleService;
-    private PetService petService;
+    private final IngredientCategoryService ingredientCategoryService;
+    private final UserRoleService userRoleService;
+    private final PetService petService;
+    private final UserEntityService userEntityService;
 
     @Autowired
-    public dbInit(IngredientCategoryService ingredientCategoryService, UserRoleService userRoleService, PetService petService) {
+    public dbInit(IngredientCategoryService ingredientCategoryService, UserRoleService userRoleService, PetService petService, UserEntityService userEntityService) {
         this.ingredientCategoryService = ingredientCategoryService;
         this.userRoleService = userRoleService;
         this.petService = petService;
+        this.userEntityService = userEntityService;
     }
 
     public void initServices() throws IOException {
@@ -30,6 +33,7 @@ public class dbInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        initServices();
+//        initServices();
+        this.userEntityService.decryptImportedUserPasswords();
     }
 }
