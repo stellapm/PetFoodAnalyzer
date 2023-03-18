@@ -154,7 +154,7 @@ public class AdminController extends BaseController {
         return super.view("add-product", modelAndView);
     }
 
-    @PostMapping("/add-product/")
+    @PostMapping("/add-product")
     public ModelAndView postAddProduct(@Valid AddProductDTO addProductDTO,
                                      BindingResult bindingResult,
                                      RedirectAttributes redirectAttributes){

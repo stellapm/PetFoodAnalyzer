@@ -17,6 +17,7 @@ import java.util.List;
 
 import static com.example.petfoodanalyzer.constants.Exceptions.ID_IDENTIFIER;
 import static com.example.petfoodanalyzer.constants.Models.REVIEW;
+import static com.example.petfoodanalyzer.constants.Models.REVIEW_PRODUCT;
 
 @Service
 public class ReviewService {
@@ -52,8 +53,9 @@ public class ReviewService {
         this.reviewRepository.save(review);
     }
 
-    public void likeProductReview(Long id, String username) {
-        Review review = findById(id);
+    public void likeProductReview(Long id, String username, Long productId) {
+        Review review = this.reviewRepository.findByIdAndProductId(id, productId)
+                .orElseThrow(() -> new ObjectNotFoundException(ID_IDENTIFIER, String.format("%d or %d", id, productId), REVIEW_PRODUCT));
 
         UserEntity user = this.userEntityService.findByEmail(username);
         review.getLikes().add(user);
@@ -76,8 +78,9 @@ public class ReviewService {
                 .toList();
     }
 
-    public void reportReview(Long id) {
-        Review review = findById(id);
+    public void reportReview(Long id, Long productId) {
+        Review review = this.reviewRepository.findByIdAndProductId(id, productId)
+                .orElseThrow(() -> new ObjectNotFoundException(ID_IDENTIFIER, String.format("%d or %d", id, productId), REVIEW_PRODUCT));
         review.setReported(true);
         this.reviewRepository.save(review);
     }

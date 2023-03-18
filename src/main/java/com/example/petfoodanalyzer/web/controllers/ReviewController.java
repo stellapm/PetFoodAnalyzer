@@ -31,7 +31,7 @@ public class ReviewController extends BaseController{
     public ModelAndView likeProductReview(@PathVariable Long reviewId, @PathVariable Long productId) {
         UserDetails user = getCurrentUserDetails();
 
-        this.reviewService.likeProductReview(reviewId, user.getUsername());
+        this.reviewService.likeProductReview(reviewId, user.getUsername(), productId);
 
         return super.redirect("/products/details/" + productId);
     }
@@ -39,7 +39,7 @@ public class ReviewController extends BaseController{
     @GetMapping("/{productId}/report-review/{reviewId}")
     public ModelAndView reportProductReview(@PathVariable Long reviewId, @PathVariable Long productId) {
 
-        this.reviewService.reportReview(reviewId);
+        this.reviewService.reportReview(reviewId, productId);
 
         return super.redirect("/products/details/" + productId);
     }

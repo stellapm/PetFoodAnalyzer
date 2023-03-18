@@ -1,0 +1,11 @@
+any
+localhost:8080/products
+
+localhost:8080/products/details/100
+localhost:8080/reviews/1/like-review/200
+
+as authenticated
+localhost:8080/users/register
+
+as unauthorized
+localhost:8080/admin

@@ -33,13 +33,15 @@ public class SecurityConfig {
                 //allow access to static resources
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 //pages with access for all users
+                .requestMatchers("/users/login", "/users/register").anonymous()
                 .requestMatchers("/", "/about",
-                        "/users/login", "/users/register", "/users/expired", "/users/login-error",
+                        "/users/login-error",
                         "/ingredients/analyze", "/ingredients/all",
                         "/products/all", "/products/details/{id}", "/products/by-brand/{id}").permitAll()
                 //pages with access for any authenticated user
                 .requestMatchers("/products/favorites", "/products/fave-product/{id}",
-                        "/users/my-profile", "/reviews/**").authenticated()
+                        "/users/my-profile", "/users/expired",
+                        "/reviews/**").authenticated()
                 //pages with access for mod/admin
                 .requestMatchers("/products/edit-product/{id}").hasAnyRole(UserRoleTypes.ADMIN.name(), UserRoleTypes.MODERATOR.name())
                 //pages with access for admins

@@ -12,7 +12,7 @@
         <h1 class="add-product-text"><a href="/admin">Admin Panel</a></h1>
         <div class="add-product-container1">
             <h1 class="add-product-text">Add New Product</h1>
-            <form class="add-product-form" th:method="POST" th:action="@{/admin/add-product/}" th:object="${addProductDTO}">
+            <form class="add-product-form" th:method="POST" th:action="@{/admin/add-product}" th:object="${addProductDTO}">
                 <div class="add-product-container2">
                     <input th:value="*{name}" th:field="*{name}"
                             type="text"
