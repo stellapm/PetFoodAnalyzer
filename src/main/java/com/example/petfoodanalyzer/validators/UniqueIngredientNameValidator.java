@@ -1,5 +1,6 @@
 package com.example.petfoodanalyzer.validators;
 
+import com.example.petfoodanalyzer.exceptions.ObjectNotFoundException;
 import com.example.petfoodanalyzer.services.ingredients.IngredientService;
 import com.example.petfoodanalyzer.validators.annotations.UniqueIngredientName;
 import jakarta.validation.ConstraintValidator;
@@ -14,6 +15,11 @@ public class UniqueIngredientNameValidator implements ConstraintValidator<Unique
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return this.ingredientService.findByName(value) == null;
+        try {
+            this.ingredientService.findByName(value);
+            return false;
+        } catch (ObjectNotFoundException e){
+            return true;
+        }
     }
 }

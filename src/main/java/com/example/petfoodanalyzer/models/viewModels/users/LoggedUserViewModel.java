@@ -66,12 +66,6 @@ public class LoggedUserViewModel {
     }
 
     public boolean hasPet(String pet){
-
-        if (this.petsList.contains(pet)){
-            System.out.println(pet);
-            return true;
-        }
-
-        return false;
+        return this.petsList.contains(pet);
     }
 }

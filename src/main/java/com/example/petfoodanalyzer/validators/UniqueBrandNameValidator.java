@@ -1,5 +1,6 @@
 package com.example.petfoodanalyzer.validators;
 
+import com.example.petfoodanalyzer.exceptions.ObjectNotFoundException;
 import com.example.petfoodanalyzer.services.products.BrandService;
 import com.example.petfoodanalyzer.validators.annotations.UniqueBrandName;
 import jakarta.validation.ConstraintValidator;
@@ -14,6 +15,11 @@ public class UniqueBrandNameValidator implements ConstraintValidator<UniqueBrand
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return this.brandService.findByName(value) == null;
+        try {
+            this.brandService.findByName(value);
+            return false;
+        } catch (ObjectNotFoundException e){
+            return true;
+        }
     }
 }

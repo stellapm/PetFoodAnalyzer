@@ -58,3 +58,4 @@ Other functionality
 * Ingredient lookup should be key insensitive 
 * Improve ingredient regex as ingredients can include various special characters
 * Add binding models
+* products by brand / favorites don't show accurately For %Pet% but null

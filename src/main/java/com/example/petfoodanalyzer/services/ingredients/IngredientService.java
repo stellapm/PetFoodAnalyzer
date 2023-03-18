@@ -48,13 +48,14 @@ public class IngredientService {
     public boolean allIngredientsPresent(String ingredientsList) {
         List<String> ingredientsRaw = Arrays.stream(ingredientsList.split(",\\s+")).toList();
 
-        List<Ingredient> invalidIngredients = ingredientsRaw
-                .stream()
-                .map(this::findByName)
-                .filter(Objects::isNull)
-                .toList();
+        try {
+            ingredientsRaw
+                    .forEach(this::findByName);
 
-                return invalidIngredients.size() == 0;
+            return true;
+        } catch (ObjectNotFoundException e){
+            return false;
+        }
     }
 
     public Map<String, List<String>> analyzeIngredients(IngredientsListDTO ingredientsListDTO) {

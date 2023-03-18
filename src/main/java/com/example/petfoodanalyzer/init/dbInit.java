@@ -34,6 +34,6 @@ public class dbInit implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 //        initServices();
-        this.userEntityService.decryptImportedUserPasswords();
+//        this.userEntityService.decryptImportedUserPasswords();
     }
 }

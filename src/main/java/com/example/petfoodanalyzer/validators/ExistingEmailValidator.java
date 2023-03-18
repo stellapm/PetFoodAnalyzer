@@ -1,5 +1,6 @@
 package com.example.petfoodanalyzer.validators;
 
+import com.example.petfoodanalyzer.exceptions.ObjectNotFoundException;
 import com.example.petfoodanalyzer.services.users.UserEntityService;
 import com.example.petfoodanalyzer.validators.annotations.ExistingEmail;
 import jakarta.validation.ConstraintValidator;
@@ -14,6 +15,13 @@ public class ExistingEmailValidator implements ConstraintValidator<ExistingEmail
 
     @Override
         public boolean isValid(String value, ConstraintValidatorContext context) {
-            return this.userEntityService.findByEmail(value) != null;
+//            return this.userEntityService.findByEmail(value) != null;
+
+        try {
+            this.userEntityService.findByEmail(value);
+            return true;
+        } catch (ObjectNotFoundException e) {
+            return false;
         }
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.petfoodanalyzer.validators;
 
+import com.example.petfoodanalyzer.exceptions.ObjectNotFoundException;
 import com.example.petfoodanalyzer.validators.annotations.UniqueEmail;
 import com.example.petfoodanalyzer.services.users.UserEntityService;
 import jakarta.validation.ConstraintValidator;
@@ -14,6 +15,13 @@ public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, St
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return this.userEntityService.findByEmail(value) == null;
+//        return this.userEntityService.findByEmail(value) == null;
+
+        try {
+            this.userEntityService.findByEmail(value);
+            return false;
+        } catch (ObjectNotFoundException e){
+            return true;
+        }
     }
 }
