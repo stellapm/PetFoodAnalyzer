@@ -51,6 +51,8 @@ public class UserEntity extends BaseEntity {
         setProfilePicUrl(null);
     }
 
+
+
     public String getEmail() {
         return email;
     }

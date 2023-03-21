@@ -1,5 +1,5 @@
 # Description
-This is a project for the Softuni Spring Advanced Module. The application is intended to act as a database that contains information about ingredients used in pet foods, food brands and products. It should act as a guide when choosing a food for your pet. It is not a store. Currently has only foods for cats and dogs.
+This is a project for the SoftUni Spring Advanced Module. The application is intended to act as a database that contains information about ingredients used in pet foods, food brands and products. It should act as a guide when choosing a food for your pet. It is not a store. Currently has only foods for cats and dogs.
 
 # Functionalities
 
@@ -15,7 +15,7 @@ Any user should be able to:
 * View a product
 * View product reviews
 
-Logged users should be able to:
+Registered users should be able to:
 * Login
 * View and edit their own user profile
 * View products
@@ -44,7 +44,7 @@ Other functionality
 
 # Future/Upcoming upgrades
 * Moderators and admins should be able to delete products and reviews
-* Admins can delete brands
+* Admins can delete brands and all associated products/reviews 
 * Track last login date and send a week notice for users inactive for a specific period of time. Delete if no activity afterwards
 * Ingredient analyzer could provide information in a piechart 
 * Implement product/review rating system
@@ -56,6 +56,6 @@ Other functionality
 # Bugs and other fixes:
 * users/register, users/my-profile, admin/manage-roles POST requests leads to redirect (status 302) after applying spring security chain filter.
 * Ingredient lookup should be key insensitive 
-* Improve ingredient regex as ingredients can include various special characters
+* Improve ingredient regex as ingredients should include various special characters
 * Add binding models
-* products by brand / favorites don't show accurately For %Pet% but null
+* products by brand / favorites don't show accurately For "Pet" but display a null value instead

@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.example.petfoodanalyzer.constants.Exceptions.NAME_IDENTIFIER;
-import static com.example.petfoodanalyzer.constants.Models.INGREDIENT;
 import static com.example.petfoodanalyzer.constants.Models.INGREDIENT_CATEGORY;
 
 @Service
@@ -69,7 +68,8 @@ public class IngredientCategoryService {
     public IngredientCategory getIngredientCategoryByName(String ingredientCategory) {
         IngredientCategoryNames ingredientCategoryName = Arrays.stream(IngredientCategoryNames.values())
                 .filter(cn -> cn.getValue().equals(ingredientCategory))
-                .findFirst().get();
+                .findFirst()
+                .orElseThrow(() -> new ObjectNotFoundException(NAME_IDENTIFIER, ingredientCategory, INGREDIENT_CATEGORY));
 
         return this.ingredientCategoryRepository.findByName(ingredientCategoryName)
                 .orElseThrow(() -> new ObjectNotFoundException(NAME_IDENTIFIER, ingredientCategory, INGREDIENT_CATEGORY));
