@@ -1,5 +1,6 @@
 package com.example.petfoodanalyzer.services.products;
 
+import com.example.petfoodanalyzer.exceptions.ObjectNotFoundException;
 import com.example.petfoodanalyzer.models.entities.products.Pet;
 import com.example.petfoodanalyzer.models.enums.PetsTypes;
 import com.example.petfoodanalyzer.repositories.products.PetRepository;
@@ -10,6 +11,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static com.example.petfoodanalyzer.constants.Exceptions.NAME_IDENTIFIER;
+import static com.example.petfoodanalyzer.constants.Models.PET;
 
 @Service
 public class PetService {
@@ -36,7 +40,7 @@ public class PetService {
         this.petRepository.saveAll(pets);
     }
 
-    //Pet is a small enough object with only one variable. No need to pass to DTO
+    //Pet is a small enough object with only one variable, will use it directly
 
     private List<Pet> getAllPets(){
         return this.petRepository.findAll();
@@ -51,12 +55,12 @@ public class PetService {
 
     public Set<Pet> getAllMatchingPetTypes(List<String> types) {
         return types.stream()
-                .map(PetsTypes::valueOf)
-                .map(p -> this.petRepository.findByPetsType(p))
+                .map(this::getPetByName)
                 .collect(Collectors.toSet());
     }
 
     public Pet getPetByName(String petStr) {
-        return this.petRepository.findByPetsType(PetsTypes.valueOf(petStr));
+        return this.petRepository.findByPetsType(PetsTypes.valueOf(petStr))
+                .orElseThrow(() -> new ObjectNotFoundException(NAME_IDENTIFIER, petStr, PET));
     }
 }

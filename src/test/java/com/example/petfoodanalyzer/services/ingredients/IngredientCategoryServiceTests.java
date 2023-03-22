@@ -17,34 +17,37 @@ import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
-public class IngredientCategoryServiceTest {
+public class IngredientCategoryServiceTests {
     private final static String INVALID_STR = "Invalid";
+
+    private IngredientCategoryService testService;
 
     private IngredientCategory first;
     private IngredientCategory second;
     private IngredientCategory third;
 
-    private IngredientCategoryService testService;
 
     @Mock
     IngredientCategoryRepository mockRepository;
 
     @BeforeEach
     public void setupCategories(){
-        first = new IngredientCategory()
+        this.first = new IngredientCategory()
                 .setName(IngredientCategoryNames.CL)
                 .setDescription("example");
 
-        second = new IngredientCategory()
+        this.second = new IngredientCategory()
                 .setName(IngredientCategoryNames.AP)
                 .setDescription("example");
 
-        third = new IngredientCategory()
+        this.third = new IngredientCategory()
                 .setName(IngredientCategoryNames.AA)
                 .setDescription("example");
 
-        testService = new IngredientCategoryService(mockRepository, new Gson());
+        this.testService = new IngredientCategoryService(this.mockRepository, new Gson());
     }
+
+    //TODO: Test db init + json file read/import?
 
     @Test
     public void testGetCategoryNameByCode(){
@@ -63,33 +66,30 @@ public class IngredientCategoryServiceTest {
 
         IngredientCategory ingredientCategory = this.testService.getIngredientCategoryByName("Cellulose");
 
-        Assertions.assertEquals(mockRepository.findByName(IngredientCategoryNames.CL).get().getName(), ingredientCategory.getName(),
-                "Ingredient category name does not match");
-        Assertions.assertEquals(mockRepository.findByName(IngredientCategoryNames.CL).get().getName().getValue(), ingredientCategory.getName().getValue(),
-                "Ingredient category value does not match");
+        Assertions.assertEquals(first, ingredientCategory,
+                "Ingredient category does not match");
     }
 
     @Test
     public void testGetIngredientCategoryByNameException(){
+        Throwable invalidEnum = Assertions.assertThrows(ObjectNotFoundException.class, () -> this.testService.getIngredientCategoryByName(INVALID_STR));
+        Assertions.assertEquals("Object with name Invalid and type Ingredient category not found!", invalidEnum.getMessage(), "Incorrect error message thrown.");
 
-        Throwable error = Assertions.assertThrows(ObjectNotFoundException.class, () -> this.testService.getIngredientCategoryByName(INVALID_STR));
-        Assertions.assertEquals("Object with name Invalid and type Ingredient category not found!", error.getMessage(), "Incorrect error message thrown.");
+        Mockito.when(this.mockRepository.findByName(IngredientCategoryNames.CL)).thenReturn(Optional.empty());
 
-        Mockito.when(mockRepository.findByName(IngredientCategoryNames.CL)).thenReturn(Optional.empty());
-
-        error = Assertions.assertThrows(ObjectNotFoundException.class, () -> this.testService.getIngredientCategoryByName(IngredientCategoryNames.CL.getValue()));
+        Throwable missingEnum = Assertions.assertThrows(ObjectNotFoundException.class, () -> this.testService.getIngredientCategoryByName(IngredientCategoryNames.CL.getValue()));
         Assertions.assertEquals(String.format("Object with name %s and type Ingredient category not found!", IngredientCategoryNames.CL.getValue()),
-                error.getMessage(), "Incorrect error message thrown.");
+                missingEnum.getMessage(), "Incorrect error message thrown.");
     }
 
     @Test void testGetAllIngredientCategoryNames(){
-        Mockito.when(mockRepository.findAll()).thenReturn(List.of(first, second, third));
+        Mockito.when(this.mockRepository.findAll()).thenReturn(List.of(this.first, this.second, this.third));
 
         List<String> result = this.testService.getAllIngredientCategoriesNames();
 
-        Assertions.assertEquals(mockRepository.findAll().size(), result.size(), "Invalid result list size.");
-        Assertions.assertEquals(first.getName().getValue(), result.get(0));
-        Assertions.assertEquals(second.getName().getValue(), result.get(1));
-        Assertions.assertEquals(third.getName().getValue(), result.get(2));
+        Assertions.assertEquals(3, result.size(), "Invalid result list size.");
+        Assertions.assertEquals(this.first.getName().getValue(), result.get(0));
+        Assertions.assertEquals(this.second.getName().getValue(), result.get(1));
+        Assertions.assertEquals(this.third.getName().getValue(), result.get(2));
     }
 }

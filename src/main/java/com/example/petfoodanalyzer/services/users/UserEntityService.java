@@ -159,7 +159,7 @@ public class UserEntityService {
         this.userEntityRepository.save(user);
     }
 
-    public void decryptImportedUserPasswords() {
+    public void encryptImportedUserPasswords() {
         List<UserEntity> users = this.userEntityRepository.findAll();
         List<UserEntity> encryptedUsers = users
                 .stream()
