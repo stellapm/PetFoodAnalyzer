@@ -16,6 +16,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 @ExtendWith(MockitoExtension.class)
 public class IngredientCategoryServiceTests {
     private final static String INVALID_STR = "Invalid";
@@ -53,10 +55,10 @@ public class IngredientCategoryServiceTests {
     public void testGetCategoryNameByCode(){
         IngredientCategoryNames categoryName = IngredientCategoryNames.valueOf("RV");
 
-        Assertions.assertEquals("Root Vegetables", categoryName.getValue(),
+        assertEquals("Root Vegetables", categoryName.getValue(),
                 "Category name value does not match code.");
 
-        Assertions.assertNotEquals("Root Vegetables", INVALID_STR,
+        assertNotEquals("Root Vegetables", INVALID_STR,
                 "Invalid category name should fail");
     }
 
@@ -66,19 +68,19 @@ public class IngredientCategoryServiceTests {
 
         IngredientCategory ingredientCategory = this.testService.getIngredientCategoryByName("Cellulose");
 
-        Assertions.assertEquals(first, ingredientCategory,
+        assertEquals(first, ingredientCategory,
                 "Ingredient category does not match");
     }
 
     @Test
     public void testGetIngredientCategoryByNameException(){
-        Throwable invalidEnum = Assertions.assertThrows(ObjectNotFoundException.class, () -> this.testService.getIngredientCategoryByName(INVALID_STR));
-        Assertions.assertEquals("Object with name Invalid and type Ingredient category not found!", invalidEnum.getMessage(), "Incorrect error message thrown.");
+        Throwable invalidEnum = assertThrows(ObjectNotFoundException.class, () -> this.testService.getIngredientCategoryByName(INVALID_STR));
+        assertEquals("Object with name Invalid and type Ingredient category not found!", invalidEnum.getMessage(), "Incorrect error message thrown.");
 
         Mockito.when(this.mockRepository.findByName(IngredientCategoryNames.CL)).thenReturn(Optional.empty());
 
-        Throwable missingEnum = Assertions.assertThrows(ObjectNotFoundException.class, () -> this.testService.getIngredientCategoryByName(IngredientCategoryNames.CL.getValue()));
-        Assertions.assertEquals(String.format("Object with name %s and type Ingredient category not found!", IngredientCategoryNames.CL.getValue()),
+        Throwable missingEnum = assertThrows(ObjectNotFoundException.class, () -> this.testService.getIngredientCategoryByName(IngredientCategoryNames.CL.getValue()));
+        assertEquals(String.format("Object with name %s and type Ingredient category not found!", IngredientCategoryNames.CL.getValue()),
                 missingEnum.getMessage(), "Incorrect error message thrown.");
     }
 
@@ -87,9 +89,9 @@ public class IngredientCategoryServiceTests {
 
         List<String> result = this.testService.getAllIngredientCategoriesNames();
 
-        Assertions.assertEquals(3, result.size(), "Invalid result list size.");
-        Assertions.assertEquals(this.first.getName().getValue(), result.get(0));
-        Assertions.assertEquals(this.second.getName().getValue(), result.get(1));
-        Assertions.assertEquals(this.third.getName().getValue(), result.get(2));
+        assertEquals(3, result.size(), "Invalid result list size.");
+        assertEquals(this.first.getName().getValue(), result.get(0));
+        assertEquals(this.second.getName().getValue(), result.get(1));
+        assertEquals(this.third.getName().getValue(), result.get(2));
     }
 }
