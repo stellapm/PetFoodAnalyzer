@@ -4,7 +4,6 @@ import com.example.petfoodanalyzer.exceptions.ObjectNotFoundException;
 import com.example.petfoodanalyzer.models.entities.users.UserRole;
 import com.example.petfoodanalyzer.models.enums.UserRoleTypes;
 import com.example.petfoodanalyzer.repositories.users.UserRoleRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

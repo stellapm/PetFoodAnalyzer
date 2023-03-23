@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.example.petfoodanalyzer.constants.Exceptions.NAME_IDENTIFIER;
-import static com.example.petfoodanalyzer.constants.Models.BRAND;
 import static com.example.petfoodanalyzer.constants.Models.USER_ROLE;
 
 @Service

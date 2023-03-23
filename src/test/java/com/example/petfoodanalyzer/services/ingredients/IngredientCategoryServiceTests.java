@@ -5,18 +5,17 @@ import com.example.petfoodanalyzer.models.entities.ingredients.IngredientCategor
 import com.example.petfoodanalyzer.models.enums.IngredientCategoryNames;
 import com.example.petfoodanalyzer.repositories.ingredients.IngredientCategoryRepository;
 import com.google.gson.Gson;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class IngredientCategoryServiceTests {
@@ -64,7 +63,7 @@ public class IngredientCategoryServiceTests {
 
     @Test
     public void testGetIngredientCategoryByName(){
-        Mockito.when(mockRepository.findByName(IngredientCategoryNames.CL)).thenReturn(Optional.ofNullable(first));
+        when(mockRepository.findByName(IngredientCategoryNames.CL)).thenReturn(Optional.ofNullable(first));
 
         IngredientCategory ingredientCategory = this.testService.getIngredientCategoryByName("Cellulose");
 
@@ -77,7 +76,7 @@ public class IngredientCategoryServiceTests {
         Throwable invalidEnum = assertThrows(ObjectNotFoundException.class, () -> this.testService.getIngredientCategoryByName(INVALID_STR));
         assertEquals("Object with name Invalid and type Ingredient category not found!", invalidEnum.getMessage(), "Incorrect error message thrown.");
 
-        Mockito.when(this.mockRepository.findByName(IngredientCategoryNames.CL)).thenReturn(Optional.empty());
+        when(this.mockRepository.findByName(IngredientCategoryNames.CL)).thenReturn(Optional.empty());
 
         Throwable missingEnum = assertThrows(ObjectNotFoundException.class, () -> this.testService.getIngredientCategoryByName(IngredientCategoryNames.CL.getValue()));
         assertEquals(String.format("Object with name %s and type Ingredient category not found!", IngredientCategoryNames.CL.getValue()),
@@ -85,7 +84,7 @@ public class IngredientCategoryServiceTests {
     }
 
     @Test void testGetAllIngredientCategoryNames(){
-        Mockito.when(this.mockRepository.findAll()).thenReturn(List.of(this.first, this.second, this.third));
+        when(this.mockRepository.findAll()).thenReturn(List.of(this.first, this.second, this.third));
 
         List<String> result = this.testService.getAllIngredientCategoriesNames();
 
