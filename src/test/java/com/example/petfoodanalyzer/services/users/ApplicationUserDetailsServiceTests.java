@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class ApplicationUserDetailsServiceTest {
+public class ApplicationUserDetailsServiceTests {
     private final static String EXISTING_EMAIL = "existing@abv.bg";
     private final static String NON_EXISTING_EMAIL = "non_existing@abv.bg";
 

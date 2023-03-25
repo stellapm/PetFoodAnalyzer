@@ -54,7 +54,7 @@ public class IngredientCategoryService {
         this.ingredientCategoryRepository.saveAll(categoryNames);
     }
 
-    private IngredientCategoryNames getCategoryNameByCode(String code){
+    public IngredientCategoryNames getCategoryNameByCode(String code){
         return IngredientCategoryNames.valueOf(code);
     }
 

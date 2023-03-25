@@ -13,12 +13,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class UserRoleServiceTest {
+public class UserRoleServiceTests {
     private UserRoleService testService;
 
     private UserRole user;
@@ -41,6 +41,15 @@ public class UserRoleServiceTest {
     }
 
     //TODO: test init?
+
+    @Test
+    public void testIsRoleTypesInit(){
+        when(this.mockRepository.count()).thenReturn(0L);
+        assertFalse(this.testService.isRoleTypesInit(), "Repository should be empty!");
+
+        when(this.mockRepository.count()).thenReturn(1L);
+        assertTrue(this.testService.isRoleTypesInit(), "Repository should be populated!");
+    }
 
     @Test
     public void testGetUserRole(){

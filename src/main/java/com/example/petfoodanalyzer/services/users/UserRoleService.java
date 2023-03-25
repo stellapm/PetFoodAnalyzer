@@ -23,7 +23,7 @@ public class UserRoleService {
         this.userRoleRepository = userRoleRepository;
     }
 
-    private boolean isRoleTypesInit(){
+    public boolean isRoleTypesInit(){
                 return this.userRoleRepository.count() > 0;
     }
 

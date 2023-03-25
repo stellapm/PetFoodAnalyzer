@@ -6,5 +6,5 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class UserEntityServiceTest {
+public class UserEntityServiceTests {
 }

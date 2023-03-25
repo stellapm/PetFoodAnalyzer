@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -24,6 +26,7 @@ public class Brand extends BaseEntity {
     private Set<Product> products;
 
     public Brand() {
+        this.products = new HashSet<>();
     }
 
     public String getName() {
@@ -60,5 +63,21 @@ public class Brand extends BaseEntity {
     public Brand setProducts(Set<Product> products) {
         this.products = products;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Brand brand = (Brand) o;
+        return Objects.equals(name, brand.name) &&
+                Objects.equals(description, brand.description) &&
+                Objects.equals(picUrl, brand.picUrl) &&
+                Objects.equals(products.size(), brand.products.size());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description, picUrl, products);
     }
 }

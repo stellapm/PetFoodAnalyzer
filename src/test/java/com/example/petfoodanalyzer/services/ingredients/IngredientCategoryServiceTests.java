@@ -51,8 +51,17 @@ public class IngredientCategoryServiceTests {
     //TODO: Test db init + json file read/import?
 
     @Test
+    public void testIsIngredientCatInit(){
+        when(this.mockRepository.count()).thenReturn(0L);
+        assertFalse(this.testService.isIngredientCatInit(), "Repository should be empty!");
+
+        when(this.mockRepository.count()).thenReturn(1L);
+        assertTrue(this.testService.isIngredientCatInit(), "Repository should be populated!");
+    }
+
+    @Test
     public void testGetCategoryNameByCode(){
-        IngredientCategoryNames categoryName = IngredientCategoryNames.valueOf("RV");
+        IngredientCategoryNames categoryName = this.testService.getCategoryNameByCode("RV");
 
         assertEquals("Root Vegetables", categoryName.getValue(),
                 "Category name value does not match code.");

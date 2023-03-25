@@ -40,6 +40,15 @@ public class PetServiceTests {
     //TODO: test dbinit?
 
     @Test
+    public void testIsPetTypesInit(){
+        when(this.mockRepository.count()).thenReturn(0L);
+        assertFalse(this.testService.isPetTypesInit(), "Repository should be empty!");
+
+        when(this.mockRepository.count()).thenReturn(1L);
+        assertTrue(this.testService.isPetTypesInit(), "Repository should be populated!");
+    }
+
+    @Test
     void testGetAllPetTypesAsString(){
         when(this.mockRepository.findAll())
                 .thenReturn(List.of(this.first, this.second));

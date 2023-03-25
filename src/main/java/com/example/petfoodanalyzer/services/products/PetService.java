@@ -24,7 +24,7 @@ public class PetService {
         this.petRepository = petRepository;
     }
 
-    private boolean isPetTypesInit(){
+    public boolean isPetTypesInit(){
         return this.petRepository.count() > 0;
     }
 
