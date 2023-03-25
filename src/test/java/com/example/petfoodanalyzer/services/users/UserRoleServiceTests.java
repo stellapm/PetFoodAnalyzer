@@ -15,7 +15,9 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 public class UserRoleServiceTests {
@@ -40,7 +42,23 @@ public class UserRoleServiceTests {
         this.testService = new UserRoleService(mockRepository);
     }
 
-    //TODO: test init?
+    @Test
+    public void testInitUserRolesNoActionOnInitDB() {
+        when(this.mockRepository.count()).thenReturn(1L);
+
+        this.testService.initUserRoleTypes();
+
+        verify(this.mockRepository, times(0)).saveAll(any());
+    }
+
+    @Test
+    public void testInitUserRolesOnEmptyDB() {
+        when(this.mockRepository.count()).thenReturn(0L);
+
+        this.testService.initUserRoleTypes();
+
+        verify(this.mockRepository).saveAll(any());
+    }
 
     @Test
     public void testIsRoleTypesInit(){

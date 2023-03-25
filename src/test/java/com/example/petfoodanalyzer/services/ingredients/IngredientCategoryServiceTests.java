@@ -11,11 +11,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class IngredientCategoryServiceTests {
@@ -48,8 +50,6 @@ public class IngredientCategoryServiceTests {
         this.testService = new IngredientCategoryService(this.mockRepository, new Gson());
     }
 
-    //TODO: Test db init + json file read/import?
-
     @Test
     public void testIsIngredientCatInit(){
         when(this.mockRepository.count()).thenReturn(0L);
@@ -57,6 +57,30 @@ public class IngredientCategoryServiceTests {
 
         when(this.mockRepository.count()).thenReturn(1L);
         assertTrue(this.testService.isIngredientCatInit(), "Repository should be populated!");
+    }
+
+    @Test
+    public void testReadIngredientCategoriesFileContent() throws IOException {
+        String json = this.testService.readIngredientCategoriesFileContent();
+        assertTrue(json.contains("Essential amino"));
+    }
+
+    @Test
+    public void testInitIngredientCategoriesNoActionOnInitDB() throws IOException {
+        when(this.mockRepository.count()).thenReturn(1L);
+
+        this.testService.initIngredientCategories();
+
+        verify(this.mockRepository, times(0)).saveAll(any());
+    }
+
+    @Test
+    public void testInitIngredientCategoriesOnEmptyDB() throws IOException {
+        when(this.mockRepository.count()).thenReturn(0L);
+
+        this.testService.initIngredientCategories();
+
+        verify(this.mockRepository).saveAll(any());
     }
 
     @Test

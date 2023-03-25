@@ -10,12 +10,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 public class PetServiceTests {
@@ -37,7 +40,23 @@ public class PetServiceTests {
         this.testService = new PetService(this.mockRepository);
     }
 
-    //TODO: test dbinit?
+    @Test
+    public void testInitPetsNoActionOnInitDB() {
+        when(this.mockRepository.count()).thenReturn(1L);
+
+        this.testService.initPetTypes();
+
+        verify(this.mockRepository, times(0)).saveAll(any());
+    }
+
+    @Test
+    public void testInitPetsOnEmptyDB() {
+        when(this.mockRepository.count()).thenReturn(0L);
+
+        this.testService.initPetTypes();
+
+        verify(this.mockRepository).saveAll(any());
+    }
 
     @Test
     public void testIsPetTypesInit(){
