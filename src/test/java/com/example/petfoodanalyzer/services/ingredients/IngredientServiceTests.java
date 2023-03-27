@@ -11,9 +11,7 @@ import com.example.petfoodanalyzer.repositories.ingredients.IngredientRepository
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
@@ -36,14 +34,14 @@ public class IngredientServiceTests {
     private IngredientRepository mockRepository;
 
     @Mock
-    private IngredientCategoryService ingredientCategoryService;
+    private IngredientCategoryService mockIngredientCategoryService;
     private IngredientService testService;
 
     @BeforeEach
     public void setup(){
         setupTestIngredients();
 
-        this.testService = new IngredientService(this.mockRepository, this.ingredientCategoryService, new ModelMapper());
+        this.testService = new IngredientService(this.mockRepository, this.mockIngredientCategoryService, new ModelMapper());
     }
 
     private void setupTestIngredients() {
@@ -88,7 +86,7 @@ public class IngredientServiceTests {
 
     @Test
     public void testAddIngredient(){
-        when(ingredientCategoryService.getIngredientCategoryByName("Cellulose")).thenReturn(firstIC);
+        when(mockIngredientCategoryService.getIngredientCategoryByName("Cellulose")).thenReturn(firstIC);
 
         AddIngredientDTO dto = new AddIngredientDTO()
                 .setIngredientCategoryStr("Cellulose")

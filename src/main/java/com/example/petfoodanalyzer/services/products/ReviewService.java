@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.example.petfoodanalyzer.constants.Exceptions.ID_IDENTIFIER;
-import static com.example.petfoodanalyzer.constants.Models.REVIEW;
 import static com.example.petfoodanalyzer.constants.Models.REVIEW_PRODUCT;
 
 @Service
@@ -34,9 +33,9 @@ public class ReviewService {
         this.productService = productService;
     }
 
-    public Review findById(Long id){
-        return this.reviewRepository.findById(id)
-                .orElseThrow(() -> new ObjectNotFoundException(ID_IDENTIFIER, String.valueOf(id), REVIEW));
+    public Review getReviewByIdAndProductId(Long id, Long productId) {
+        return this.reviewRepository.findByIdAndProductId(id, productId)
+                .orElseThrow(() -> new ObjectNotFoundException(ID_IDENTIFIER, String.format("%d or %d", id, productId), REVIEW_PRODUCT));
     }
 
     public void saveReview(Long id, AddReviewDTO addReviewDTO, String email) {
@@ -54,8 +53,7 @@ public class ReviewService {
     }
 
     public void likeProductReview(Long id, String username, Long productId) {
-        Review review = this.reviewRepository.findByIdAndProductId(id, productId)
-                .orElseThrow(() -> new ObjectNotFoundException(ID_IDENTIFIER, String.format("%d or %d", id, productId), REVIEW_PRODUCT));
+        Review review = getReviewByIdAndProductId(id, productId);
 
         UserEntity user = this.userEntityService.findByEmail(username);
         review.getLikes().add(user);
@@ -79,14 +77,15 @@ public class ReviewService {
     }
 
     public void reportReview(Long id, Long productId) {
-        Review review = this.reviewRepository.findByIdAndProductId(id, productId)
-                .orElseThrow(() -> new ObjectNotFoundException(ID_IDENTIFIER, String.format("%d or %d", id, productId), REVIEW_PRODUCT));
+        Review review = getReviewByIdAndProductId(id, productId);
         review.setReported(true);
         this.reviewRepository.save(review);
     }
 
+    public List<Review> getReportedReviews() {
+        return this.reviewRepository.findAllReported();
+    }
     public void cleanUpReported() {
-        List<Review> reviews = this.reviewRepository.findAllReported();
-        this.reviewRepository.deleteAll(reviews);
+        this.reviewRepository.deleteAll(getReportedReviews());
     }
 }

@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -85,5 +86,22 @@ public class Review extends BaseEntity {
     public Review setLikes(Set<UserEntity> likes) {
         this.likes = likes;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Review review = (Review) o;
+        return reported == review.reported &&
+                Objects.equals(author.getEmail(), review.author.getEmail()) &&
+                Objects.equals(content, review.content) &&
+                Objects.equals(product.getName(), review.product.getName()) &&
+                likes.size() == review.likes.size();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(author, content, reported, product, likes);
     }
 }
