@@ -3,7 +3,6 @@ package com.example.petfoodanalyzer.services.products;
 import com.example.petfoodanalyzer.exceptions.ObjectNotFoundException;
 import com.example.petfoodanalyzer.models.dtos.products.AddBrandDTO;
 import com.example.petfoodanalyzer.models.entities.products.Brand;
-import com.example.petfoodanalyzer.models.entities.products.Product;
 import com.example.petfoodanalyzer.models.viewModels.products.BrandOverviewViewModel;
 import com.example.petfoodanalyzer.models.viewModels.products.BrandViewModel;
 import com.example.petfoodanalyzer.repositories.products.BrandRepository;
@@ -17,7 +16,6 @@ import org.modelmapper.ModelMapper;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;

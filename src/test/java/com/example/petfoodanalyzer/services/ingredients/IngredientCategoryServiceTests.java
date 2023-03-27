@@ -31,7 +31,7 @@ public class IngredientCategoryServiceTests {
 
 
     @Mock
-    IngredientCategoryRepository mockRepository;
+    private IngredientCategoryRepository mockRepository;
 
     @BeforeEach
     public void setupCategories(){

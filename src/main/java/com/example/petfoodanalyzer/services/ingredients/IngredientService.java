@@ -46,7 +46,7 @@ public class IngredientService {
     }
 
     public boolean allIngredientsPresent(String ingredientsList) {
-        List<String> ingredientsRaw = Arrays.stream(ingredientsList.split(",\\s+")).toList();
+        List<String> ingredientsRaw = getIngredientNamesFromString(ingredientsList);
 
         try {
             ingredientsRaw
@@ -58,14 +58,15 @@ public class IngredientService {
         }
     }
 
+    public List<String> getIngredientNamesFromString(String ingredientsList){
+        return Arrays.stream(ingredientsList.split(",\\s+")).toList();
+    }
+
     public Map<String, List<String>> analyzeIngredients(IngredientsListDTO ingredientsListDTO) {
-        List<String> rawIngredients = Arrays.stream(ingredientsListDTO.getIngredientsList().split(",\\s+")).toList();
+        List<String> rawIngredients = getIngredientNamesFromString(ingredientsListDTO.getIngredientsList());
         Map<String, List<String >> analyzeResult = new LinkedHashMap<>();
 
-        List<Ingredient> allIngredients = rawIngredients.stream()
-                .map(this::findByName)
-                .sorted(Comparator.comparing(i -> i.getIngredientCategory().getName().getValue()))
-                .toList();
+        List<Ingredient> allIngredients = getIngredientsFromStringNames(rawIngredients);
 
         for (Ingredient ingredient : allIngredients) {
             String categoryInfo = ingredient.getIngredientCategory().toString();
@@ -78,6 +79,13 @@ public class IngredientService {
         }
 
         return analyzeResult;
+    }
+
+    public List<Ingredient> getIngredientsFromStringNames(List<String> rawIngredients) {
+        return rawIngredients.stream()
+                .map(this::findByName)
+                .sorted(Comparator.comparing(i -> i.getIngredientCategory().getName().getValue()))
+                .toList();
     }
 
     public List<IngredientViewModel> getAllIngredients() {

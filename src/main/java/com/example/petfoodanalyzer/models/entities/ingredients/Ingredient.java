@@ -4,6 +4,7 @@ import com.example.petfoodanalyzer.models.entities.BaseEntity;
 import com.example.petfoodanalyzer.models.entities.products.Product;
 import jakarta.persistence.*;
 
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -63,5 +64,20 @@ public class Ingredient extends BaseEntity {
     @Override
     public String toString() {
         return String.format("------ %s - %s\n", this.name, this.description);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ingredient that = (Ingredient) o;
+        return Objects.equals(ingredientCategory.getName().getValue(), that.ingredientCategory.getName().getValue()) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(description, that.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ingredientCategory, name, description);
     }
 }
