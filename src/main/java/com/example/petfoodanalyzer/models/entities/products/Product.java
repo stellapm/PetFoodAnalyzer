@@ -4,6 +4,7 @@ import com.example.petfoodanalyzer.models.entities.BaseEntity;
 import com.example.petfoodanalyzer.models.entities.ingredients.Ingredient;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -36,6 +37,7 @@ public class Product extends BaseEntity {
     private Set<Review> reviews;
 
     public Product() {
+        this.ingredients = new HashSet<>();
     }
 
     public String getName() {

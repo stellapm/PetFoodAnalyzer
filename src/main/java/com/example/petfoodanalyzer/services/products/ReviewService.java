@@ -2,6 +2,7 @@ package com.example.petfoodanalyzer.services.products;
 
 import com.example.petfoodanalyzer.exceptions.ObjectNotFoundException;
 import com.example.petfoodanalyzer.models.dtos.products.AddReviewDTO;
+import com.example.petfoodanalyzer.models.viewModels.products.ReviewInfoViewModel;
 import com.example.petfoodanalyzer.models.viewModels.products.ReviewOverviewViewModel;
 import com.example.petfoodanalyzer.models.entities.products.Product;
 import com.example.petfoodanalyzer.models.entities.products.Review;
@@ -13,7 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.example.petfoodanalyzer.constants.Exceptions.ID_IDENTIFIER;
 import static com.example.petfoodanalyzer.constants.Models.REVIEW_PRODUCT;
@@ -23,14 +27,12 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final ModelMapper modelMapper;
     private final UserEntityService userEntityService;
-    private final ProductService productService;
 
     @Autowired
-    public ReviewService(ReviewRepository reviewRepository, ModelMapper modelMapper, UserEntityService userEntityService, ProductService productService) {
+    public ReviewService(ReviewRepository reviewRepository, ModelMapper modelMapper, UserEntityService userEntityService) {
         this.reviewRepository = reviewRepository;
         this.modelMapper = modelMapper;
         this.userEntityService = userEntityService;
-        this.productService = productService;
     }
 
     public Review getReviewByIdAndProductId(Long id, Long productId) {
@@ -38,15 +40,14 @@ public class ReviewService {
                 .orElseThrow(() -> new ObjectNotFoundException(ID_IDENTIFIER, String.format("%d or %d", id, productId), REVIEW_PRODUCT));
     }
 
-    public void saveReview(Long id, AddReviewDTO addReviewDTO, String email) {
+    public void saveReview(Product product, AddReviewDTO addReviewDTO, String email) {
         Review review = this.modelMapper.map(addReviewDTO, Review.class);
 
         UserEntity author = this.userEntityService.findByEmail(email);
         review.setAuthor(author);
 
         review.setCreatedOn(LocalDateTime.now());
-
-        Product product = this.productService.getProductById(id);
+//        Product product = this.productService.getProductById(id);
         review.setProduct(product);
 
         this.reviewRepository.save(review);
@@ -87,5 +88,30 @@ public class ReviewService {
     }
     public void cleanUpReported() {
         this.reviewRepository.deleteAll(getReportedReviews());
+    }
+
+    public Set<ReviewInfoViewModel> mapReviewDetails(UserEntity user, Set<Review> reviews) {
+        return reviews.stream()
+                .map(r -> mapReviewToInfoModel(user, r))
+                .collect(Collectors.toSet());
+    }
+
+    public ReviewInfoViewModel mapReviewToInfoModel(UserEntity user, Review review) {
+        ReviewInfoViewModel reviewInfo = this.modelMapper.map(review, ReviewInfoViewModel.class);
+
+        reviewInfo.setAuthorUsername(review.getAuthor().getDisplayName());
+        reviewInfo.setAuthorProfilePic(review.getAuthor().getProfilePicUrl());
+
+        reviewInfo.setLikesCount(review.getLikes().size());
+
+        if (review.getLikes().contains(user)) {
+            reviewInfo.setLoggedUserLike(true);
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String formatDateTime = review.getCreatedOn().format(formatter);
+        reviewInfo.setCreated(formatDateTime);
+
+        return reviewInfo;
     }
 }

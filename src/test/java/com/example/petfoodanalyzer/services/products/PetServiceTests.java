@@ -2,6 +2,7 @@ package com.example.petfoodanalyzer.services.products;
 
 import com.example.petfoodanalyzer.exceptions.ObjectNotFoundException;
 import com.example.petfoodanalyzer.models.entities.products.Pet;
+import com.example.petfoodanalyzer.models.entities.users.UserEntity;
 import com.example.petfoodanalyzer.models.enums.PetsTypes;
 import com.example.petfoodanalyzer.repositories.products.PetRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -68,7 +70,7 @@ public class PetServiceTests {
     }
 
     @Test
-    void testGetAllPetTypesAsString(){
+    public void testGetAllPetTypesAsString(){
         when(this.mockRepository.findAll())
                 .thenReturn(List.of(this.first, this.second));
 
@@ -82,7 +84,7 @@ public class PetServiceTests {
     }
 
     @Test
-    void testGetPetByName(){
+    public void testGetPetByName(){
         when(this.mockRepository.findByPetsType(PetsTypes.valueOf("Cat")))
                 .thenReturn(Optional.ofNullable(this.first));
 
@@ -93,7 +95,7 @@ public class PetServiceTests {
     }
 
     @Test
-    void testGetPetByNameException(){
+    public void testGetPetByNameException(){
         assertThrows(IllegalArgumentException.class, () -> this.testService.getPetByName("Parrot"));
 
         when(this.mockRepository.findByPetsType(PetsTypes.valueOf("Cat")))
@@ -104,7 +106,7 @@ public class PetServiceTests {
     }
 
     @Test
-    void testGetAllMatchingPetTypes(){
+    public void testGetAllMatchingPetTypes(){
         when(this.mockRepository.findByPetsType(PetsTypes.valueOf("Cat")))
                 .thenReturn(Optional.ofNullable(this.first));
         when(this.mockRepository.findByPetsType(PetsTypes.valueOf("Dog")))
@@ -132,7 +134,7 @@ public class PetServiceTests {
     }
 
     @Test
-    void testGetAllMatchingPetTypesException(){
+    public void testGetAllMatchingPetTypesException(){
         when(this.mockRepository.findByPetsType(PetsTypes.valueOf("Cat")))
                 .thenReturn(Optional.empty());
 
@@ -141,5 +143,31 @@ public class PetServiceTests {
 
         assertThrows(IllegalArgumentException.class, () -> this.testService.getPetByName("Parrot"));
 
+    }
+
+    @Test
+    public void testGetUsersPetsTypesOnNoUserOrNoUserPets(){
+        UserEntity user = null;
+
+        List<PetsTypes> result = this.testService.getUsersPetsTypes(user);
+
+        assertEquals(2, result.size());
+
+        user = new UserEntity()
+                .setPets(new HashSet<>());
+
+        result = this.testService.getUsersPetsTypes(user);
+
+        assertEquals(2, result.size());
+    }
+
+    @Test
+    public void testGetUsersPetsTypesOnValidUserPets(){
+        UserEntity user = new UserEntity().setPets(Set.of(this.first));
+
+        List<PetsTypes> result = this.testService.getUsersPetsTypes(user);
+
+        assertEquals(1, result.size());
+        assertEquals("Cat", result.get(0).name());
     }
 }

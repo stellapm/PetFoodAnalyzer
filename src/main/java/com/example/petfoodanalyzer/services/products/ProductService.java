@@ -16,6 +16,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.sound.sampled.ReverbType;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,14 +35,18 @@ public class ProductService {
     private final BrandService brandService;
     private final PetService petService;
     private final IngredientService ingredientService;
+    private final ReviewService reviewService;
 
     @Autowired
-    public ProductService(ProductRepository productRepository, ModelMapper modelMapper, BrandService brandService, PetService petService, IngredientService ingredientService) {
+    public ProductService(ProductRepository productRepository, ModelMapper modelMapper,
+                          BrandService brandService, PetService petService,
+                          IngredientService ingredientService, ReviewService reviewService) {
         this.productRepository = productRepository;
         this.modelMapper = modelMapper;
         this.brandService = brandService;
         this.petService = petService;
         this.ingredientService = ingredientService;
+        this.reviewService = reviewService;
     }
 
     public Product getProductById(Long id) {
@@ -83,7 +88,7 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    private ProductOverviewViewModel overviewMap(Product product) {
+    public ProductOverviewViewModel overviewMap(Product product) {
         ProductOverviewViewModel productInfo = this.modelMapper.map(product, ProductOverviewViewModel.class);
 
         productInfo.setBrandStr(product.getBrand().getName());
@@ -107,56 +112,25 @@ public class ProductService {
             productDetails.setLoggedUserFave(true);
         }
 
-        Set<ReviewInfoViewModel> reviews = mapReviewDetails(user, product.getReviews());
+        Set<ReviewInfoViewModel> reviews = this.reviewService.mapReviewDetails(user, product.getReviews());
         productDetails.setReviewsInfo(reviews);
 
         return productDetails;
     }
 
-    //Initially placed these methods in review service as they are working with the review-related objects
-    //Moved them here as they do not really use review repository and to avoid circular references between review service and product service
-
-    public Set<ReviewInfoViewModel> mapReviewDetails(UserEntity user, Set<Review> reviews) {
-        return reviews.stream()
-                .map(r -> map(user, r))
-                .collect(Collectors.toSet());
-    }
-
-    private ReviewInfoViewModel map(UserEntity user, Review review) {
-        ReviewInfoViewModel reviewInfo = this.modelMapper.map(review, ReviewInfoViewModel.class);
-
-        reviewInfo.setAuthorUsername(review.getAuthor().getDisplayName());
-        reviewInfo.setAuthorProfilePic(review.getAuthor().getProfilePicUrl());
-
-        reviewInfo.setLikesCount(review.getLikes().size());
-
-        if (review.getLikes().contains(user)) {
-            reviewInfo.setLoggedUserLike(true);
-        }
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String formatDateTime = review.getCreatedOn().format(formatter);
-        reviewInfo.setCreated(formatDateTime);
-
-        return reviewInfo;
-    }
     public List<RecommendedProductViewModel> getRecommendedProducts(UserEntity userEntity, Long productId) {
-        List<PetsTypes> pets = new ArrayList<>();
+        List<PetsTypes> pets = this.petService.getUsersPetsTypes(userEntity);
 
-        if (userEntity == null || userEntity.getPets().size() == 0){
-            pets = Arrays.stream(PetsTypes.values()).toList();
-        } else {
-            userEntity.getPets().stream()
-                    .map(Pet::getPetsType)
-                    .forEach(pets::add);
-        }
-
-        List<Product> products = this.productRepository.findAllProductsByPetType(pets, productId);
+        List<Product> products = getAllProductsByPetType(productId, pets);
 
         return products.stream()
                 .limit(5)
                 .map(this::recommendedMap)
                 .toList();
+    }
+
+    public List<Product> getAllProductsByPetType(Long productId, List<PetsTypes> pets) {
+        return this.productRepository.findAllProductsByPetType(pets, productId);
     }
 
     public RecommendedProductViewModel recommendedMap(Product product){
@@ -171,7 +145,7 @@ public class ProductService {
     public List<ProductOverviewViewModel> getAllProductsByBrand(Long id) {
         return this.productRepository.findByBrandId(id)
                 .stream()
-                .map(p -> this.modelMapper.map(p, ProductOverviewViewModel.class))
+                .map(this::overviewMap)
                 .toList();
     }
 

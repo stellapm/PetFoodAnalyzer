@@ -1,6 +1,7 @@
 package com.example.petfoodanalyzer.web.controllers;
 
 import com.example.petfoodanalyzer.models.dtos.products.*;
+import com.example.petfoodanalyzer.models.entities.products.Product;
 import com.example.petfoodanalyzer.models.entities.users.UserEntity;
 import com.example.petfoodanalyzer.models.viewModels.products.*;
 import com.example.petfoodanalyzer.services.products.BrandService;
@@ -95,7 +96,8 @@ public class ProductsController extends BaseController {
     public ModelAndView faveProduct(@PathVariable Long id) {
         UserDetails user = getCurrentUserDetails();
 
-        this.userEntityService.favoriteProduct(id, user.getUsername());
+        Product product = this.productService.getProductById(id);
+        this.userEntityService.favoriteProduct(product, user.getUsername());
 
         return super.redirect("/products/details/" + id);
     }

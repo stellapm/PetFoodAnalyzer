@@ -2,11 +2,13 @@ package com.example.petfoodanalyzer.services.products;
 
 import com.example.petfoodanalyzer.exceptions.ObjectNotFoundException;
 import com.example.petfoodanalyzer.models.entities.products.Pet;
+import com.example.petfoodanalyzer.models.entities.users.UserEntity;
 import com.example.petfoodanalyzer.models.enums.PetsTypes;
 import com.example.petfoodanalyzer.repositories.products.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -24,12 +26,12 @@ public class PetService {
         this.petRepository = petRepository;
     }
 
-    public boolean isPetTypesInit(){
+    public boolean isPetTypesInit() {
         return this.petRepository.count() > 0;
     }
 
     public void initPetTypes() {
-        if (isPetTypesInit()){
+        if (isPetTypesInit()) {
             return;
         }
 
@@ -42,7 +44,7 @@ public class PetService {
 
     //Pet is a small enough object with only one variable, will use it directly
 
-    private List<Pet> getAllPets(){
+    private List<Pet> getAllPets() {
         return this.petRepository.findAll();
     }
 
@@ -62,5 +64,18 @@ public class PetService {
     public Pet getPetByName(String petStr) {
         return this.petRepository.findByPetsType(PetsTypes.valueOf(petStr))
                 .orElseThrow(() -> new ObjectNotFoundException(NAME_IDENTIFIER, petStr, PET));
+    }
+
+    public List<PetsTypes> getUsersPetsTypes(UserEntity userEntity) {
+        List<PetsTypes> pets = new ArrayList<>();
+
+        if (userEntity == null || userEntity.getPets().size() == 0) {
+            pets = Arrays.stream(PetsTypes.values()).toList();
+        } else {
+            userEntity.getPets().stream()
+                    .map(Pet::getPetsType)
+                    .forEach(pets::add);
+        }
+        return pets;
     }
 }

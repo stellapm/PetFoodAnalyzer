@@ -1,6 +1,8 @@
 package com.example.petfoodanalyzer.web.controllers;
 
 import com.example.petfoodanalyzer.models.dtos.products.AddReviewDTO;
+import com.example.petfoodanalyzer.models.entities.products.Product;
+import com.example.petfoodanalyzer.services.products.ProductService;
 import com.example.petfoodanalyzer.services.products.ReviewService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +17,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/reviews")
 public class ReviewController extends BaseController{
     private final ReviewService reviewService;
+    private final ProductService productService;
 
     @Autowired
-    public ReviewController(ReviewService reviewService) {
+    public ReviewController(ReviewService reviewService, ProductService productService) {
         this.reviewService = reviewService;
+        this.productService = productService;
     }
 
     @ModelAttribute(name = "addReviewDTO")
@@ -57,7 +61,8 @@ public class ReviewController extends BaseController{
         }
 
         UserDetails user = getCurrentUserDetails();
-        this.reviewService.saveReview(productId, addReviewDTO, user.getUsername());
+        Product product = this.productService.getProductById(productId);
+        this.reviewService.saveReview(product, addReviewDTO, user.getUsername());
 
         return super.redirect("/products/details/" + productId);
     }

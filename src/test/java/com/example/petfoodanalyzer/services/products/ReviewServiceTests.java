@@ -5,6 +5,7 @@ import com.example.petfoodanalyzer.models.dtos.products.AddReviewDTO;
 import com.example.petfoodanalyzer.models.entities.products.Product;
 import com.example.petfoodanalyzer.models.entities.products.Review;
 import com.example.petfoodanalyzer.models.entities.users.UserEntity;
+import com.example.petfoodanalyzer.models.viewModels.products.ReviewInfoViewModel;
 import com.example.petfoodanalyzer.models.viewModels.products.ReviewOverviewViewModel;
 import com.example.petfoodanalyzer.repositories.products.ReviewRepository;
 import com.example.petfoodanalyzer.services.users.UserEntityService;
@@ -15,9 +16,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -40,14 +43,11 @@ public class ReviewServiceTests {
     @Mock
     private UserEntityService mockUserEntityService;
 
-    @Mock
-    private ProductService mockProductService;
-
     @BeforeEach
     public void setup(){
         setupReviews();
 
-        this.testService = new ReviewService(this.mockRepository, new ModelMapper(), this.mockUserEntityService, this.mockProductService);
+        this.testService = new ReviewService(this.mockRepository, new ModelMapper(), this.mockUserEntityService);
     }
 
     private void setupReviews() {
@@ -65,6 +65,7 @@ public class ReviewServiceTests {
         this.first = new Review()
                 .setAuthor(user1)
                 .setProduct(product1)
+                .setCreatedOn(LocalDateTime.now())
                 .setReported(true)
                 .setContent("Content")
                 .setLikes(new HashSet<>());
@@ -83,6 +84,7 @@ public class ReviewServiceTests {
         this.second = new Review()
                 .setAuthor(user2)
                 .setProduct(product2)
+                .setCreatedOn(LocalDateTime.now())
                 .setReported(false)
                 .setContent("Content2")
                 .setLikes(new HashSet<>());
@@ -114,9 +116,9 @@ public class ReviewServiceTests {
                 .setContent("Example");
 
         when(mockUserEntityService.findByEmail("example1@abv.bg")).thenReturn(this.user1);
-        when(mockProductService.getProductById(1L)).thenReturn(this.product1);
+//        when(mockProductService.getProductById(1L)).thenReturn(this.product1);
 
-        this.testService.saveReview(1L, addReviewDTO, "example1@abv.bg");
+        this.testService.saveReview(this.product1, addReviewDTO, "example1@abv.bg");
 
         verify(mockRepository).save(any());
     }
@@ -183,5 +185,33 @@ public class ReviewServiceTests {
         this.testService.cleanUpReported();
 
         verify(this.mockRepository).deleteAll(any());
+    }
+
+    @Test
+    public void testMapReviewToInfoModelNoLikes(){
+        ReviewInfoViewModel result = this.testService.mapReviewToInfoModel(this.user1, this.first);
+
+        assertEquals(this.first.getAuthor().getDisplayName(), result.getAuthorUsername());
+        assertEquals(this.first.getAuthor().getProfilePicUrl(), result.getAuthorProfilePic());
+        assertEquals(this.first.getContent(), result.getContent(), "Review content not correct!");
+        assertEquals(0, result.getLikesCount());
+        assertFalse(result.isLoggedUserLike());
+    }
+
+    @Test
+    public void testMapReviewToInfoModelLikesCheck(){
+        this.first.getLikes().add(this.user1);
+
+        ReviewInfoViewModel result = this.testService.mapReviewToInfoModel(this.user1, this.first);
+
+        assertEquals(1, result.getLikesCount());
+        assertTrue(result.isLoggedUserLike());
+    }
+
+    @Test
+    public void testMapReviewDetails(){
+        Set<ReviewInfoViewModel> result = this.testService.mapReviewDetails(this.user1, Set.of(this.first, this.second));
+
+        assertEquals(2, result.size());
     }
 }

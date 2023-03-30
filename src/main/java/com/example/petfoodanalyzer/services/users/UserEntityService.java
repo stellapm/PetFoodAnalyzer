@@ -1,6 +1,7 @@
 package com.example.petfoodanalyzer.services.users;
 
 import com.example.petfoodanalyzer.events.RegisteredUserEvent;
+import com.example.petfoodanalyzer.models.entities.products.Product;
 import com.example.petfoodanalyzer.models.viewModels.products.ProductOverviewViewModel;
 import com.example.petfoodanalyzer.models.dtos.users.*;
 import com.example.petfoodanalyzer.models.entities.products.Pet;
@@ -31,18 +32,19 @@ public class UserEntityService {
     private final PetService petService;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
-    private final ProductService productService;
     private final EmailService emailService;
     private final ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
-    public UserEntityService(UserEntityRepository userEntityRepository, UserRoleService userRoleService, PetService petService, ModelMapper modelMapper, PasswordEncoder passwordEncoder, ProductService productService, EmailService emailService, ApplicationEventPublisher applicationEventPublisher) {
+    public UserEntityService(UserEntityRepository userEntityRepository, UserRoleService userRoleService,
+                             PetService petService, ModelMapper modelMapper,
+                             PasswordEncoder passwordEncoder, EmailService emailService,
+                             ApplicationEventPublisher applicationEventPublisher) {
         this.userEntityRepository = userEntityRepository;
         this.userRoleService = userRoleService;
         this.petService = petService;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
-        this.productService = productService;
         this.emailService = emailService;
         this.applicationEventPublisher = applicationEventPublisher;
     }
@@ -117,9 +119,9 @@ public class UserEntityService {
         this.userEntityRepository.save(user);
     }
 
-    public void favoriteProduct(Long productId, String username) {
+    public void favoriteProduct(Product product, String username) {
         UserEntity user = findByEmail(username);
-        user.getFavorites().add(this.productService.getProductById(productId));
+        user.getFavorites().add(product);
         this.userEntityRepository.save(user);
     }
 
