@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ManageRoleDTO {
@@ -18,6 +19,7 @@ public class ManageRoleDTO {
     List<String> roles;
 
     public ManageRoleDTO() {
+        this.roles = new ArrayList<>();
     }
 
     public String getEmail() {

@@ -49,7 +49,7 @@ public class UserEntityService {
         this.applicationEventPublisher = applicationEventPublisher;
     }
 
-    private boolean isUsersInit() {
+    public boolean isUsersInit() {
         return this.userEntityRepository.count() > 0;
     }
 
@@ -57,7 +57,7 @@ public class UserEntityService {
         return this.userEntityRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User with email " + email + " not found."));
     }
 
-    private void makeUserAdmin(UserEntity user) {
+    public void makeUserAdmin(UserEntity user) {
         UserRole adminRole = this.userRoleService.getUserRole(UserRoleTypes.ADMIN);
         user.getUserRoles().add(adminRole);
     }

@@ -116,7 +116,6 @@ public class ReviewServiceTests {
                 .setContent("Example");
 
         when(mockUserEntityService.findByEmail("example1@abv.bg")).thenReturn(this.user1);
-//        when(mockProductService.getProductById(1L)).thenReturn(this.product1);
 
         this.testService.saveReview(this.product1, addReviewDTO, "example1@abv.bg");
 
