@@ -1,5 +1,6 @@
 # Description
 This is a project for the SoftUni Spring Advanced Module. The application is intended to act as a database that contains information about ingredients used in pet foods, food brands and products. It should act as a guide when choosing a food for your pet. It is not a store. Currently has only foods for cats and dogs.
+Check the site out online at https://lb-spring-app-petfoodanalyzer.azuremicroservices.io/
 
 # Functionalities
 
