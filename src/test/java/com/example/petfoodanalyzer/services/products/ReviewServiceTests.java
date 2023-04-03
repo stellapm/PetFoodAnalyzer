@@ -30,8 +30,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class ReviewServiceTests {
     private ReviewService testService;
-    private Review first;
-    private Review second;
+    private Review firstReview;
+    private Review secondReview;
     private UserEntity user1;
     private UserEntity user2;
     private Product product1;
@@ -62,13 +62,12 @@ public class ReviewServiceTests {
 
         this.product1.setId(1L);
 
-        this.first = new Review()
-                .setAuthor(user1)
-                .setProduct(product1)
+        this.firstReview = new Review()
+                .setAuthor(this.user1)
+                .setProduct(this.product1)
                 .setCreatedOn(LocalDateTime.now())
                 .setReported(true)
-                .setContent("Content")
-                .setLikes(new HashSet<>());
+                .setContent("Content");
 
         this.user2 = new UserEntity()
                 .setEmail("example2@abv.bg")
@@ -81,33 +80,32 @@ public class ReviewServiceTests {
 
         this.product2.setId(2L);
 
-        this.second = new Review()
+        this.secondReview = new Review()
                 .setAuthor(user2)
                 .setProduct(product2)
                 .setCreatedOn(LocalDateTime.now())
                 .setReported(false)
-                .setContent("Content2")
-                .setLikes(new HashSet<>());
+                .setContent("Content2");
     }
 
     @Test
     public void testGetReviewByIdAndProductId(){
-        when(this.mockRepository.findByIdAndProductId(1L, 3L))
-                .thenReturn(Optional.ofNullable(this.first));
+        when(this.mockRepository.findById(1L))
+                .thenReturn(Optional.ofNullable(this.firstReview));
 
-        Review result = this.testService.getReviewByIdAndProductId(1L, 3L);
+        Review result = this.testService.getReviewById(1L);
 
-        assertEquals(this.first, result);
-        assertNotEquals(this.second, result);
+        assertEquals(this.firstReview, result);
+        assertNotEquals(this.secondReview, result);
     }
 
     @Test
     public void testGetReviewByIdAndProductIdException(){
-        when(this.mockRepository.findByIdAndProductId(1L, 3L))
+        when(this.mockRepository.findById(1L))
                 .thenReturn(Optional.empty());
 
-        Throwable missingReview = assertThrows(ObjectNotFoundException.class, () -> this.testService.getReviewByIdAndProductId(1L, 3L));
-        assertEquals("Object with id 1 or 3 and type Review or product not found!", missingReview.getMessage(), "Incorrect error message thrown.");
+        Throwable missingReview = assertThrows(ObjectNotFoundException.class, () -> this.testService.getReviewById(1L));
+        assertEquals("Object with id 1 and type Review not found!", missingReview.getMessage(), "Incorrect error message thrown.");
     }
 
     @Test
@@ -123,20 +121,8 @@ public class ReviewServiceTests {
     }
 
     @Test
-    public void testLikeReview(){
-        when(this.mockRepository.findByIdAndProductId(1L, 3L))
-                .thenReturn(Optional.ofNullable(this.first));
-
-        when(mockUserEntityService.findByEmail("example1@abv.bg")).thenReturn(this.user1);
-
-        this.testService.likeProductReview(1L,"example1@abv.bg", 3L);
-
-        verify(mockRepository).save(any());
-    }
-
-    @Test
     public void testFindMostReviewed(){
-        when(this.mockRepository.findMostReviewed()).thenReturn(List.of(this.first, this.second));
+        when(this.mockRepository.findMostReviewed()).thenReturn(List.of(this.firstReview, this.secondReview));
 
         List<ReviewOverviewViewModel> result = this.testService.findMostReviewed();
 
@@ -145,42 +131,42 @@ public class ReviewServiceTests {
         ReviewOverviewViewModel model1 = result.get(0);
         ReviewOverviewViewModel model2 = result.get(1);
 
-        assertEquals(model1.getProductName(), this.first.getProduct().getName());
-        assertEquals(model1.getContent(), this.first.getContent());
-        assertEquals(model1.getAuthorDisplayName(), this.first.getAuthor().getDisplayName());
+        assertEquals(model1.getProductName(), this.firstReview.getProduct().getName());
+        assertEquals(model1.getContent(), this.firstReview.getContent());
+        assertEquals(model1.getAuthorDisplayName(), this.firstReview.getAuthor().getDisplayName());
 
-        assertNotEquals(model2.getProductName(), this.first.getProduct().getName());
-        assertNotEquals(model2.getContent(), this.first.getContent());
-        assertNotEquals(model2.getAuthorDisplayName(), this.first.getAuthor().getDisplayName());
+        assertNotEquals(model2.getProductName(), this.firstReview.getProduct().getName());
+        assertNotEquals(model2.getContent(), this.firstReview.getContent());
+        assertNotEquals(model2.getAuthorDisplayName(), this.firstReview.getAuthor().getDisplayName());
 
-        assertEquals(model2.getProductName(), this.second.getProduct().getName());
-        assertEquals(model2.getContent(), this.second.getContent());
-        assertEquals(model2.getAuthorDisplayName(), this.second.getAuthor().getDisplayName());
+        assertEquals(model2.getProductName(), this.secondReview.getProduct().getName());
+        assertEquals(model2.getContent(), this.secondReview.getContent());
+        assertEquals(model2.getAuthorDisplayName(), this.secondReview.getAuthor().getDisplayName());
     }
 
     @Test
     public void testReportReview(){
-        when(this.mockRepository.findByIdAndProductId(1L, 3L))
-                .thenReturn(Optional.ofNullable(this.first));
+        when(this.mockRepository.findById(1L))
+                .thenReturn(Optional.ofNullable(this.firstReview));
 
-        this.testService.reportReview(1L, 3L);
+        this.testService.reportReview(1L);
 
         verify(mockRepository).save(any());
     }
 
     @Test
     public void testGerAllReportedReviews(){
-        when(this.mockRepository.findAllReported()).thenReturn(List.of(this.first));
+        when(this.mockRepository.findAllReported()).thenReturn(List.of(this.firstReview));
 
         List<Review> result = this.testService.getReportedReviews();
 
         assertEquals(1, result.size());
-        assertTrue(result.contains(this.first));
+        assertTrue(result.contains(this.firstReview));
     }
 
     @Test
     public void testCleanUpReported(){
-        when(this.mockRepository.findAllReported()).thenReturn(List.of(this.first));
+        when(this.mockRepository.findAllReported()).thenReturn(List.of(this.firstReview));
         this.testService.cleanUpReported();
 
         verify(this.mockRepository).deleteAll(any());
@@ -188,28 +174,16 @@ public class ReviewServiceTests {
 
     @Test
     public void testMapReviewToInfoModelNoLikes(){
-        ReviewInfoViewModel result = this.testService.mapReviewToInfoModel(this.user1, this.first);
+        ReviewInfoViewModel result = this.testService.mapReviewToInfoModel(this.firstReview);
 
-        assertEquals(this.first.getAuthor().getDisplayName(), result.getAuthorUsername());
-        assertEquals(this.first.getAuthor().getProfilePicUrl(), result.getAuthorProfilePic());
-        assertEquals(this.first.getContent(), result.getContent(), "Review content not correct!");
-        assertEquals(0, result.getLikesCount());
-        assertFalse(result.isLoggedUserLike());
-    }
-
-    @Test
-    public void testMapReviewToInfoModelLikesCheck(){
-        this.first.getLikes().add(this.user1);
-
-        ReviewInfoViewModel result = this.testService.mapReviewToInfoModel(this.user1, this.first);
-
-        assertEquals(1, result.getLikesCount());
-        assertTrue(result.isLoggedUserLike());
+        assertEquals(this.firstReview.getAuthor().getDisplayName(), result.getAuthorUsername());
+        assertEquals(this.firstReview.getAuthor().getProfilePicUrl(), result.getAuthorProfilePic());
+        assertEquals(this.firstReview.getContent(), result.getContent(), "Review content not correct!");
     }
 
     @Test
     public void testMapReviewDetails(){
-        Set<ReviewInfoViewModel> result = this.testService.mapReviewDetails(this.user1, Set.of(this.first, this.second));
+        Set<ReviewInfoViewModel> result = this.testService.mapReviewDetails(Set.of(this.firstReview, this.secondReview));
 
         assertEquals(2, result.size());
     }

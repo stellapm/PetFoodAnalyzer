@@ -31,20 +31,10 @@ public class ReviewController extends BaseController{
         return new AddReviewDTO();
     }
 
-
-    @GetMapping("/{productId}/like-review/{reviewId}")
-    public ModelAndView likeProductReview(@PathVariable Long reviewId, @PathVariable Long productId) {
-        UserDetails user = getCurrentUserDetails();
-
-        this.reviewService.likeProductReview(reviewId, user.getUsername(), productId);
-
-        return super.redirect("/products/details/" + productId);
-    }
-
     @GetMapping("/{productId}/report-review/{reviewId}")
     public ModelAndView reportProductReview(@PathVariable Long reviewId, @PathVariable Long productId) {
 
-        this.reviewService.reportReview(reviewId, productId);
+        this.reviewService.reportReview(reviewId);
 
         return super.redirect("/products/details/" + productId);
     }

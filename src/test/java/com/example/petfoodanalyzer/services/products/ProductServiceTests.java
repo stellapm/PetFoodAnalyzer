@@ -196,7 +196,7 @@ public class ProductServiceTests {
         Set<ReviewInfoViewModel> reviews = new HashSet<>();
         reviews.add(new ReviewInfoViewModel());
 
-        when(this.mockReviewService.mapReviewDetails(user, this.firstProduct.getReviews())).thenReturn(reviews);
+        when(this.mockReviewService.mapReviewDetails(this.firstProduct.getReviews())).thenReturn(reviews);
 
         when(this.mockIngredientService.stringifyIngredientNames(this.firstProduct.getIngredients())).thenReturn("Ingredient1");
 

@@ -20,7 +20,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.example.petfoodanalyzer.constants.Exceptions.ID_IDENTIFIER;
-import static com.example.petfoodanalyzer.constants.Models.REVIEW_PRODUCT;
+import static com.example.petfoodanalyzer.constants.Models.REVIEW;
 
 @Service
 public class ReviewService {
@@ -35,9 +35,9 @@ public class ReviewService {
         this.userEntityService = userEntityService;
     }
 
-    public Review getReviewByIdAndProductId(Long id, Long productId) {
-        return this.reviewRepository.findByIdAndProductId(id, productId)
-                .orElseThrow(() -> new ObjectNotFoundException(ID_IDENTIFIER, String.format("%d or %d", id, productId), REVIEW_PRODUCT));
+    public Review getReviewById(Long reviewId) {
+        return this.reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new ObjectNotFoundException(ID_IDENTIFIER, String.valueOf(reviewId), REVIEW));
     }
 
     public void saveReview(Product product, AddReviewDTO addReviewDTO, String email) {
@@ -47,17 +47,8 @@ public class ReviewService {
         review.setAuthor(author);
 
         review.setCreatedOn(LocalDateTime.now());
-//        Product product = this.productService.getProductById(id);
         review.setProduct(product);
 
-        this.reviewRepository.save(review);
-    }
-
-    public void likeProductReview(Long id, String username, Long productId) {
-        Review review = getReviewByIdAndProductId(id, productId);
-
-        UserEntity user = this.userEntityService.findByEmail(username);
-        review.getLikes().add(user);
         this.reviewRepository.save(review);
     }
 
@@ -76,8 +67,8 @@ public class ReviewService {
                 .toList();
     }
 
-    public void reportReview(Long id, Long productId) {
-        Review review = getReviewByIdAndProductId(id, productId);
+    public void reportReview(Long id) {
+        Review review = getReviewById(id);
         review.setReported(true);
         this.reviewRepository.save(review);
     }
@@ -90,23 +81,17 @@ public class ReviewService {
         this.reviewRepository.deleteAll(getReportedReviews());
     }
 
-    public Set<ReviewInfoViewModel> mapReviewDetails(UserEntity user, Set<Review> reviews) {
+    public Set<ReviewInfoViewModel> mapReviewDetails(Set<Review> reviews) {
         return reviews.stream()
-                .map(r -> mapReviewToInfoModel(user, r))
+                .map(this::mapReviewToInfoModel)
                 .collect(Collectors.toSet());
     }
 
-    public ReviewInfoViewModel mapReviewToInfoModel(UserEntity user, Review review) {
+    public ReviewInfoViewModel mapReviewToInfoModel(Review review) {
         ReviewInfoViewModel reviewInfo = this.modelMapper.map(review, ReviewInfoViewModel.class);
 
         reviewInfo.setAuthorUsername(review.getAuthor().getDisplayName());
         reviewInfo.setAuthorProfilePic(review.getAuthor().getProfilePicUrl());
-
-        reviewInfo.setLikesCount(review.getLikes().size());
-
-        if (review.getLikes().contains(user) || review.getAuthor().equals(user)) {
-            reviewInfo.setLimitUserLike(true);
-        }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String formatDateTime = review.getCreatedOn().format(formatter);

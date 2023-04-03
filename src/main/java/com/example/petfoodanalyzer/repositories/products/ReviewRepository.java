@@ -24,5 +24,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
             "WHERE r.reported = true ")
     List<Review> findAllReported();
 
-    Optional<Review> findByIdAndProductId(Long id, Long productId);
+//    @Query("SELECT r " +
+//            "FROM Review r " +
+//            "WHERE r.id = :id AND r.product.id = :productId ")
+//    Optional<Review> findByIdAndProductId(Long id, Long productId);
 }

@@ -112,7 +112,7 @@ public class ProductService {
             productDetails.setLoggedUserFave(true);
         }
 
-        Set<ReviewInfoViewModel> reviews = this.reviewService.mapReviewDetails(user, product.getReviews());
+        Set<ReviewInfoViewModel> reviews = this.reviewService.mapReviewDetails(product.getReviews());
         productDetails.setReviewsInfo(reviews);
 
         return productDetails;

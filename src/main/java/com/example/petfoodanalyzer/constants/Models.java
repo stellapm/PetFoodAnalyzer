@@ -6,7 +6,7 @@ public class Models {
     public final static String PET = "Pet";
     public final static String PRODUCT = "Product";
     public final static String REVIEW = "Review";
-    public final static String REVIEW_PRODUCT = "Review or product";
+//    public final static String REVIEW_PRODUCT = "Review or product";
     public final static String INGREDIENT_CATEGORY = "Ingredient category";
     public final static String USER_ROLE = "User Role";
 }

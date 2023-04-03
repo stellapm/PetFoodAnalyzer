@@ -27,11 +27,8 @@ public class Review extends BaseEntity {
     @ManyToOne
     private Product product;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<UserEntity> likes;
-
     public Review() {
-        this.likes = new HashSet<>();
+
     }
 
     public UserEntity getAuthor() {
@@ -79,14 +76,6 @@ public class Review extends BaseEntity {
         return this;
     }
 
-    public Set<UserEntity> getLikes() {
-        return likes;
-    }
-
-    public Review setLikes(Set<UserEntity> likes) {
-        this.likes = likes;
-        return this;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -96,12 +85,11 @@ public class Review extends BaseEntity {
         return reported == review.reported &&
                 Objects.equals(author.getEmail(), review.author.getEmail()) &&
                 Objects.equals(content, review.content) &&
-                Objects.equals(product.getName(), review.product.getName()) &&
-                likes.size() == review.likes.size();
+                Objects.equals(product.getName(), review.product.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(author, content, reported, product, likes);
+        return Objects.hash(author, content, reported, product);
     }
 }

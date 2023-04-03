@@ -11,10 +11,6 @@ public class ReviewInfoViewModel {
 
     private String created;
 
-    private int likesCount;
-
-    private boolean limitUserLike;
-
     public ReviewInfoViewModel() {
     }
 
@@ -60,24 +56,6 @@ public class ReviewInfoViewModel {
 
     public ReviewInfoViewModel setCreated(String created) {
         this.created = created;
-        return this;
-    }
-
-    public int getLikesCount() {
-        return likesCount;
-    }
-
-    public ReviewInfoViewModel setLikesCount(int likesCount) {
-        this.likesCount = likesCount;
-        return this;
-    }
-
-    public boolean getLimitUserLike() {
-        return this.limitUserLike;
-    }
-
-    public ReviewInfoViewModel setLimitUserLike(boolean limitUserLike) {
-        this.limitUserLike = limitUserLike;
         return this;
     }
 }
