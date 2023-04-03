@@ -22,7 +22,6 @@ Registered users should be able to:
 * View products
 * Add a product to their favorites
 * Write a product review
-* Like other user reviews
 * Report reviews
 * View recommended products for the pet type assigned during registration/profile edit
 * View Favorite products
@@ -49,6 +48,7 @@ Other functionality
 * Track last login date and send a week notice for users inactive for a specific period of time. Delete if no activity afterwards
 * Ingredient analyzer could provide information in a piechart 
 * Implement product/review rating system
+* Implement review likes
 * Compare products (focus on ingredients)
 * Categorize and filter ingredients / products
 * Add possibility to add pictures to reviews
