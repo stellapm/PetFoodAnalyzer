@@ -58,7 +58,6 @@ public class ReviewService {
 
         UserEntity user = this.userEntityService.findByEmail(username);
         review.getLikes().add(user);
-
         this.reviewRepository.save(review);
     }
 
@@ -86,6 +85,7 @@ public class ReviewService {
     public List<Review> getReportedReviews() {
         return this.reviewRepository.findAllReported();
     }
+
     public void cleanUpReported() {
         this.reviewRepository.deleteAll(getReportedReviews());
     }
@@ -104,8 +104,8 @@ public class ReviewService {
 
         reviewInfo.setLikesCount(review.getLikes().size());
 
-        if (review.getLikes().contains(user)) {
-            reviewInfo.setLoggedUserLike(true);
+        if (review.getLikes().contains(user) || review.getAuthor().equals(user)) {
+            reviewInfo.setLimitUserLike(true);
         }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");

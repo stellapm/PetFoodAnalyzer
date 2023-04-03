@@ -13,7 +13,7 @@ public class ReviewInfoViewModel {
 
     private int likesCount;
 
-    private boolean loggedUserLike;
+    private boolean limitUserLike;
 
     public ReviewInfoViewModel() {
     }
@@ -72,12 +72,12 @@ public class ReviewInfoViewModel {
         return this;
     }
 
-    public boolean isLoggedUserLike() {
-        return loggedUserLike;
+    public boolean getLimitUserLike() {
+        return this.limitUserLike;
     }
 
-    public ReviewInfoViewModel setLoggedUserLike(boolean loggedUserLike) {
-        this.loggedUserLike = loggedUserLike;
+    public ReviewInfoViewModel setLimitUserLike(boolean limitUserLike) {
+        this.limitUserLike = limitUserLike;
         return this;
     }
 }

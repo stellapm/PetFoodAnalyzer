@@ -71,7 +71,7 @@
             <span th:text="|Likes: ${review.likesCount}|">Likes</span>
             <a th:href="@{/reviews/{productId}/report-review/{reviewId}(productId=${productDetails.id}, reviewId=*{review.id})}">Report</a>
             <form style="display: inline" th:action="@{/reviews/{productId}/like-review/{reviewId}(productId=${productDetails.id}, reviewId=*{review.id})}" method="get">
-            <button class="product-button4 button-secondary button" sec:authorize="isAuthenticated()" th:unless="${review.loggedUserLike}">
+            <button class="product-button4 button-secondary button" sec:authorize="isAuthenticated()" th:unless="${review.limitUserLike}">
               Like<br />
             </button>
             </form>

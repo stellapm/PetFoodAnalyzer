@@ -59,4 +59,3 @@ Other functionality
 * Ingredient lookup should be key insensitive 
 * Improve ingredient regex as ingredients should include various special characters
 * Add binding models
-* User should not be able to see a Like button for their own review. 

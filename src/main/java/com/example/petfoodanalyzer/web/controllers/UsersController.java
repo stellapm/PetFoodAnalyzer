@@ -104,7 +104,7 @@ public class UsersController extends BaseController{
         return super.view("profile", modelAndView);
     }
 
-    @PatchMapping("/my-profile")
+    @PostMapping("/my-profile")
     public ModelAndView postMyProfile(@Valid EditUserProfileDTO editUserProfileDTO,
                                       BindingResult bindingResult,
                                       RedirectAttributes redirectAttributes) {

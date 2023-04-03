@@ -2,6 +2,7 @@ package com.example.petfoodanalyzer.web.controllers;
 
 import com.example.petfoodanalyzer.models.dtos.products.AddReviewDTO;
 import com.example.petfoodanalyzer.models.entities.products.Product;
+import com.example.petfoodanalyzer.models.entities.products.Review;
 import com.example.petfoodanalyzer.services.products.ProductService;
 import com.example.petfoodanalyzer.services.products.ReviewService;
 import jakarta.validation.Valid;
