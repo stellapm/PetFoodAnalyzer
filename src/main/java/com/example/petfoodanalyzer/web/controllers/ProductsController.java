@@ -52,7 +52,7 @@ public class ProductsController extends BaseController {
     public ModelAndView getFavorites(ModelAndView modelAndView) {
         UserDetails userDetails = getCurrentUserDetails();
 
-        List<ProductOverviewViewModel> favoriteProducts = this.userEntityService.getFavorites(userDetails.getUsername());
+        List<ProductOverviewViewModel> favoriteProducts = this.productService.getFavorites(userDetails.getUsername());
 
         modelAndView.addObject("favoriteProducts", favoriteProducts);
 

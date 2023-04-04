@@ -125,15 +125,6 @@ public class UserEntityService {
         this.userEntityRepository.save(user);
     }
 
-    public List<ProductOverviewViewModel> getFavorites(String username) {
-        UserEntity user = findByEmail(username);
-
-        return user.getFavorites()
-                .stream()
-                .map(p -> this.modelMapper.map(p, ProductOverviewViewModel.class))
-                .toList();
-    }
-
     public void updateLoggedUser(EditUserProfileDTO editUserProfileDTO, String email) {
         UserEntity user = findByEmail(email);
 

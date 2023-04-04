@@ -14,6 +14,7 @@ import com.example.petfoodanalyzer.models.enums.PetsTypes;
 import com.example.petfoodanalyzer.models.viewModels.products.*;
 import com.example.petfoodanalyzer.repositories.products.ProductRepository;
 import com.example.petfoodanalyzer.services.ingredients.IngredientService;
+import com.example.petfoodanalyzer.services.users.UserEntityService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,6 +40,7 @@ public class ProductServiceTests {
     private Pet firstPet;
     private Ingredient firstIngredient;
     private Ingredient secondIngredient;
+    private UserEntity user;
 
     @Mock
     private ProductRepository mockRepository;
@@ -55,13 +57,17 @@ public class ProductServiceTests {
     @Mock
     private ReviewService mockReviewService;
 
+    @Mock
+    private UserEntityService userEntityService;
+
     @BeforeEach
     public void setup(){
         setupProducts();
 
         this.testService = new ProductService(mockRepository, new ModelMapper(),
                 mockBrandService, mockPetService,
-                mockIngredientService, mockReviewService);
+                mockIngredientService, mockReviewService,
+                userEntityService);
     }
 
     private void setupProducts() {
@@ -85,6 +91,10 @@ public class ProductServiceTests {
 
         this.firstProduct.getIngredients().add(this.firstIngredient);
         this.firstProduct.getReviews().add(new Review());
+
+        this.user = new UserEntity()
+                .setEmail("testEmail")
+                .setFavorites(Set.of(this.firstProduct));
 
         this.secondIngredient = new Ingredient()
                 .setName("Ingredient2");
@@ -176,6 +186,16 @@ public class ProductServiceTests {
     }
 
     @Test
+    public void getFavoritesReturnsCorrectProductsAndProductCount() {
+        when(this.userEntityService.findByEmail("testEmail")).thenReturn(this.user);
+
+        List<ProductOverviewViewModel> result = this.testService.getFavorites("testEmail");
+
+        assertEquals(1, result.size());
+        assertEquals(this.firstProduct.getName(), result.get(0).getName());
+    }
+
+    @Test
     public void testOverviewProductMappingCorrectly(){
         ProductOverviewViewModel result = this.testService.overviewMap(this.firstProduct);
         ProductOverviewViewModel result1 = this.testService.overviewMap(this.secondProduct);
@@ -186,6 +206,7 @@ public class ProductServiceTests {
         assertEquals(this.firstProduct.getBrand().getName(), result.getBrandStr());
         assertEquals(this.secondProduct.getBrand().getName(), result1.getBrandStr());
     }
+
 
     @Test
     public void testGetProductDetailsByIdMappedDetailsCorrectly(){

@@ -82,7 +82,7 @@
                     name="content"
           ></textarea>
           <small th:if="${#fields.hasErrors('content')}" th:errors="${addReviewDTO.content}" class="validation">Email error message</small>
-          <button class="product-button5 button button-primary">Button</button>
+          <button class="product-button5 button button-primary">Submit</button>
         </div>
         </form>
       </div>
@@ -101,7 +101,7 @@
               <br />
             </span>
             <span th:text="|For ${product.petStr}s|">For Cats</span>
-            <a th:href="@{/products/details/{id}(id=*{product.id})}">View</a>
+            <a th:href="@{/products/details/{id}(id=*{product.id})}" style="color:#36AE7C;">View</a>
           </div>
         </div>
         </div>

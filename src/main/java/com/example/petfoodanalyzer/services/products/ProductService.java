@@ -12,6 +12,7 @@ import com.example.petfoodanalyzer.models.enums.PetsTypes;
 import com.example.petfoodanalyzer.models.viewModels.products.*;
 import com.example.petfoodanalyzer.repositories.products.ProductRepository;
 import com.example.petfoodanalyzer.services.ingredients.IngredientService;
+import com.example.petfoodanalyzer.services.users.UserEntityService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,17 +37,20 @@ public class ProductService {
     private final PetService petService;
     private final IngredientService ingredientService;
     private final ReviewService reviewService;
+    private final UserEntityService userEntityService;
 
     @Autowired
     public ProductService(ProductRepository productRepository, ModelMapper modelMapper,
                           BrandService brandService, PetService petService,
-                          IngredientService ingredientService, ReviewService reviewService) {
+                          IngredientService ingredientService, ReviewService reviewService,
+                          UserEntityService userEntityService) {
         this.productRepository = productRepository;
         this.modelMapper = modelMapper;
         this.brandService = brandService;
         this.petService = petService;
         this.ingredientService = ingredientService;
         this.reviewService = reviewService;
+        this.userEntityService = userEntityService;
     }
 
     public Product getProductById(Long id) {
@@ -86,6 +90,22 @@ public class ProductService {
                 .stream()
                 .map(this::overviewMap)
                 .collect(Collectors.toList());
+    }
+
+    public List<ProductOverviewViewModel> getAllProductsByBrand(Long id) {
+        return this.productRepository.findByBrandId(id)
+                .stream()
+                .map(this::overviewMap)
+                .toList();
+    }
+
+    public List<ProductOverviewViewModel> getFavorites(String username) {
+        UserEntity user = this.userEntityService.findByEmail(username);
+
+        return user.getFavorites()
+                .stream()
+                .map(this::overviewMap)
+                .toList();
     }
 
     public ProductOverviewViewModel overviewMap(Product product) {
@@ -140,13 +160,6 @@ public class ProductService {
         recommended.setReviewsCount(product.getReviews().size());
 
         return recommended;
-    }
-
-    public List<ProductOverviewViewModel> getAllProductsByBrand(Long id) {
-        return this.productRepository.findByBrandId(id)
-                .stream()
-                .map(this::overviewMap)
-                .toList();
     }
 
     public EditProductViewModel getEditedProductInfo(Long id) {

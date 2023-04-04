@@ -235,16 +235,6 @@ public class UserEntityServiceTests {
     }
 
     @Test
-    public void getFavoritesReturnsCorrectProductsAndProductCount() {
-        when(this.mockRepository.findByEmail("testEmail")).thenReturn(Optional.ofNullable(this.firstUser));
-
-        List<ProductOverviewViewModel> result = this.testService.getFavorites("testEmail");
-
-        assertEquals(1, result.size());
-        assertEquals(this.firstProduct.getName(), result.get(0).getName());
-    }
-
-    @Test
     public void testUpdateUserAllFieldsPresent(){
         EditUserProfileDTO dto = new EditUserProfileDTO()
                 .setProfilePicUrl("newURL")
