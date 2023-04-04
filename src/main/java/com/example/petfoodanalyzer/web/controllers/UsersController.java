@@ -5,8 +5,10 @@ import com.example.petfoodanalyzer.models.viewModels.users.LoggedUserViewModel;
 import com.example.petfoodanalyzer.models.dtos.users.RegisterUserDTO;
 import com.example.petfoodanalyzer.services.products.PetService;
 import com.example.petfoodanalyzer.services.users.UserEntityService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
@@ -107,7 +109,8 @@ public class UsersController extends BaseController{
     @PostMapping("/my-profile")
     public ModelAndView postMyProfile(@Valid EditUserProfileDTO editUserProfileDTO,
                                       BindingResult bindingResult,
-                                      RedirectAttributes redirectAttributes) {
+                                      RedirectAttributes redirectAttributes,
+                                      HttpSession session) {
         if (!editUserProfileDTO.getPassword().equals(editUserProfileDTO.getConfirmPassword())){
             bindingResult.addError(new FieldError(
                     "differentConfirmPassword",
@@ -124,6 +127,12 @@ public class UsersController extends BaseController{
 
         UserDetails user = getCurrentUserDetails();
         this.userEntityService.updateLoggedUser(editUserProfileDTO, user.getUsername());
+
+        if (!editUserProfileDTO.getEmail().trim().isBlank()){
+            SecurityContextHolder.clearContext();
+            session.invalidate();
+            return super.redirect("/");
+        }
 
         return super.redirect("my-profile");
     }

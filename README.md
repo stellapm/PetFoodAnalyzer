@@ -55,7 +55,6 @@ Other functionality
 * Add more pet types
 
 # Bugs and other fixes:
-* users/register, users/my-profile, admin/manage-roles POST requests leads to redirect (status 302) after applying spring security chain filter.
 * Ingredient lookup should be key insensitive 
 * Improve ingredient regex as ingredients should include various special characters
 * Add binding models

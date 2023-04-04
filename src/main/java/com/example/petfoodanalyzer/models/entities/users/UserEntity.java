@@ -91,7 +91,7 @@ public class UserEntity extends BaseEntity {
 
     public UserEntity setProfilePicUrl(String profilePicUrl) {
         if (profilePicUrl == null || profilePicUrl.trim().isBlank()){
-            profilePicUrl = "/img/profile.png";
+            profilePicUrl = "/images/profile.png";
         }
 
         this.profilePicUrl = profilePicUrl;

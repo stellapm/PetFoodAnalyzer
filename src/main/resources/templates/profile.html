@@ -17,7 +17,7 @@
               <span class="profile-text17" th:text="|Created: ${profileInfo.created}|">Created: DD/MM/YYYY</span>
             </div>
             <div>
-              <form th:method="PATCH" th:action="@{/users/my-profile}" th:object="${editUserProfileDTO}">
+              <form th:method="POST" th:action="@{/users/my-profile}" th:object="${editUserProfileDTO}">
                 <div class="profile-container06">
                   <div class="profile-container07">
                     <img

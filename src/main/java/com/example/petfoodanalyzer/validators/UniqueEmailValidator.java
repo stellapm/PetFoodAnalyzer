@@ -5,6 +5,7 @@ import com.example.petfoodanalyzer.validators.annotations.UniqueEmail;
 import com.example.petfoodanalyzer.services.users.UserEntityService;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, String> {
     private final UserEntityService userEntityService;
@@ -20,7 +21,7 @@ public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, St
         try {
             this.userEntityService.findByEmail(value);
             return false;
-        } catch (ObjectNotFoundException e){
+        } catch (UsernameNotFoundException e){
             return true;
         }
     }
