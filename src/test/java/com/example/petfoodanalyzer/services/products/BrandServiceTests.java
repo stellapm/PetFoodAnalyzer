@@ -132,6 +132,17 @@ public class BrandServiceTests {
         assertEquals("SecondURL", result.get(1).getPicUrl());
     }
 
+    @Test
+    public void testFindAllBrands(){
+        when(this.mockRepository.findAll()).thenReturn(List.of(first, second));
+
+        List<BrandOverviewViewModel> result = this.testService.getAllBrandsOverviewInfo();
+
+        assertEquals(2, result.size());
+        assertEquals("FirstURL", result.get(0).getPicUrl());
+        assertEquals("SecondURL", result.get(1).getPicUrl());
+    }
+
     private void setupBrands() {
         first = new Brand()
                 .setName("First")

@@ -17,6 +17,7 @@ import static com.example.petfoodanalyzer.constants.Models.BRAND;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BrandService {
@@ -56,5 +57,12 @@ public class BrandService {
                 .limit(4)
                 .map(b -> this.modelMapper.map(b, BrandOverviewViewModel.class))
                 .toList();
+    }
+
+    public List<BrandOverviewViewModel> getAllBrandsOverviewInfo() {
+        return this.brandRepository.findAll()
+                .stream()
+                .map(b -> this.modelMapper.map(b, BrandOverviewViewModel.class))
+                .collect(Collectors.toList());
     }
 }

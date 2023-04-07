@@ -40,49 +40,8 @@
   </div>
 </main>
 <footer th:replace="fragments/footer"></footer>
-<script>
-  window.onload = () => {
-    const runAllScripts = () => {
-      initializeAllAccordions()
-    }
+<script src="/js/main.js"></script>
 
-    const listenForUrlChanges = () => {
-      let url = location.href
-      document.body.addEventListener(
-              'click',
-              () => {
-                requestAnimationFrame(() => {
-                  if (url !== location.href) {
-                    runAllScripts()
-                    url = location.href
-                  }
-                })
-              },
-              true
-      )
-    }
-
-    const initializeAllAccordions = () => {
-      const allAccordions = document.querySelectorAll('[data-role="Accordion"]');
-
-      allAccordions.forEach((accordion) => {
-        const accordionHeader = accordion.querySelector('[data-type="accordion-header"]')
-        const accordionContent = accordion.querySelector('[data-type="accordion-content"]')
-
-        accordionHeader.addEventListener('click', () => {
-          if (accordionContent.style.maxHeight) {
-            accordionContent.style.maxHeight = ''
-          } else {
-            accordionContent.style.maxHeight = `${accordionContent.scrollHeight}px`
-          }
-        })
-      })
-    }
-
-    listenForUrlChanges()
-    runAllScripts()
-  }
-</script>
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 </body>
 </html>

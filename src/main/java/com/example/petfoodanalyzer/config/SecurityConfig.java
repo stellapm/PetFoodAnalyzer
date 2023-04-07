@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .requestMatchers("/", "/about",
                         "/users/login-error",
                         "/ingredients/analyze", "/ingredients/all",
-                        "/products/all", "/products/details/{id}", "/products/by-brand/{id}").permitAll()
+                        "/products/all-brands", "/products/all", "/products/details/{id}", "/products/by-brand/{id}").permitAll()
                 //pages with access for any authenticated user
                 .requestMatchers("/products/favorites", "/products/fave-product/{id}",
                         "/users/my-profile", "/users/expired",

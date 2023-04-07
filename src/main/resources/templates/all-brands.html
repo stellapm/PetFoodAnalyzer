@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header"></head>
+
+<body>
+<header th:replace="fragments/navigation"></header>
+<link href="/css/all-brands.css" rel="stylesheet"/>
+<link href="/css/home.css" rel="stylesheet"/>
+<main class="all-brands-container">
+  <div class="all-brands-features">
+    <h1 class="all-brands-text">All Brands</h1>
+    <div id="brandsContainer" class="all-brands-container1 wrap">
+    </div>
+  </div>
+</main>
+<footer th:replace="fragments/footer"></footer>
+<script src="/js/main.js"></script>
+<script src="/js/fetchBrands.js"></script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</body>
+</html>

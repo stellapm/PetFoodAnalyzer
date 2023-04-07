@@ -139,4 +139,9 @@ public class ProductsController extends BaseController {
 
         return super.redirect("/products/details/" + id);
     }
+
+    @GetMapping("/all-brands")
+    public ModelAndView getAllBrands(ModelAndView modelAndView) {
+        return super.view("all-brands", modelAndView);
+    }
 }
