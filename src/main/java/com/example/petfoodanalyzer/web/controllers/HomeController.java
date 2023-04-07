@@ -40,10 +40,4 @@ public class HomeController extends BaseController{
     public ModelAndView getAbout(){
         return super.view("about");
     }
-
-    @GetMapping(value = "/fetch", produces = "application/json")
-    @ResponseBody
-    public Object fetchData(){
-        return this.brandService.getAllBrandsOverviewInfo();
-    }
 }

@@ -1,6 +1,6 @@
 let brandContainer = document.getElementById("brandsContainer");
 
-fetch('http://localhost:8080/fetch')
+fetch('http://localhost:8080/api/all-brands')
 .then((response) => response.json())
     .then((json) => {
         for (const brand of json) {
@@ -15,14 +15,8 @@ fetch('http://localhost:8080/fetch')
             brandHtml += '</div>\n'
 
             brandContainer.innerHTML += brandHtml
+
+            console.log(brand)
         }
         }
     )
-
-//<div class="feature-card1-feature-card feature-card1-root-class-name1">
-//         <img
-//                 alt="image"
-//                 src="/images/985515.png"
-//                 class="feature-card1-image"
-//         />
-//       </div>

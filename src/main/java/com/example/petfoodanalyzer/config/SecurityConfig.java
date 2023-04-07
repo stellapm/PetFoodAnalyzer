@@ -39,7 +39,7 @@ public class SecurityConfig {
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 //pages with access for all users
                 .requestMatchers("/users/login", "/users/register").anonymous()
-                .requestMatchers("/", "/about",
+                .requestMatchers("/", "/about", "/api/all-brands",
                         "/users/login-error",
                         "/ingredients/analyze", "/ingredients/all",
                         "/products/all-brands", "/products/all", "/products/details/{id}", "/products/by-brand/{id}").permitAll()
