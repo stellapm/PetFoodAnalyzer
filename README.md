@@ -12,6 +12,7 @@ Any user should be able to:
 * View all ingredients
 * Analyze ingredients
 * View all foods
+* View all brands
 * View foods by pet brand
 * View a product
 * View product reviews
